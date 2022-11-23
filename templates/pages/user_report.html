@@ -115,6 +115,7 @@
                                         <th>Date</th>
                                         <th>Time</th>
                                         <th>Status</th>
+                                        <th>Duplicate</th>
                                         <th>Settings</th>
                                     </tr>
                                 </thead>
@@ -147,6 +148,15 @@
                                             <span class="badge badge-success">{{incident.get_status}}</span>
                                             {% elif incident.status == 3 %}
                                             <span class="badge badge-danger">{{incident.get_status}}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if incident.duplicate == 'Possible Duplicate' %}
+                                            <span class="badge badge-warning">{{incident.duplicate}}</span>
+                                            {% elif incident.duplicate == 2 %}
+                                            <span class="badge badge-success">{{incident.duplicate}}</span>
+                                            {% elif incident.duplicate == 'Duplicate' %}
+                                            <span class="badge badge-danger">{{incident.duplicate}}</span>
                                             {% endif %}
                                         </td>
                                         <td>
@@ -382,6 +392,7 @@
                                             <th>Date</th>
                                             <th>Time</th>
                                             <th>Status</th>
+                                            <th>Duplicate</th>
                                             <th>Settings</th>
                                         </tr>
                                     </thead>
@@ -414,6 +425,15 @@
                                                 <span class="badge badge-success">{{incident.get_status}}</span>
                                                 {% elif incident.status == 3 %}
                                                 <span class="badge badge-danger">{{incident.get_status}}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if incident.duplicate == 'Possible Duplicate' %}
+                                                <span class="badge badge-warning">{{incident.duplicate}}</span>
+                                                {% elif incident.duplicate == 2 %}
+                                                <span class="badge badge-success">{{incident.duplicate}}</span>
+                                                {% elif incident.duplicate == 'Duplicate' %}
+                                                <span class="badge badge-danger">{{incident.duplicate}}</span>
                                                 {% endif %}
                                             </td>
                                             <td>

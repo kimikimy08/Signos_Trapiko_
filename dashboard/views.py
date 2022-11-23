@@ -207,6 +207,12 @@ def superadmin_dashboard(request):
 
     data = list(queryset.values_list('severity_count', flat=True))
     labels = list(queryset.values_list('severity', flat=True))
+    
+    # queryset1 = incident_general.exclude(accident_causation=None).values(
+    #     'severity').annotate(severity_count=Count('severity'))
+
+    # data = list(queryset.values_list('severity_count', flat=True))
+    # labels = list(queryset.values_list('severity', flat=True))
 
     queryset1 = incident_vehicle.exclude(vehicle_type=None).values(
         'vehicle_type').annotate(vehicle_type_count=Count('vehicle_type'))
