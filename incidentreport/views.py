@@ -609,7 +609,7 @@ def incident_form_member(request):
                 print(time_threshold)
                 # incident_general.save()
                 
-                user_instance =  IncidentGeneral.objects.filter(created_at__lt=time_threshold, address = address).order_by('-created_at')[:1]
+                user_instance =  IncidentGeneral.objects.filter(created_at__gt=time_threshold, address = address).order_by('-created_at')[:1]
                 if user_instance.exists():
                     incident_general.duplicate = "Possible Duplicate"
                     incident_general.save()
