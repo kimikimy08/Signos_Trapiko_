@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/sa_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                    <!-- User Report Table  -->
+                    {% comment %} <div class="card shadow mb-5 d-flex ">
+                        <!-- Top Pagination  -->
+                        <div class="card-header py-3">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'incident_report_general_view' general.id %}">General</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">Vehicle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">Media</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">Remarks</a>
+                                </li>
+                            </ul>
+                        </div> {% endcomment %}
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                                    <form action="{% url 'incident_report_general_edit' general.id %}" enctype="multipart/form-data" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Date</label>
+                                                {{general_instance.date}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Time</label>
+                                                {{general_instance.time}}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="inputAddress">Street Address</label>
+                                                {{general_instance.address}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputCity">City</label>
+                                                {{general_instance.city}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputZip">Zip</label>
+                                                {{general_instance.pin_code}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputSeverity">Latitude</label>
+                                                {{general_instance.latitude}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputSeverity">Longitude</label>
+                                                {{general_instance.longitude}}
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputWeather">Weather</label>
+                                                {{general_instance.weather}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputLight">Light</label>
+                                                {{general_instance.light}}
+                                            </div>
+                                        </div>
+                                        <!-- ================================= -->
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="inputSeverity">Severity</label>
+                                            {{general_instance.severity}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="inputAccident">Accident Factor</label>
+                                                {{general_instance.accident_factor}}
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="inputAccident">Collision Type</label>
+                                                {{general_instance.collision_type}}
+                                            </div>
+                                            
+                                        </div>
+
+                                        
+                                        <!-- ================================= -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputCrashType">Crash Type</label>
+                                                {{general_instance.crash_type}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputMovement">Movement Code</label>
+                                                {{ general_instance.movement_code }}
+                                               
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label for="inputDescription">Description</label>
+                                            {{general_instance.description}}
+                                        </div>
+                                        <!-- ================================= -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="inputCrashType">Status</label>
+                                                {{general_instance.status}}
+                                            </div>
+                                            
+                                        </div>
+
+                                        <!-- ================================= -->
+                                        <br>
+
+                                        <div class="modal-footer mb-3">
+                                            <button onclick="history.back()" class="btn btn-secondary">Back</button>
+                                            <input type="submit" class="btn btn-primary" value="Save">
+                                        </div>
+
+                                    </form>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+                
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+       
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}
+
+
+
+            {% block scripts %}
+
+            
+        
+         <!-- Vendor Script -->
+        
+            {% comment %} <script script type="text/javascript" src="{% static 'js/vendor/jquery/jquery.easing.min.js' %}"></script>
+            <script script type="text/javascript" src="{% static 'js/vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+        
+            <!-- User Report Vendor Script-->
+            <script src="{% static 'js/vendor/jquery.dataTables.min.js' %}"></script>
+            <script src="{% static 'js/vendor/dataTables.bootstrap4.min.js' %}"></script>
+        
+        
+            <!-- Custom Script  -->
+            <script script type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+            <script script type="text/javascript" src="{% static 'js/default.js' %}"></script>
+            <script script type="text/javascript" src="{% static 'js/user_report.js' %}"></script>
+           
+         {% endcomment %}
+            
+            
+        
+            {% comment %} <script script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script> {% endcomment %}
+            
+            <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&v=3.exp&sensor=false&libraries=places"></script>
+            
+            {% comment %} <script script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script> {% endcomment %}
+            
+            <script script type="text/javascript" src="{% static 'js/custom1.js' %}"></script>
+            
+        
+            {% comment %} <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+            
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> {% endcomment %}
+
+{% endblock scripts %}

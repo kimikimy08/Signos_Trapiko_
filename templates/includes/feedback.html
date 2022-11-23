@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% comment %} {% block styles %}
+<link type="text/x-scss" href="{% static 'multistepform/form.scss' %}" rel="stylesheet" media="screen" />
+{% endblock styles %} {% endcomment %}
+
+{% block content %}
+<p>{{ msg }}</p>
+
+<nav>
+    <p><a href="/">Start again</a></p>
+</nav>
+{% endblock content %}

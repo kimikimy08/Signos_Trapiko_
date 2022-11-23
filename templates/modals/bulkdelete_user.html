@@ -1,0 +1,27 @@
+{% extends 'modals/baseModal.html' %}
+
+<!-- Modal ID -->
+{% block modal-id %}id="bulkdeleteModal"{% endblock modal-id %}
+
+
+<!-- Modal Title -->
+{% block modal-title %}
+<i class="fas fa-trash-alt"></i>&nbsp;&nbsp; Delete Incident
+{% endblock modal-title %}
+
+
+<!-- Modal Body -->
+{% block modal-body %}
+<div class="text-center text-danger"><i class="far fa-times-circle fa-5x mb-4 mt-2"></i></div>
+<div class="text-center text-danger">
+    <span>Do you want to delete user accounts?</span>
+    {% comment %} <div class="text-dark mt-3 mb-2">Customer: <strong>{{users.username}}</strong></div> {% endcomment %}
+</div>
+{% endblock modal-body %}
+
+
+<!-- Modal Footer -->
+{% block modal-footer %}
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<input type="submit" class="btn btn-sm btn-danger" value="Bulk Delete">
+{% endblock modal-footer %}

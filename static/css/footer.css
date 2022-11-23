@@ -1,0 +1,134 @@
+/* ========== MAIN FORMAT */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  /* Main Palette */
+  --DarkBlue: #20325A;
+  --SoftRed: #EF4B4C;
+  --StrongCyan: #00CC9C;
+  --SoftOrange: #EAA74D;
+  --GrayishBlue: #F7F8FC;
+  --Black: #222;
+  --White: #FFF;
+
+  /* Shadow */
+  --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+
+  /* Sizing  */
+  --normal-font-size: 1rem;
+  --header-height: 3rem;
+  --nav-width: 68px;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  position: relative;
+  margin: var(--header-height) 0 0 0;
+  padding: 0 1rem;
+  font-size: var(--normal-font-size);
+  transition: .5s;
+  background-color: var(--White);
+  color: var(--Black);
+}
+
+/* ========== END OF MAIN FORMAT */
+
+ul {
+    list-style-type: none;
+}
+
+footer {
+    margin-right: -20px;
+    margin-left: -20px;
+    margin-top: 70px;
+}
+
+footer.nb-footer {
+    background: #111;
+    /* border-top: 4px solid #b78c33; */
+}
+
+footer.nb-footer .about {
+    margin: 0 auto;
+    margin-top: 40px;
+    max-width: 1170px;
+    text-align: center;
+}
+
+footer.nb-footer .about p {
+    font-size: 14px;
+    color: #999;
+    margin-top: 30px;
+}
+
+footer.nb-footer .about .social-media {
+    margin-top: 15px;
+}
+
+footer.nb-footer .about .social-media ul li a {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50%;
+    /* font-size: 13px; */
+    color: #b78c33;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-left: 5px;
+}
+
+footer.nb-footer .about .social-media ul li a:hover {
+    background: var(--White);
+    color: #fff;
+    border-color: var(--White);
+}
+
+footer.nb-footer .footer-info-single {
+    margin-top: 30px;
+}
+
+footer.nb-footer .footer-info-single .title {
+    color: #aaa;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-left: 4px solid #b78c33;
+    padding-left: 5px;
+}
+
+footer.nb-footer .footer-info-single ul li a {
+    display: block;
+    color: #aaa;
+    padding: 2px 0;
+    font-size: 14px;
+
+}
+
+footer.nb-footer .footer-info-single ul li a:hover {
+    color: #b78c33;
+}
+
+footer.nb-footer .footer-info-single p {
+    font-size: 13px;
+    line-height: 20px;
+    color: #aaa;
+}
+
+footer.nb-footer .copyright {
+    margin-top: 15px;
+    background: var(--Black);
+    padding-top: 15px;
+    color: #999;
+}
+
+footer.nb-footer .copyright p {
+    text-align: center;
+    font-size: var(--normal-font-size);
+}

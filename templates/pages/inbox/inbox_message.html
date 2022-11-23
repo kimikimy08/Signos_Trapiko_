@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'css/sa_inbox.css' %}" rel="stylesheet">
+{% endblock styles %}
+
+
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/sa_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+        
+           <!-- Page Content -->
+           <div class="container">
+            <div class="content-wrapper">
+                <!-- Content Place Here -->
+                <div class="email-app card-margin">
+                    <div class="email-toolbars-wrapper">
+                        <div class="toolbar-header">
+                            <button type="button" class="btn btn-md btn-block btn-compose-mail">
+                                <a href="{% url 'user_search' %}" class="btn btn-md btn-block btn-compose-mail" style="color:white;"><i class="fa fa-plus fa-xs text-center"></i> New Message</a>
+                            </button>
+                        </div>
+
+                        
+                    </div>
+                    <div class="email-list-wrapper">
+                        
+                        <div id="email-app-body" class="email-list-scroll-container ps ps--active-y">
+                            <ul class="email-list">
+                                {% for message in messages %}
+                                <a class="" href="{% url 'directs' message.user.username %}">
+                                <li class="email-list-item {% if active_user == message.user.username %} active{% endif %}">
+                                    <div class="recipient">
+                                        {% if message.user.userprofile.profile_picture %} 
+                                        <img src="{{ message.user.userprofile.profile_picture.url }}" alt="Profile Picture" />
+                                        {% else %}
+                                        <img src="{% static 'images/user.jpeg' %}" alt="Profile Picture" />
+                                        {% endif %}
+                                        <strong>{{ message.user.first_name }} {{ message.user.last_name }}</strong> <small>&lt;{{ message.user.username }}&gt;</small>
+                                        
+                                    </div>
+                                    <div class="content">
+                                        {% if message.unread %}
+                                        <p style="font-weight: bold; color: red;">
+                                          <i class="material-icons" style="text-align: right;">mark_chat_unread</i> {{ message.unread }}
+                                          
+                                        </p>
+                                        {% endif %}        
+                                      </div>
+                                          
+                                </li>
+                                
+                            </a>
+                                {% endfor %}
+                            </ul>
+                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div>
+                            <div class="ps__rail-y" style="top: 0px; height: 911px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 772px;"></div></div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- 3RD CONTENT WITH THE WHOLE MESSAGE -->
+                    
+                    <!-- 3RD CONTENT WITH THE WHOLE MESSAGE -->
+                    <div class="email-desc-wrapper">
+                        {% for direct in directs %}
+                        <div class="email-header">
+                            <strong>{{ direct.sender.first_name }} {{ direct.sender.last_name }}</strong> <small>&lt;{{ direct.sender.username }}&gt;</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>
+                        </div>
+                        <div class="email-body">
+                            {{ direct.body | safe }}
+                        </div>
+                        {% endfor %}
+                        <form role="form" method="POST" action="{% url 'send_direct' %}">
+                            {% csrf_token %}
+                          <article class="media">
+                            <div class="media-content">
+                              <input type="hidden" name="to_user" value="{{ active_user }}">
+                              <div class="field form-group mt-4">
+                                <p class="control">
+                                    <textarea class="form-control" id="message" name="body" rows="2" cols="50" placeholder="Click here to write..."></textarea>
+                                 
+                                </p>
+                              </div>
+                              <nav class="level">
+                                <div class="level-left">
+                                  <div class="level-item">
+                                    <button type="submit" class="btn btn-success ">Send</button>
+                                  </div>
+                                </div>
+                              </nav>
+                            </div>
+                          </article>
+                          </form>
+                    </div>
+
+                    
+                    
+
+                    
+            </div>
+
+
+            </div>
+        <!-- End of Page Content -->
+          
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+<!-- Include formset plugin - including jQuery dependency -->
+
+
+{% endblock scripts %}
+

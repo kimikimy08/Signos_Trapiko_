@@ -1,0 +1,88 @@
+
+{% extends "incident_report_home_admin.html" %}
+
+{% block form_if %}{% block form_else %}
+{% csrf_token %}
+    <fieldset>
+
+        <div>
+            {% comment %} <label>{{ form.field.label }}:<p class="note">{{ form.field.help_text }}</p></label> 
+
+            <hr> {% endcomment %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputWeather">Weather</label>
+                    {{form.weather}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputLight">Light</label>
+                    {{form.light}}
+                </div>
+            </div>
+            <!-- ================================= -->
+            <hr>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputSeverity">Severity</label>
+                {{form.severity}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputAccident">Accident Factor</label>
+                    {{form.accident_factor}}
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <label for="inputAccident">Accident Factor Sub Category</label>
+               
+                    {{form.accident_subcategory}}
+              
+                </div>
+                
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputAccident">Collision Type</label>
+                    {{form.collision_type}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAccident">Collision Sub Category</label>
+                    {{form.collision_subcategory}}
+                </div>
+            </div>
+
+            
+            <!-- ================================= -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCrashType">Crash Type</label>
+                    {{form.crash_type}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputMovement">Movement Code</label>
+                    {{ form.movement_code }}
+                   
+                </div>
+            </div>
+            <!-- ================================= -->
+            <br>
+            {% comment %} <div class="modal-footer mb-3">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                    value="Clear">
+                <input type="submit" class="btn btn-primary" value="Save">
+            </div> {% endcomment %}
+
+            <p class="error">
+                {% if form.field.errors %}
+                    {% for error in form.field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </fieldset>
+{% endblock %}{% endblock %}
+
+
+

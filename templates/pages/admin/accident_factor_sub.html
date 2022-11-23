@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/user_account.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_reports.css' %}" rel="stylesheet">
+
+
+{% endblock styles %}
+
+{% block content %}
+
+{% include 'includes/a_sidebar.html' %}
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        {% include 'includes/navbar.html' %}
+
+
+
+        <!-- ===== INSERT CONTENT HERE  ===== -->
+
+        <!-- Main Section Start -->
+        <!-- Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Title -->
+            <div class="d-flex bd-highlight">
+                <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                    <h4>Attributes Builder - Accident Factor ({{accident_factor}})</h4>
+                </div>
+            </div>
+            
+
+            <!-- User Report Table  -->
+            <div class="card shadow mb-5 d-flex ">
+      
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <form id="form1" action="{% url 'attributes_builder_accident_sub_admin' accident_factor.id %}" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            
+                            {% if accident_factor_sub %}
+                            <div class="modal-footer">
+                         
+                                    <input type="submit" class="btn btn-sm btn-danger" value="Bulk Delete">
+                                </div>
+                        <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                            style="cursor: pointer;" cellspacing="0">
+
+                            <!-- Table Header  -->
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Accident Factor Sub-Category</th>
+                                    <th>Created Date</th>
+                                    <th>Modified Date</th>
+                                    <th>Settings</th>
+                                </tr>
+                            </thead>
+
+                            <!-- Table Body  -->
+                            <tbody>
+                                {% for sub_cat in accident_factor_sub %}
+                                <tr>
+                                    <td><input type="checkbox" name="{{sub_cat.id}}" id="check"></td>
+                                    <td>{{sub_cat}}</td>
+                                    <td>{{sub_cat.created_at}}</td>
+                                    <td>{{sub_cat.updated_at}}</td>
+
+                                    <td>
+                                    
+                                            <a href="{% url 'attributes_builder_accident_edit_sub_admin' sub_cat.id %}"><i class='bx bxs-edit'
+                                                title="View"></i></a>
+                                            <a href="{% url 'attributes_builder_accident_delete_sub_admin' sub_cat.id %}" data-toggle="modal" data-target="#deleteuserModal{{ sub_cat.id }}"><i class='bx bx-trash'
+                                                data-toggle="tooltip" title="Delete" ></i></a>
+                                                
+                                    </td>
+
+                                </tr>
+
+                                 <!-- Delete Modal HTML -->
+                        <div class="modal fade" id="deleteuserModal{{ sub_cat.id }}" tabindex="-1" role="dialog" aria-labelledby="usermodal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete this account?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                                <div class="modal-body">
+                                    <h6>Do you want to delete the selected record? This process cannot be undone.</h6>
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        
+                            
+                                
+                                            <a class="btn btn-sm btn-danger" href="{% url 'attributes_builder_accident_delete_sub_admin' sub_cat.id %}">Delete</a>
+                                    
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                               {% endfor %}
+                            </tbody>
+                            <!-- End of Table Body  -->
+
+                        </table>
+                        {% else %}
+
+                        <h5 class="text-center">No Accident Factor Sub-category Added.</h5>
+                             
+                        {% endif %}
+
+                    </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of User Report Table  -->
+                       <!--Pagination-->
+                       {% if accident_factor_sub %}
+                       <nav aria-label="Page navigation example">
+                           <ul class="pagination justify-content-center">
+                           {% if accident_factor_sub.has_previous %}
+                               <li class="page-item">
+                               <a class="page-link" href="?page={{ accident_factor_sub.previous_page_number }}">Previous</a>
+                             </li>
+                           {% else %}
+                               <li class="page-item disabled">
+                               <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                             </li>
+                           {% endif %}
+                   
+                           {% if accident_factor_sub.number|add:'-4' > 1 %}
+                               <li class="page-item"><a class="page-link" href="?page={{ accident_factor_sub.number|add:'-5' }}">&hellip;</a></li>
+                           {% endif %}
+                   
+                           {% for i in accident_factor_sub.paginator.page_range %}
+                               {% if accident_factor_sub.number == i %}
+                                   <li class="page-item active" aria-current="page">
+                                 <span class="page-link">
+                                   {{ i }}
+                                   <span class="sr-only">(current)</span>
+                                 </span>
+                               </li>
+                               {% elif i > accident_factor_sub.number|add:'-5' and i < accident_factor_sub.number|add:'5' %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                               {% endif %}
+                           {% endfor %}
+                   
+                           {% if accident_factor_sub.paginator.num_pages > accident_factor_sub.number|add:'4' %}
+                              <li class="page-item"><a class="page-link" href="?page={{ accident_factor_sub.number|add:'5' }}">&hellip;</a></li>
+                           {% endif %}
+                   
+                           {% if accident_factor_sub.has_next %}
+                               <li class="page-item">
+                               <a class="page-link" href="?page={{ accident_factor_sub.next_page_number }}">Next</a>
+                             </li>
+                           {% else %}
+                               <li class="page-item disabled">
+                               <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                             </li>
+                           {% endif %}
+                         </ul>
+                       </nav>
+                       {% endif %}
+                       <!--end of Pagination-->
+        </div>
+        <!-- End of Page Content -->
+         </div>
+
+        <!-- Main Section End -->
+        <!-- ===== END OF CONTENT  ===== -->
+ <!-- Scroll to Top-->
+ <a class="scroll-to-top rounded" href="#scroll-up">
+    <i class='bx bxs-up-arrow'></i>
+</a>
+<!-- End of Scroll to Top-->
+
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+
+{% endblock %}

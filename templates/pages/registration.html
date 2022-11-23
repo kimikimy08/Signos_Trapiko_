@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Register </title>
+
+    <!-- Favicon-->
+    <link href="{% static 'images/faviconwhite.png' %}" rel="icon">
+
+    <!-- Boxicons CDN Link - for Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Font Awesome  - Jocelle's Kit for Arrow Icons -->
+    <script src="https://kit.fontawesome.com/d6b7ac4c6c.js" crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/vendor/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/default.css' %}" rel="stylesheet">
+
+    <style>
+        .bg-register-image {
+            background: url("{% static 'images/register.png' %}");
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body class="bg-lightGrayishBlue">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">CREATE AN ACCOUNT</h1>
+                            </div>
+                            <form class="user" action="{% url 'registration' %}" enctype="multipart/form-data" method="post">
+                              {% csrf_token %}
+                                <div class="form-group">
+                                  {{form.first_name}}
+                                </div>
+                                <div class="form-group">
+                                  {{form.middle_name}}
+                                </div>
+                                <div class="form-group">
+                                  {{form.last_name}}
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                      {{form.mobile_number}}
+                                      {% if form.mobile_number.errors %}
+                                      <ul class="error-list" style="font-size: 10px; padding-left: 0px; padding-right: 10px;">
+                                      
+                                        <li style="color:red">{{form.mobile_number.errors}}</li>
+                                      {% endif %}
+                                      {% if form.mobile_number.validation_messages %}
+                                        <li style="color:red">{{form.mobile_number.validation_messages}}</li>
+                                      
+                                    </ul>
+                                    {% endif %} 
+                                    </div>
+                                    <div class="col-sm-6">
+                                      {{m_form.birthdate}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                  {{form.email}}
+                                  {% if form.email.errors %}
+                                  <ul class="error-list" style="font-size: 10px; padding-left: 0px;">
+                                    
+                                      <li style="color:red">{{form.email.errors}}</li>
+                                  
+                                  </ul>
+                                  {% endif %}
+                                </div>
+
+                                <div class="form-group">
+                                  {{form.username}}
+                                  {% if form.username.errors %}
+                                  <ul class="error-list" style="font-size: 10px; padding-left: 0px;">
+                                    
+                                      <li style="color:red">{{form.username.errors}}</li>
+                                    
+                                  </ul>
+                                  {% endif %}
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                      {{form.password}}
+                                      {% if form.password.errors %}
+                                      <ul class="error-list" style="font-size: 10px; padding-left: 0px;">
+                                        
+                                            <li style="color:red">{{form.password.errors}}</li>
+                                          
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                      {{form.confirm_password}}
+                                      {% if form.non_field_errors %}
+                                      <ul class="error-list" style="font-size: 10px; padding-left: 0px;">
+                  
+                                        <li style="color:red">{{form.non_field_errors}}</li>
+                                      
+                                      </ul>
+                                      {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label style="font-size:14px">Upload Valid I.D.</label>
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                          {{m_form.upload_id}}
+                                            {% comment %} <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                file</label> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block" name="signupsubmit"> Register Account </button>
+                                
+
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'forgot_password' %}">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

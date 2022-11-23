@@ -1,0 +1,336 @@
+/* ========== MAIN FORMAT */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+    /* Main Palette */
+    --darkBlue: #20325A;
+    --moderateBlue: #345192;
+    --darkRed: #A50000;
+    --softRed: #EF4B4C;
+    --darkCyan: #108d6f;
+    --strongCyan: #18d2a5;
+    --softOrange: #EAA74D;
+    --pureYellow: #FAE500;
+    --lightGrayishBlue: #EAECF4;
+    --black: #222;
+    --white: #FFF;
+
+    /* Shadow */
+    --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+
+    /* Sizing  */
+    --normal-font-size: 1rem;
+    --header-height: 3rem;
+    --nav-width: 68px;
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    font-size: var(--normal-font-size);
+    background-color: var(--white);
+    font-family: "Poppins", sans-serif;
+    
+}
+
+/* ========== END OF MAIN FORMAT */
+
+
+/* ========== BACKGROUND COLOR */
+.bg-darkBlue {
+    background-color: var(--darkBlue);
+}
+
+.bg-moderateBlue {
+    background-color: var(--moderateBlue);
+}
+
+.bg-softRed {
+    background-color: var(--softRed);
+}
+
+.bg-darkCyan {
+    background-color: var(--darkCyan);
+}
+
+.bg-softOrange {
+    background-color: var(--softOrange);
+}
+
+.bg-pureYellow {
+    background-color: var(--pureYellow);
+}
+
+.bg-lightGrayishBlue {
+    background-color: var(--lightGrayishBlue);
+}
+
+/* ========== END OF BACKGROUND COLOR */
+
+/* ========== GRADIENT BACKGROUND */
+.bg-yellowOrange {
+    background-color: var(--softOrange);
+    background-image: linear-gradient(0deg, var(--softOrange) 0%, var(--pureYellow) 100%);
+}
+
+.bg-darkLightBlue {
+    background-color: var(--darkBlue);
+    background-image: linear-gradient(0deg, var(--darkBlue) 0%, var(--moderateBlue) 100%);
+}
+
+.bg-darkSoftRed {
+    background-color: var(--darkRed);
+    background-image: linear-gradient(0deg, var(--darkRed) 0%, var(--softRed) 100%);
+}
+
+.bg-darkStrongCyan {
+    background-color: var(--darkCyan);
+    background-image: linear-gradient(0deg, var(--darkCyan) 0%, var(--strongCyan) 100%);
+}
+
+
+/* ========== END OF BACKGROUND COLOR */
+
+
+/* ========== BORDER COLOR */
+.bd-darkBlue {
+    border: 2px solid var(--darkBlue);
+}
+
+.bd-moderateBlue {
+    border: 2px solid var(--moderateBlue);
+}
+
+.bd-softRed {
+    border: 2px solid var(--softRed);
+}
+
+.bd-darkCyan {
+    border: 2px solid var(--darkCyan);
+}
+
+.bd-softOrange {
+    border: 2px solid var(--softOrange);
+}
+
+.bd-pureYellow {
+    border: 2px solid var(--pureYellow);
+}
+
+.bd-lightGrayishBlue {
+    border: 2px solid var(--lightGrayishBlue);
+}
+
+/* ========== END OF BORDER COLOR */
+
+
+/* ========== BUTTONS */
+.btn-darkBlue {
+    color: var(--white);
+    background-color: var(--darkBlue);
+}
+
+/* ========== END OF BUTTONS */
+
+
+/* ========== SIDEBAR & NAVBAR */
+.wrapper,
+ul .navbar-nav,
+.sidebar {
+    background-color: var(--darkBlue);
+}
+
+.sidebar-brand-icon img {
+    height: 60px;
+    width: 60px;
+    margin-bottom: -10px;
+}
+
+.sidebar hr.sidebar-divider {
+    margin-top: 0.5rem;
+}
+
+.topbar #sidebarToggleTop {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.topbar #sidebarToggleTop:hover {
+    background-color: var(--lightGrayishBlue);
+}
+
+
+#wrapper ul li .nav-item a:hover {
+    background-color: var(--lightGrayishBlue);
+}
+
+#wrapper ul li .collapse .collapse-inner {
+    border-radius: 4px;
+}
+
+#wrapper ul li .collapse .collapse-inner a:hover {
+    background-color: var(--lightGrayishBlue);
+}
+
+#wrapper ul li .collapse .collapse-inner i,
+#wrapper ul li .collapse .collapse-inner span {
+    color: var(--darkBlue);
+}
+
+#wrapper ul .sidebar-heading {
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--lightGrayishBlue);
+    opacity: 60%;
+}
+
+#wrapper ul li a i {
+    font-size: 15px;
+}
+
+#wrapper ul li a span {
+    font-size: 13px;
+}
+
+#content-wrapper #content nav.navbar-expand .navbar-nav form {
+    margin-top: 15px;
+}
+
+@media (max-width: 576px) {
+    #content-wrapper #content nav.navbar-expand .navbar-nav form {
+        margin-top: 0px;
+    }
+}
+
+#content-wrapper #content nav #sidebarToggleTop i {
+    color: var(--darkBlue);
+}
+
+#content-wrapper #content nav ul li a .notif,
+#searchDropdown i {
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 19px;
+    color: var(--darkBlue);
+    padding-top: 10px;
+    margin-right: -10px;
+}
+
+#searchDropdown i {
+    padding-top: 13px;
+}
+
+#searchDropdown i:hover {
+    background-color: var(--lightGrayishBlue);
+    border-radius: 50%;
+}
+
+#content-wrapper #content nav ul li a .notif:hover {
+    background-color: var(--lightGrayishBlue);
+    border-radius: 50%;
+}
+
+#content-wrapper #content nav ul li a .notif:active {
+    border-color: var(--lightGrayishBlue);
+}
+
+.topbar .navbar-search {
+    width: 20rem;
+}
+
+/* ========== END OF SIDEBAR & NAVBAR */
+
+
+/* ========== BREADCRUMB & PAGE TITLE */
+.breadcrumb-item a {
+    text-decoration: none;
+}
+
+.pg-title h4 {
+    color: var(--darkBlue);
+    font-weight: 500;
+}
+/* ========== END OF BREADCRUMB & PAGE TITLE*/
+
+
+/* ========== SCROLL TOP */
+.scroll-to-top {
+    position: fixed;
+    right: 1.8rem;
+    bottom: 4.3rem;
+    display: none;
+    width: 2.9rem;
+    height: 2.9rem;
+    text-align: center;
+    color: #fff;
+    background: var(--softOrange);
+    box-shadow: var(--box-shadow);
+    line-height: 46px;
+}
+
+.scroll-to-top:focus,
+.scroll-to-top:hover {
+    color: #fff;
+}
+
+.scroll-to-top:hover {
+    background: var(--softOrange);
+}
+
+.scroll-to-top i {
+    font-size: 1.3rem;
+    padding-top: 14px;
+}
+
+/* ========== END OF SCROLL TOP */
+
+
+/* ========== FOOTER */
+footer {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: var(--white);
+    background-color: var(--darkBlue);
+}
+
+@media (max-width: 768px) {
+    footer {
+        font-size: 12px;
+    }
+}
+
+/* ========== END OF FOOTER */
+
+/* ========== MAIN CONTENT */
+
+.btn-useradd{
+    text-align: right;
+}
+/* ========== END OF MAIN CONTENT */
+
+
+.btn-modal{
+    width: 70px;
+
+}
+
+.note-warning {
+    font-size: 12px;
+}
+
+#btn-30min, #btn-ok-logout {
+    width: 80px;
+}
+
+.note-info {
+    font-size: 13px;
+}

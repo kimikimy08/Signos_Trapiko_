@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <title>Collision Type</title>
+<style>
+  .clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  text-decoration: underline;
+}
+
+body {
+  position: relative;
+  margin: 0 auto; 
+  color: #001028;
+  background: #FFFFFF; 
+  font-family: Arial, sans-serif; 
+  font-size: 14px; 
+  font-family: Arial;
+}
+
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+#logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logo img {
+  width: 90px;
+}
+
+h3 {
+  
+  color: #5D6975;
+  font-size: 2em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+#project {
+  float: left;
+}
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+}
+
+#company {
+  float: right;
+  text-align: right;
+}
+
+#project div,
+#company div {
+  white-space: nowrap;        
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+
+
+table th,
+table td {
+  text-align: center;
+}
+
+table th {
+  
+  
+  color: #5D6975;
+  border-bottom: 1px solid #C1CED9;
+  white-space: nowrap;        
+  font-weight: normal;
+}
+
+table .service,
+table .desc {
+  text-align: left;
+}
+
+table td {
+ padding-top:5px;
+ padding-bottom:5px;
+  
+}
+
+table tr {
+  border-bottom: 1px solid #C1CED9;
+}
+
+table td.service,
+table td.desc {
+  vertical-align: top;
+}
+
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 1.2em;
+}
+
+table td.grand {
+  border-top: 1px solid #5D6975;;
+}
+
+#notices .notice {
+  color: #5D6975;
+  font-size: 1.2em;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.table-container {
+  page-break-after: always;
+}
+
+
+  </style>
+</head>
+
+<body>
+  <header class="clearfix">
+    <div id="logo" style="display:flex; justify-content:center; align-items:center;">
+      <img src="static/images/qc-signos.png" width="300px" height="auto" alt=""
+                                    title="" />
+
+      <br>
+      <br>
+    </div>
+    <h3>Collision Type vs Severity</h3>
+    <h4> {{incident_general_collision.date}} </h4>
+    <div id="company" class="clearfix">
+    </div>
+    <br>
+    <br>
+  </header>
+    <div class="table-container" style="overflow-x:auto">
+
+     <table class="table" style="width:100%">
+          <thead>
+              <tr>
+                <th scope="col">DATE</th>
+                <th scope="col">TIME</th>
+                <th scope="col">ADDRESS</th>
+                  <th scope="col">COLLISION TYPE</th>
+                  {% comment %} <th scope="col">COLLISION TYPE SUB-CATEGORY</th> {% endcomment %}
+                  <th scope="col">SEVERITY</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for i in incident_general_collision %}
+            
+              <tr>
+                <td scope="row">{{i.date}}</td>
+                <td scope="row">{{i.time}}</td>
+                <td scope="row">{{i.address}}</td>
+                  <td scope="row">{{i.collision_type.category}}</td>
+                  {% comment %} <td scope="row">{{i.collision_subcategory.sub_category}}</td> {% endcomment %}
+                  <td>{{i.severity}}</td>
+                 
+           
+              </tr>
+              {% endfor %}
+
+              <tr>
+                  <td scope="row"></td>
+                  <td>TOTAL: </td>
+                  <td>{{incident_general_collision | length}}</td>
+                  
+              </tr>
+          </tbody>
+      </table> 
+
+      
+
+    </div>
+    <div class="table-container" style="overflow-x:auto">
+
+
+       <h3>SUMMARY</h3>
+ 
+       <table class="table" style="width:100%">
+         <thead>
+             <tr>
+                 <th scope="col">DAMAGE TO PROPERTY</th>
+                 <th scope="col">FATAL</th>
+                 <th scope="col">NON-FATAL</th>
+             </tr>
+         </thead>
+         <tbody>
+             
+           
+             <tr>
+                 <td scope="row">{{incident_general_collision2 | length}}</td>
+                 <td scope="row">{{incident_general_collision1 | length}}</td>
+                 <td>{{incident_general_collision3 | length}}</td>
+                
+          
+             </tr>
+            
+{% comment %}  
+             <tr>
+                 <td scope="row"></td>
+                 <td>TOTAL: </td>
+                 <td>{{incident_general_collision | length}}</td>
+                 
+             </tr> {% endcomment %}
+         </tbody>
+     </table> 
+ 
+       
+ 
+     </div>
+    {% comment %} <p style="text-align:right; font-size:12px;">*All values are in INR<p> {% endcomment %}
+</body>
+
+</html>

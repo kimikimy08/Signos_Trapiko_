@@ -1,0 +1,141 @@
+{% load static %}
+<!-- Start of Sidebar -->
+<ul class="navbar-nav sidebar sidebar-dark accordion fixed" id="accordionSidebar">
+
+    <!-- Signos Logo-->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+        <div class="sidebar-brand-icon">
+           <img src="{% static 'images/faviconwhite.png' %}" alt="" srcset="">
+        </div>
+    </a>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Sidebar Heading  -->
+    <div class="sidebar-heading">Analytics</div>
+
+    <!-- Dashboard -->
+    <li class="{% if '/adashboard/' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'admin_dashboard' %}">
+            <i class="bx bx-grid-alt"></i>
+            <span class="">Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Sidebar Heading -->
+    <div class="sidebar-heading">Manage</div>
+
+    <!-- Reports -->
+
+
+    <li class="nav-item" id="showReports">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReports"
+            aria-expanded="true" aria-controls="collapseReports">
+            <i class="bx bx-collection"></i>
+            <span>Reports</span>
+        </a>
+        <!-- Reports Sub-Menu  -->
+        <div id="collapseReports" class="collapse show" data-parent="#accordionSidebar" data-bs-parent="#showReports">
+            <div class="bg-white py-2 collapse-inner">
+                <a class="{% if '/userReport/' == request.path %} collapse-item active {% else %} collapse-item{% endif %} " href="{% url 'user_report' %}">
+                    <i class='bx bx-user-voice'></i>
+                    <span>User Report</span></a>
+                <a class="{% if '/incidentreport/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'a_incidentreports' %}">
+                    <i class='bx bxs-car-crash'></i>
+                    <span>Incident Report</span></a>
+                <a class="{% if '/generate_report/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'generate_report' %}">
+                    <i class='bx bxs-file-pdf'></i>
+                    <span>Generate Report</span></a>
+                    <a class="{% if '/incidentReport/template/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'a_template' %}">
+                        <i class='bx bxs-file-pdf'></i>
+                        <span>Download Template</span></a>
+            </div>
+        </div>
+    </li>
+
+
+    <!-- User Accounts-->
+    <li class="{% if '/admins/userAccount/' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'admin_user_account' %}">
+            <i class='bx bxs-user-detail'></i>
+            <span class="">User Accounts</span></a>
+    </li>
+
+    {% comment %} <li class="nav-item" id="showAttributes">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttributes"
+            aria-expanded="true" aria-controls="collapseReports">
+            <i class="bx bx-collection"></i>
+            <span>Attributes Builder</span>
+        </a>
+        <!-- Reports Sub-Menu  -->
+        <div id="collapseAttributes" class="collapse show" data-parent="#accordionSidebar" data-bs-parent="#showAttributes">
+            <div class="bg-white py-2 collapse-inner">
+                <a class="{% if '/attributes_builder/accident_factor/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'attributes_builder_accident_admin' %}">
+                    <i class='bx bx-user-voice'></i>
+                    <span>Accident Factor</span></a>
+                <a class="{% if '/attributes_builder/collision_type/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'attributes_builder_collision_admin' %}">
+                    <i class='bx bxs-car-crash'></i>
+                    <span>Collision Type</span></a>
+                <a class="{% if '/attributes_builder/crash/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'attributes_builder_crash_admin' %}">
+                    <i class='bx bxs-file-pdf'></i>
+                    <span>Crash Type</span></a>
+            </div>
+        </div>    
+    </li> {% endcomment %}
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Sidebar Heading -->
+    <div class="sidebar-heading">
+        Access
+    </div>
+
+    <!-- My Profile-->
+    <li class="{% if '/admins/profile/' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'admin_profile' %}">
+            <i class='bx bx-user'></i>
+            <span class="">My Profile</span></a>
+    </li>
+    
+     <!-- Inbox -->
+    <li class="{% if '/inbox/sent_message/' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'a_inbox' %}">
+            <i class="fa-solid fa-inbox"></i>
+            <span class="">Inbox</span> 
+            {% if directs_count %}
+            <span class="badge" style="position: absolute; background: #EAA74D; border-radius: 50%; top: auto; right: 25px; color: white; padding: 5px 10px;">{{ directs_count }}</span> </a>
+        
+            {% endif %}
+    </li>
+ {% comment %} 
+    <!-- Settings  -->
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class="bx bx-cog"></i>
+            <span class="">Settings</span></a>
+    </li>
+
+    <!-- Activity Log  -->
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class='bx bx-history'></i>
+            <span class="">Activity Log</span></a>
+    </li> {% endcomment %}
+
+    <!-- Sign Out  -->
+    <li class="nav-item">
+        <a href="" class="nav-link" data-toggle="modal" data-target="#logoutModal">
+            <i class='bx bx-log-out'></i>
+            <span class="">Sign Out</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+</ul>
+<!-- End of Sidebar -->
+

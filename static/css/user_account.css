@@ -1,0 +1,122 @@
+
+
+table.dataTable>thead .sorting:before,
+table.dataTable>thead .sorting_asc:before,
+table.dataTable>thead .sorting_desc:before,
+table.dataTable>thead .sorting_asc_disabled:before,
+table.dataTable>thead .sorting_desc_disabled:before {
+    right: 1em;
+    content: "▲";
+    font-size: 9px;
+    margin-bottom: 9px;
+}
+
+table.dataTable>thead .sorting:after,
+table.dataTable>thead .sorting_asc:after,
+table.dataTable>thead .sorting_desc:after,
+table.dataTable>thead .sorting_asc_disabled:after,
+table.dataTable>thead .sorting_desc_disabled:after {
+    right: 1em;
+    content: "▼";
+    font-size: 9px;
+}
+
+.table-hover tbody tr:hover {
+    color: #222;
+}
+
+th {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+td {
+    font-size: 14px;
+}
+
+td a i {
+    font-size: 18px;
+}
+
+
+.custom-select {
+    font-size: 14px;
+}
+
+.btn {
+    font-size: 14px;
+}
+
+/* ========== ADD USER MODAL */
+
+
+.modal .modal-dialog {
+    max-width: 500px;
+}
+
+.modal .modal-header,
+.modal .modal-body,
+.modal .modal-footer {
+    padding: 20px 30px;
+}
+
+.modal .modal-content {
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.modal .modal-footer {
+    background: var(--lightGrayishBlue);
+    border-radius: 0 0 3px 3px;
+}
+
+.modal .modal-title {
+    display: inline-block;
+    color: black;
+}
+
+.modal .form-control {
+    border-radius: 2px;
+    border-color: #dddddd;
+}
+
+.modal .btn {
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.modal form label {
+    font-weight: normal;
+}
+
+/* ========== MAIN CONTENT*/
+
+
+.footer-user-management{
+    margin-left: auto;
+}
+
+.view-user-img{
+    width: 15%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius: 100%;
+}
+
+
+.role-btn{
+    background-color: #EAA74D;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    width: 8rem;
+    height: auto;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 8rem;
+    margin-top: 10px;
+    cursor: context-menu;
+
+}

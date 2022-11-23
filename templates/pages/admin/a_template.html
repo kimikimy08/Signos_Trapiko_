@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/download.css' %} " rel="stylesheet">
+
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+           
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+
+            
+          <!-- End of Page Content -->
+
+          <!-- ===== END OF CONTENT  ===== -->
+
+     
+    
+            <!-- ===== END OF CONTENT  ===== -->
+    <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Download Template -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Download CSV Templates</h4>
+                        </div>
+                    </div>
+
+                    <!-- Download Template Table  -->
+                    <div class="card shadow mb-5 d-flex ">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                                    style="cursor: pointer;" cellspacing="0">
+                                    <div class="main">
+                                        <ul class="cards">
+                                            <li class="cards_item">
+                                                <div class="card">
+                                                    <div class="card_image"><img src="{% static 'images/csv.png' %}"></div>
+                                                    <div class="card_content">
+                                                        <h2 class="card_title">CSV - General</h2>
+                                                        <hr
+                                                            style="height:1px;border-width:0;color:gray;background-color:white">
+                                                        <p class="card_text">
+                                                            Contains attributes about the general information of the
+                                                            incident such as date, time, location, and accident
+                                                            causation.
+                                                        </p>
+                                                        <a href="{% static 'csv/input_general_template.csv' %}" target="_blank"><button class="btn card_btn">Download</button></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="cards_item">
+                                                <div class="card">
+                                                    <div class="card_image"><img src="{% static 'images/csv.png' %}"></div>
+                                                    <div class="card_content">
+                                                        <h2 class="card_title">CSV - Additional</h2>
+                                                        <hr
+                                                            style="height:1px;border-width:0;color:gray;background-color:white">
+                                                        <p class="card_text">
+                                                            Contains attributes about the people's personal information,
+                                                            involvement, vehicle classification and others.
+                                                        </p>
+                                                        <a href="{% static 'csv/input_additional_template.csv' %}" target="_blank"><button class="btn card_btn">Download</button></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Download Template Table  -->
+
+
+                    <!-- End of Page Content -->
+
+                    <!-- ===== END OF CONTENT  ===== -->
+                </div>
+                </div>
+                <!-- End of Main Content  -->
+</div>
+        <!-- End of Main Content  -->
+    </div>
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    
+
+<!-- Include formset plugin - including jQuery dependency -->
+<script script type="text/javascript" src="{% static 'js/upload_csv.js' %}"></script>
+
+{% endblock scripts %}
+

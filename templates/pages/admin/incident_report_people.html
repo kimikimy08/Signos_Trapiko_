@@ -1,0 +1,97 @@
+{% extends "incident_report_home_admin.html" %}
+
+{% block form_if %}{% block form_else %}
+{% csrf_token %}
+    <fieldset>
+        {% comment %} <legend>Title</legend> {% endcomment %}
+        <div>
+            {% comment %} <label>{{ form.field.label }}:<p class="note">{{ form.field.help_text }}</p></label> 
+
+            <hr> {% endcomment %}
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                        data-target="#collapsePeople" aria-expanded="false"
+                                        aria-controls="collapsePeople">
+                                        <i class='bx bx-plus'></i> Add Person
+                                    </button>
+                                    <div class="collapse pt-4" id="collapsePeople">
+                                        <form>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputFirstName">First Name</label>
+                                                    {{form.incident_first_name}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputMiddleName">Middle Name</label>
+                                                    {{form.incident_middle_name}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputLastName">Last Name</label>
+                                                    {{form.incident_last_name}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputAge">Age</label>
+                                                    {{form.incident_age}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputGender">Gender</label>
+                                                    {{form.incident_gender}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputAddress">Address</label>
+                                                {{form.incident_address}}
+                                            </div>
+                                            <!-- ================================= -->
+                                            <hr>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputInvolvement">Involvement</label>
+                                                    {{form.incident_involvement}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputID">ID Presented</label>
+                                                    {{form.incident_id_presented}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputIDNumber">ID Number</label>
+                                                    {{form.incident_id_number}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Injury</label>
+                                                {{form.incident_injury}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Driver Error</label>
+                                                {{form.incident_driver_error}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Alcohol / Drugs</label>
+                                                {{form.incident_alcohol_drugs}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Seat belt / Helmet </label>
+                                                {{form.incident_seatbelt_helmet}}
+                                            </div>
+
+                                            <br>
+                                            <div class="modal-footer mb-3">
+                                                <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    value="Clear">
+                                                <input type="submit" class="btn btn-primary" value="Save">
+                                            </div>
+                                        </div>
+
+            <p class="error">
+                {% if form.field.errors %}
+                    {% for error in form.field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </fieldset>
+{% endblock %}{% endblock %}

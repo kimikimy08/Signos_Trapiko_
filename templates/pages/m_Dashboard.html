@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/m_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+            {% include 'includes/alerts.html' %}
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+
+ 
+            <!-- ===== END OF CONTENT  ===== -->
+
+
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+
+
+{% endblock %}

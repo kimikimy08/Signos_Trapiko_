@@ -1,0 +1,130 @@
+/* ========== MAIN FORMAT */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+    /* Main Palette */
+    --darkBlue: #20325A;
+    --moderateBlue: #345192;
+    --darkRed: #A50000;
+    --softRed: #EF4B4C;
+    --darkCyan: #108d6f;
+    --strongCyan: #18d2a5;
+    --softOrange: #EAA74D;
+    --pureYellow: #FAE500;
+    --lightGrayishBlue: #EAECF4;
+    --black: #222;
+    --white: #FFF;
+
+    /* Shadow */
+    --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+
+    /* Sizing  */
+    --normal-font-size: 1rem;
+    --header-height: 3rem;
+    --nav-width: 68px;
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: var(--normal-font-size);
+    background-color: var(--white);
+    font-family: "Poppins", sans-serif;
+}
+
+/* ========== END OF MAIN FORMAT */
+
+h2 {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.btn {
+    color: var(--white);
+    padding: 0.8rem;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    font-weight: 400;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+}
+
+.btn:hover {
+    color: var(--black);
+    background-color: var(--white);
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+}
+
+.cards_item {
+    display: flex;
+    padding: 1rem;
+}
+
+
+@media (min-width: 40rem) {
+    .cards_item {
+        width: 50%;
+    }
+}
+
+@media (min-width: 56rem) {
+    .cards_item {
+        width: 33.3333%;
+    }
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card_content {
+    padding: 1rem;
+    background: linear-gradient(to bottom left, var(--darkBlue) 40%, var(--moderateBlue)  100%);
+}
+
+.card_title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    margin: 0px;
+}
+
+.card_text {
+    color: #ffffff;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+}

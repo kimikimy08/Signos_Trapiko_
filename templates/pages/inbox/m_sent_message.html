@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
+
+
+
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+
+  
+  <link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'css/sa_inbox.css' %}" rel="stylesheet">
+{% endblock styles %}
+
+
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/m_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+        
+            <div class="container bootdey mb-5">
+                <div class="email-app">
+                 
+                    <main>
+                        <div class="columns is-mobile">
+                            <div class="column is-offset-one-fifth">
+                          
+                          
+                          <div class="field has-addons">
+                          <form>
+                            <div class="control">
+                              <input style="margin-bottom: 20px; width: 500px;" class="input form-control" name="q" type="text" placeholder="Enter username" value="{{ request.GET.q }}">
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                            </form>
+                          </div>
+                          
+                          
+                          </div>
+                          </div>
+                          
+                         
+                          
+                        
+
+                       
+                   
+                          
+                            <section id="team" class="team section-back">
+                                <div class="container" data-aos="fade-up">
+                          
+                                  <div class="row">
+                                    
+                                    {% for user in users %}
+                                    <div class="col-lg-6" style="margin-bottom: 20px" >
+                                      <div class="member d-flex align-items-start" >
+                                        <figure class="image is-64x64">
+                                          {% if user.userprofile.profile_picture %}
+                                            <img src="{{ user.userprofile.profile_picture.url }}" alt="Placeholder image">
+                                          {% else %}
+                                            <img src="{% static 'images/user.jpeg' %}" alt="Placeholder image">
+                                          {% endif %}
+                                      </figure>
+                                        
+                                        <div class="member-info">
+                                            <div style="margin-bottom: 20px">{{ user.first_name }} {{ user.last_name }}</strong><small> &lt;{{ user.username }}&gt;</small></div>
+                                            <a href="{% url 'm_new_message' user.username %}" class="btn btn-success">Send a message!</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {% endfor %}
+                                 
+                                  </div>
+                                </div>
+                              </section>
+                          
+                          
+
+                           
+                        
+                          </div>
+                              
+                          
+                          </div>
+            <!-- End of Main Content  -->
+                        </div>
+
+                        </div>
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+<!-- Include formset plugin - including jQuery dependency -->
+
+
+{% endblock scripts %}
+

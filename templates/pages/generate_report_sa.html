@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/generate_report.css' %}" rel="stylesheet">
+
+
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/sa_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+    <!-- Page Content -->
+    <div class="container-fluid">
+
+      <!-- Generate Report -->
+      <div class="d-flex bd-highlight">
+          <div class="pg-title p-2 flex-grow-1 bd-highlight">
+              <h4>Generate Report</h4>
+          </div>
+      </div>
+
+      <!-- Generate Report Table  -->
+      <div class="card shadow mb-5 d-flex ">
+
+        {% comment %} <div class="card-body">
+            <div>
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-10 offset-md-1">
+                            
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Filter Reports</h4>
+                                </div>
+                                <div class="modal-body form-row ">
+                                    <div class="form-group col-md-6">
+                                        <label>From</label>
+                                        <input type="text" name="fromdate" class="form-control date" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Until</label>
+                                        <input type="text" name="todate" class="form-control date" required>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-primary" value="Save Changes">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                      style="cursor: pointer;" cellspacing="0">
+
+                      <!-- Table Header  -->
+                      <thead class="card-header">
+                          <tr>
+                              <th class="h6">ALL REPORTS</th>
+                          </tr>
+                      </thead>
+
+                      <!-- Table Body  -->
+                      <tbody>
+                          {% comment %} <tr>
+                              <td> <a href="{% url 'export_users_xls' %}"
+                                      class="text-dark text-decoration-none">All Users</a></td>
+                          </tr> {% endcomment %}
+                          {% comment %} <tr>
+                              <td> <a href="{% url 'export_accidentcausation_xls' %}" 
+                                      class="text-dark text-decoration-none">Accident Factor vs Severity (XLS) </a></td>
+                          </tr>
+                          <tr>
+                              <td> <a href="{% url 'export_classification_xls' %}" 
+                                      class="text-dark text-decoration-none">Vehicle Classification vs Severity (XLS)</a></td>
+                          </tr>
+                          <tr>
+                              <td> <a href="{% url 'export_collision_xls' %}" 
+                                      class="text-dark text-decoration-none">Collision Type vs Severity (XLS)</a></td>
+                          </tr> {% endcomment %}
+                          {% comment %} <tr>
+                              <td> <a href="{% url 'generateinvoice_accident' %}"
+                                      class="text-dark text-decoration-none">Accident Factor vs Severity (PDF)</a></td>
+                          </tr>
+                          <tr>
+                              <td> <a href="{% url 'generateinvoice_vehicle' %}" 
+                                      class="text-dark text-decoration-none">Vehicle Classification vs Severity (PDF)</a></td>
+                          </tr> {% endcomment %}
+                          <tr>
+                            <td>  <a href="#" data-toggle="modal" data-target="#select_accident">Accident Factor vs Severity (PDF)</a></td>
+                            </tr>
+                          <tr>
+                            <td>  <a href="#" data-toggle="modal" data-target="#select_collision">Collision Type vs Severity (PDF)</a></td>
+                            </tr>
+                            {% comment %} <tr>
+                                <td>  <a href="#" data-toggle="modal" data-target="#select_vehicle">Vehicle Classification vs Severity (PDF)</a></td>
+                                </tr> {% endcomment %}
+                      </tbody>
+                      <!-- End of Table Body  -->
+
+ <!-- Modals  -->
+        <!-- Selecte Date Modal -->
+
+
+        <div class="modal fade" id="select_accident" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_accident' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
+
+     <div class="modal fade" id="select_collision" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_collision' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
+
+        <div class="modal fade" id="select_vehicle" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_vehicle' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
+
+
+        {% comment %} <div id="generateinvoice_collision_i" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="{% url 'generateinvoice_collision_i' %}">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h4 class="modal-title">Filter Reportsd</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group col-md-6">
+                                <label>From</label>
+                                <input type="date" name="fromdate" class="form-control date" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Until</label>
+                                <input type="date" name="todate" class="form-control date" required>
+                            </div>
+                            <label class="text-danger">Please ensure that the correct dates has been selected.</label>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        <!-- End of Select Date Modal -->
+
+                  </table>
+              </div>
+          </div>
+      </div>
+      <!-- End of Generate Report Table  -->
+
+
+      <!-- End of Page Content -->
+
+      <!-- ===== END OF CONTENT  ===== -->
+
+  </div>
+  <!-- End of Main Content  -->
+</div>
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+     
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+            {% comment %} {% include 'includes/alerts.html' %} {% endcomment %}
+
+            {% endblock %}

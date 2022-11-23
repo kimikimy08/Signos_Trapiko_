@@ -1,0 +1,162 @@
+:root {
+    /* Main Palette */
+    --darkBlue: #20325A;
+    --moderateBlue: #345192;
+    --darkRed: #A50000;
+    --softRed: #EF4B4C;
+    --darkCyan: #108d6f;
+    --strongCyan: #18d2a5;
+    --softOrange: #EAA74D;
+    --pureYellow: #FAE500;
+    --lightGrayishBlue: #EAECF4;
+    --black: #222;
+    --white: #FFF;
+
+    /* Shadow */
+    --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+
+    /* Sizing  */
+    --normal-font-size: 1rem;
+    --header-height: 3rem;
+    --nav-width: 68px;
+}
+
+/* ========== END OF MAIN PALETTE */
+
+table.dataTable>thead .sorting:before,
+table.dataTable>thead .sorting_asc:before,
+table.dataTable>thead .sorting_desc:before,
+table.dataTable>thead .sorting_asc_disabled:before,
+table.dataTable>thead .sorting_desc_disabled:before {
+    right: 1em;
+    content: "▲";
+    font-size: 9px;
+    margin-bottom: 9px;
+}
+
+table.dataTable>thead .sorting:after,
+table.dataTable>thead .sorting_asc:after,
+table.dataTable>thead .sorting_desc:after,
+table.dataTable>thead .sorting_asc_disabled:after,
+table.dataTable>thead .sorting_desc_disabled:after {
+    right: 1em;
+    content: "▼";
+    font-size: 9px;
+}
+
+.table-hover tbody tr a:hover {
+    color: #222;
+}
+
+th {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+td {
+    font-size: 14px;
+}
+
+td a i {
+    font-size: 18px;
+}
+
+.form-group {
+    width: 150px;
+}
+
+.custom-select {
+    font-size: 14px;
+}
+
+.btn {
+    font-size: 14px;
+}
+
+/* ========== ADD USER MODAL */
+
+input.form-control {
+    width: 440px;
+}
+
+input.form-control.date {
+    cursor: pointer;
+}
+
+label.custom-file-label {
+    width: 440px;
+    cursor: pointer;
+}
+
+select.custom-select {
+    width: 440px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 500px) {
+    input.form-control {
+        width: 300px;
+    }
+
+    label.custom-file-label {
+        width: 300px;
+    }
+
+    select.custom-select {
+        width: 300px;
+    }
+}
+
+@media (min-width: 576) and (max-width: 768px) {
+    input.form-control {
+        width: 335px;
+    }
+
+    label.custom-file-label {
+        width: 440px;
+    }
+
+    select.custom-select {
+        width: 440px;
+    }
+}
+
+.modal .modal-dialog {
+    max-width: 500px;
+}
+
+.modal .modal-header,
+.modal .modal-body,
+.modal .modal-footer {
+    padding: 20px 30px;
+}
+
+.modal .modal-content {
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.modal .modal-footer {
+    background: var(--lightGrayishBlue);
+    border-radius: 0 0 3px 3px;
+}
+
+.modal .modal-title {
+    display: inline-block;
+    color: black;
+}
+
+.modal .form-control {
+    border-radius: 2px;
+    border-color: #dddddd;
+}
+
+.modal .btn {
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.modal form label {
+    font-weight: normal;
+}

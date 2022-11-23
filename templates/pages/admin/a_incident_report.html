@@ -1,0 +1,389 @@
+
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Incident Report </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href=" {% static 'css/datepicker.css' %} " rel="stylesheet"> 
+
+    <!-- Favicon-->
+    <link href="{% static 'images/faviconwhite.png' %}" rel="icon">
+
+    <!-- Boxicons CDN Link - for Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Font Awesome  - Jocelle's Kit for Arrow Icons -->
+    <script src="https://kit.fontawesome.com/d6b7ac4c6c.js" crossorigin="anonymous"></script>
+
+    <!-- Default CSS -->
+    <link href="{% static 'css/vendor/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/incident_report.css' %} " rel="stylesheet">
+
+    <style>
+        select {
+            cursor: pointer;
+        }
+        .required-field::after {
+            content: " *";
+            color: red;
+          }
+    </style>
+
+    
+
+</head>
+
+<body id="scroll-up">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+            <!-- Start of Sidebar -->
+            {% include 'includes/a_sidebar.html' %}
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+            <div id="container-fluid">
+
+                    <!-- Start of Topbar / Header -->
+                    {% include 'includes/navbar.html' %}
+            
+                    <!-- End of Breadcrumb  -->  
+
+
+                <!--============== HEADER OF THE INCIDENT REPORT PAGE =============== -->
+     
+                <!-- Page Title -->
+                <div class="d-flex bd-highlight">
+                    <div class="pg-title p-3 flex-grow-1 bd-highlight">
+                        <h4>Incident Report</h4>
+                    </div>
+                </div>
+                
+                <div class="row mb-5">
+                    <div class="col-md-12 col-md-offset-1">
+                        <form id="msform" action="{% url 'a_incidentreports' %}" method="post" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            <!-- progressbar -->
+                            {% comment %} <ul id="progressbar">
+                                <li class="active">General</li>
+                                <li>Remarks</li>
+                            </ul> {% endcomment %}
+
+                            <!-- ========================================================== FIELDSETS ============================================ -->
+                            
+                            
+                            <!-- GENERAL -->
+                            <fieldset>
+                                <h2 class="fs-title">General</h2>
+                                <div class="table-responsive">
+                                    <table>
+                                        <div class="table-responsive">
+                                            <table>
+                                            
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputEmail4" class="required-field">Date</label>
+                                                            {{form.date}}
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputPassword4" class="required-field">Time</label>
+                                                            {{form.time}}
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+            
+                                                    <!--==================LOCATION=====================-->
+                                                    <div class="form-group">
+                                                        <label for="inputAddress" class="required-field">Street Address</label>
+                                                        {{form.address}}
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputCity">City</label>
+                                                            {{form.city}}
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputZip">Zip</label>
+                                                            {{form.pin_code}}
+                                                        </div>
+                                                    </div>
+            
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputSeverity">Latitude</label>
+                                                            {{form.latitude}}
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputSeverity">Longitude</label>
+                                                            {{form.longitude}}
+                                                        </div>
+                                                    </div>
+            
+                                                    <!-- ================WEATHER================= -->
+                                                    <hr>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputWeather" class="required-field">Weather</label>
+                                                            {{form_general.weather}}
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputLight" class="required-field">Light</label>
+                                                            {{form_general.light}}
+                                                        </div>
+                                                    </div>
+                                                    <!-- ================================= -->
+                                                    <hr>
+                                                    <div class="form-group">
+                                                        <label for="inputSeverity" class="required-field">Severity</label>
+                                                        {{form_general.severity}}
+                                                    </div>
+            
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="inputCollision" class="required-field">Accident Factor</label>
+                                                            {{form_general.accident_factor}}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="inputCollision" class="required-field">Collision Type</label>
+                                                            {{form_general.collision_type}}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- ================================= -->
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputCrashType" class="required-field">Crash Type</label>
+                                                            {{form_general.crash_type}}
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputMovement">Movement Code</label>
+                                                            {{form_general.movement_code}}
+                                                        </div>
+            
+                                                        <div class="form-group col-md-12">
+                                                            <label for="inputDescription" class="required-field">Description</label>
+                                                            {{form.description}}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="inputTFTTM" class="required-field">TFTTM First Responder Name</label>
+                                                        {{form_remarks.responder}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputActionsTaken">Actions Taken</label>
+                                                        {{form_remarks.action_taken}}
+                                                    </div>
+                                            </table>
+                                        </div>
+
+                                <button class="next action-button next_button" >Proceed and Save</button>
+                            </fieldset>
+                        
+                        </form>
+                    </div>
+                </div>
+       
+            </div>
+    <!-- End of page Wrapper-->
+      
+    <!-- End of Main Content  -->
+
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+            <!-- Footer  -->
+            {% comment %} <footer>
+                <div class="text-center p-3"> Copyright &copy 2022-2023, QC-TFTTM. All Rights Reserved. </div>
+            </footer> {% endcomment %}
+            <!-- End of Footer  -->
+
+        </div>
+        <!-- End of Content Wrapper  -->
+
+
+    <!-- End of Page Wrapper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    
+     <script>
+        var date = new Date();
+         date.setDate(date.getDate()-14);
+         var date1 = new Date();
+         date1.setDate(date1.getDate()+0);
+        $('.datepickstart').datepicker({
+         autoclose: true,
+         todayHighlight: true,
+         format: 'yyyy-mm-dd',
+          startDate: date,
+          endDate: date1
+        });
+        console.log(date)
+    </script>
+    <script>
+        //jQuery time
+        
+        var next_click=document.querySelectorAll(".next_button");
+        var main_form=document.querySelectorAll(".main");
+        var step_list = document.querySelectorAll(".progress-bar li");
+        var num = document.querySelector(".step-number");
+        let formnumber=0;
+        
+        next_click.forEach(function(next_click_form){
+            next_click_form.addEventListener('click',function(){
+                if(!validateform()){
+                    return false
+                }
+               formnumber++;
+               updateform();
+               progress_forward();
+               contentchange();
+            });
+        }); 
+        
+        var back_click=document.querySelectorAll(".back_button");
+        back_click.forEach(function(back_click_form){
+            back_click_form.addEventListener('click',function(){
+               formnumber--;
+               updateform();
+               progress_backward();
+               contentchange();
+            });
+        });
+        
+        var username=document.querySelector("#user_name");
+        var shownname=document.querySelector(".shown_name");
+         
+        
+        var submit_click=document.querySelectorAll(".submit_button");
+        submit_click.forEach(function(submit_click_form){
+            submit_click_form.addEventListener('click',function(){
+               shownname.innerHTML= username.value;
+               formnumber++;
+               updateform(); 
+            });
+        });
+        
+        var heart=document.querySelector(".fa-heart");
+        heart.addEventListener('click',function(){
+           heart.classList.toggle('heart');
+        });
+        
+        
+        var share=document.querySelector(".fa-share-alt");
+        share.addEventListener('click',function(){
+           share.classList.toggle('share');
+        });
+        
+         
+        
+        function updateform(){
+            main_form.forEach(function(mainform_number){
+                mainform_number.classList.remove('active');
+            })
+            main_form[formnumber].classList.add('active');
+        } 
+         
+        function progress_forward(){
+            // step_list.forEach(list => {
+                
+            //     list.classList.remove('active');
+                 
+            // }); 
+            
+             
+            num.innerHTML = formnumber+1;
+            step_list[formnumber].classList.add('active');
+        }  
+        
+        function progress_backward(){
+            var form_num = formnumber+1;
+            step_list[form_num].classList.remove('active');
+            num.innerHTML = form_num;
+        } 
+         
+        var step_num_content=document.querySelectorAll(".step-number-content");
+        
+         function contentchange(){
+             step_num_content.forEach(function(content){
+                content.classList.remove('active'); 
+                content.classList.add('d-none');
+             }); 
+             step_num_content[formnumber].classList.add('active');
+         } 
+         
+         
+        function validateform(){
+            validate=true;
+            var validate_inputs=document.querySelectorAll(".main.active input");
+            validate_inputs.forEach(function(vaildate_input){
+                vaildate_input.classList.remove('warning');
+                if(vaildate_input.hasAttribute('require')){
+                    if(vaildate_input.value.length==0){
+                        validate=false;
+                        vaildate_input.classList.add('warning');
+                    }
+                }
+            });
+            return validate;
+            
+        }
+
+        
+    
+        
+    </script>
+
+ <!-- Vendor Script -->
+
+    <script script type="text/javascript" src="{% static 'js/vendor/jquery/jquery.easing.min.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- User Report Vendor Script-->
+    <script src="{% static 'js/vendor/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/vendor/dataTables.bootstrap4.min.js' %}"></script>
+
+
+    <!-- Custom Script  -->
+    <script script type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/default.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/user_report.js' %}"></script>
+   
+
+    
+    
+
+    {% comment %} <script script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script> {% endcomment %}
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&v=3.exp&sensor=false&libraries=places"></script>
+    
+    {% comment %} <script script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script> {% endcomment %}
+    
+    <script script type="text/javascript" src="{% static 'js/custom1.js' %}"></script>
+    
+
+    {% comment %} <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> {% endcomment %}
+</body>
+
+</html>

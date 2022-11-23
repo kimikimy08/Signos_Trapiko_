@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/sa_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                    <!-- User Report Table  -->
+                    <div class="card shadow mb-5 d-flex ">
+                        <!-- Top Pagination  -->
+                        <div class="card-header py-3">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="general_incident_report.html">General</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="people_incident_report.html">People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="vehicle_incident_report.html">Vehicle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="media_incident_report.html">Media</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="remarks_incident_report.html">Remarks</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                                    {% comment %} <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                        data-target="#collapsePeople" aria-expanded="false"
+                                        aria-controls="collapsePeople">
+                                        <i class='bx bx-plus'></i> Add Person
+                                    </button> {% endcomment %}
+                                    {% comment %} <div class="collapse pt-4" id="collapsePeople"> {% endcomment %}
+                                        <form id="form1" action="{% url 'incident_report_people'  %}" enctype="multipart/form-data" method="post">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputFirstName">First Name</label>
+                                                    {{person_instance.incident_first_name}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputMiddleName">Middle Name</label>
+                                                    <input type="text" class="form-control" id="inputMiddleName"
+                                                        placeholder="---">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputLastName">Last Name</label>
+                                                    <input type="text" class="form-control" id="inputLastName"
+                                                        placeholder="---">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputAge">Age</label>
+                                                    <input type="text" class="form-control" id="inputAddress"
+                                                        placeholder="---">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputGender">Gender</label>
+                                                    <select id="inputGender" class="form-control">
+                                                        <option selected>---</option>
+                                                        <option>Female</option>
+                                                        <option>Male</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputAddress">Address</label>
+                                                <input type="text" class="form-control" id="inputAddress"
+                                                    placeholder="---">
+                                            </div>
+                                            <!-- ================================= -->
+                                            <hr>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputInvolvement">Involvement</label>
+                                                    <select id="inputInvolvement" class="form-control">
+                                                        <option selected>---</option>
+                                                        <option>Pedestrian</option>
+                                                        <option>Witness</option>
+                                                        <option>Passenger</option>
+                                                        <option>Driver</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputID">ID Presented</label>
+                                                    <select id="inputID" class="form-control">
+                                                        <option selected>---</option>
+                                                        <option>Driver's License</option>
+                                                        <option>Government ID</option>
+                                                        <option>Passsport</option>
+                                                        <option>School ID</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputIDNumber">ID Number</label>
+                                                    <input type="text" class="form-control" id="inputIDNumber"
+                                                        placeholder="---">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Injury</label>
+                                                <select id="inputInjury" class="form-control">
+                                                    <option selected>---</option>
+                                                    <option>Fatal</option>
+                                                    <option>Minor</option>
+                                                    <option>Not injured</option>
+                                                    <option>Serious</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Driver Error</label>
+                                                <select id="inputInjury" class="form-control">
+                                                    <option selected>---</option>
+                                                    <option>Bad Overtaking</option>
+                                                    <option>Bad Turning</option>
+                                                    <option>Fatigued / Asleep</option>
+                                                    <option>Inattentive</option>
+                                                    <option>No Signal</option>
+                                                    <option>Too Close</option>
+                                                    <option>Too Fast</option>
+                                                    <option>Using Cellphone</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Alcohol / Drugs</label>
+                                                <select id="inputInjury" class="form-control">
+                                                    <option selected>---</option>
+                                                    <option>Alcohol suspected</option>
+                                                    <option>Drugs suspected</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Seat belt / Helmet </label>
+                                                <select id="inputInjury" class="form-control">
+                                                    <option selected>---</option>
+                                                    <option>Seat belt/Helmet Worn</option>
+                                                    <option>Not worn</option>
+                                                    <option>Not worn correctly</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer mb-3">
+                                            <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                value="Clear">
+                                            <input type="submit" class="btn btn-primary" value="Save">
+                                        </div>
+                                    {% comment %} </div> {% endcomment %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+            </div>
+            <!-- End of Main Content  -->
+
+
+                
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}
+
+
+
+
+

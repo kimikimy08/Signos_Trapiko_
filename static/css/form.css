@@ -1,0 +1,26 @@
+.nav--prev,
+.nav--next,
+.nav--send {
+    text-transform: uppercase;
+    padding: 10px;
+    display: inline-block;
+}
+
+.nav--next,
+.nav--send {
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.nav--next:hover,
+.nav--send:hover {
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+
+

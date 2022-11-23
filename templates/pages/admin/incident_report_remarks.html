@@ -1,0 +1,33 @@
+{% extends "incident_report_home_admin.html" %}
+
+{% block form_if %}{% block form_else %}
+{% csrf_token %}
+    <fieldset>
+        {% comment %} <legend>Title</legend> {% endcomment %}
+        <div>
+            {% comment %} <label>{{ form.field.label }}:<p class="note">{{ form.field.help_text }}</p></label> 
+
+            <hr> {% endcomment %}
+            <div class="form-group">
+                <label for="inputEncodersEmail">Encoder's Email</label>
+                {{profile.user.username}}
+            </div>
+            <div class="form-group">
+                <label for="inputTFTTM">TFTTM First Responder Name</label>
+                {{form.responder}}
+            </div>
+            <div class="form-group">
+                <label for="inputActionsTaken">Actions Taken</label>
+                {{form.action_taken}}
+            </div>
+
+            <p class="error">
+                {% if form.field.errors %}
+                    {% for error in form.field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </fieldset>
+{% endblock %}{% endblock %}

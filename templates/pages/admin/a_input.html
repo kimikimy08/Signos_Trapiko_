@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/upload_csv.css' %} " rel="stylesheet">
+
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+           
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+              <!-- Page Title -->
+              <div class="d-flex bd-highlight">
+                  <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                      <h4>Input CSV - General </h4>
+                  </div>
+              </div>
+
+              <div class="card shadow mb-5 d-flex">
+                  <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {% include 'includes/alerts.html' %}
+                      <input type="file" name="myfile" required>
+    
+                      <button type="submit">Upload</button>
+                      </form>
+                  </div>
+              </div>
+
+<br><br><br>
+          </div>
+          <!-- End of Page Content -->
+
+          <!-- ===== END OF CONTENT  ===== -->
+
+      </div>
+    </div>
+            <!-- ===== END OF CONTENT  ===== -->
+
+
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    
+
+<!-- Include formset plugin - including jQuery dependency -->
+<script script type="text/javascript" src="{% static 'js/upload_csv.js' %}"></script>
+
+{% endblock scripts %}
+

@@ -1,0 +1,114 @@
+/* ========== MAIN FORMAT */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  /* Main Palette */
+  --DarkBlue: #20325A;
+  --ModBlue: #345192;
+  --SoftRed: #EF4B4C;
+  --StrongCyan: #00CC9C;
+  --SoftOrange: #EAA74D;
+  --GrayishBlue: #F7F8FC;
+  --Black: #222;
+  --White: #FFF;
+
+  /* Shadow */
+  --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+
+  /* Sizing  */
+  --normal-font-size: 1rem;
+  --header-height: 3rem;
+  --nav-width: 68px;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  position: relative;
+  margin: var(--header-height) 0 0 0;
+  padding: 0 1rem;
+  font-size: var(--normal-font-size);
+  transition: .5s;
+  background-color: var(--White);
+  color: var(--Black);
+}
+
+/* ========== END OF MAIN FORMAT */
+
+
+.navbar {
+  background-color: var(--GrayishBlue);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.btn {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-sign {
+  color: var(--ModBlue);
+  border-color: var(--ModBlue);
+}
+
+.btn-sign:hover {
+  color: var(--DarkBlue);
+  border-color: var(--DarkBlue);
+}
+
+.btn-register {
+  color: var(--White);
+  border-color: var(--DarkBlue);
+  background-color: var(--ModBlue);
+}
+
+.btn-register:hover {
+  color: var(--White);
+  border-color: var(--ModBlue);
+  background-color: var(--DarkBlue);
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+@media (max-width: 990px) {
+
+  .navbar {
+    padding-left: 0px;
+  }
+
+  .offcanvas-collapse {
+    position: fixed;
+    top: 70px;
+    /* Height of navbar */
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 2rem;
+    overflow-y: auto;
+    visibility: hidden;
+    background-color: var(--GrayishBlue);
+    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+  }
+
+  .offcanvas-collapse.open {
+    visibility: visible;
+    transform: translateX(-100%);
+  }
+}
+
+

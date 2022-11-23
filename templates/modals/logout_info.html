@@ -1,0 +1,33 @@
+{% extends 'modals/baseModal.html' %}
+
+<!-- Modal ID -->
+{% block modal-id %}id="infoModal"{% endblock modal-id %}
+
+
+<!-- Modal Title -->
+{% block modal-title %}
+<i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp; Informative !
+{% endblock modal-title %}
+
+
+<!-- Modal Body -->
+{% block modal-body %}
+<div class="text-center" style="color: #5ca08a">
+    <span class="fa-stack fa-3x">
+        <i class="fas fa-cloud fa-stack-2x"> </i>
+        <i class="fas fa-user-shield fa-stack-1x fa-inverse"></i>
+    </span>
+</div>
+<div class="mt-3">
+    <span class="text-success"> Your account is now secure!</span>
+    <br>
+    <span class="note-info">For your own safety, the system has automatically logged out.</span>
+    <br class="mb-2 mt-2">
+</div>
+{% endblock modal-body %}
+
+{% block modal-footer %}
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    
+{% endblock modal-footer %}
+

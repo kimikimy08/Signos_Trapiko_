@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                    <!-- User Report Table  -->
+                    <div class="card shadow mb-5 d-flex ">
+                        <!-- Top Pagination  -->
+                        <div class="card-header py-3">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'a_incident_report_general_view' general_instance.id %}">General</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'a_incident_report_people_vehicle_main' general_instance.id %}">People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'a_incident_report_vehicle_main' general_instance.id %}">Vehicle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'a_incident_report_media_main' general_instance.id %}">Media</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'a_incident_report_remarks_view' general_instance.id %}">Remarks</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                             
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>Date and Time: </strong>
+                                                {{general_instance.date}} 
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Time: </strong>
+                                                {{general_instance.time}}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <strong>Street Address: </strong>
+                                                {{general_instance.address}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>City: </strong>
+                                                {{general_instance.city}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Zip: </strong>
+                                                {{general_instance.pin_code}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>Latitude: </strong>
+                                                {{general_instance.latitude}}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Longitude: </strong>
+                                                {{general_instance.longitude}}
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>Weather: </strong>
+                                                {% if general_instance.get_weather_display != None %}
+                                                {{general_instance.get_weather_display}}
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Light: </strong>
+                                                {% if general_instance.get_light_display != None %}
+                                                {{general_instance.get_light_display}}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <!-- ================================= -->
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <strong>Severity: </strong>
+                                                {% if general_instance.get_severity_display != None %}
+                                            {{general_instance.get_severity_display}}
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>Accident Factor: </strong>
+                                                {% if general_instance.accident_factor != None %}
+                                                {{general_instance.accident_factor}}
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Collision Type: </strong>
+                                                {% if general_instance.collision_type != None %}
+                                                {{general_instance.collision_type}}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        
+                                        <!-- ================================= -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <strong>Crash Type: </strong>
+                                                {% if general_instance.crash_type != None %}
+                                                {{general_instance.crash_type}}
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <strong>Movement Code: </strong>
+                                                {% if general_instance.movement_code != None %}
+                                                {{general_instance.movement_code}}
+                                                {% endif %}
+                                               
+                                            </div>
+                                        </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <strong>Description: </strong>
+                                            {{general_instance.description}}
+                                        </div>
+                                    </div>
+                                        <!-- ================================= -->
+                                        {% comment %} <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputCrashType">Status</label>
+                                                {{general_instance.user_report.status}}
+                                            </div>
+                                            
+                                        </div> {% endcomment %}
+                                        <!-- ================================= -->
+                                        <br>
+                                        <div class="modal-footer mb-3">
+                                            <button type="button" class="btn btn-info"> <a href="{% url 'a_incident_report_general_edit' general_instance.id %}" class="discard-link"> Edit </a></button>
+                                        </div>
+                                        
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+          
+                <!-- ===== END OF CONTENT  ===== -->
+
+         
+       
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}

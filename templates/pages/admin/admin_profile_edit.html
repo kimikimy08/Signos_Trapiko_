@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+<link href=" {% static 'css/profile.css' %} " rel="stylesheet">
+<link href="{% static 'css/user_account.css' %}" rel="stylesheet"> 
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+               <!-- Page Content -->
+               <main>
+                <div class="container">
+                
+                    <!-- FIRST PART OF USER PROFILE-->
+                    <h1 class="h1"> Edit Profile </h1>
+
+                    <form id="form1" action="{% url 'admin_profile_edit' %}" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+      
+                    <div class="card social-prof">
+                        <div class="card-body-profile">
+                            <div>
+                              {% if profile.profile_picture %}
+                              <img src="{{profile.profile_picture.url}}" class="view-user-img mb-1" alt="Image not Found">
+                              {% else %}
+                              <img src="{% static 'images/user.jpeg' %}" class="view-user-img mb-1" alt="Image not Found">
+                              {% endif %}  
+                                <br>
+                                {% comment %} <button class="photo-btn mt-3" > Take a photo </button> {% endcomment %}
+                               
+                            </div>
+                        </div>
+                    </div>
+        
+        
+                  
+                    <div class="row">
+
+                        <!-- EDIT PROFILE -->
+                        <div class="main col-lg-12 pb-3">
+                            
+                            <!-- BASIC INFORMATION-->
+                            <div class="card p-5">    
+                            
+
+                                <h5 class="h5"> PERSONAL INFORMATION </h5>    
+                                <div class="form-row">
+
+                                    <!-- ======== NAME -->
+                                <div class="form-group col-md-4">
+                                      <label for="inputfirst">First Name</label>
+                                      {{user_form.first_name}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputmiddle">Middle Name</label>
+                                      {{user_form.middle_name}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputlast">Last Name</label>
+                                      {{user_form.last_name}}
+                                    </div>
+                                </div>
+
+                                  
+                                    <!-- =========== BIRTHDATE & MOBILE NUMBER -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                      <label for="inputbirth">Birthdate</label>
+                                      {{profile_form.birthdate}}
+                                    </div>
+                                     <div class="form-group col-md-6">
+                                      <label for="inputmobile">Mobile Number</label>
+                                      {{user_form.mobile_number}}
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                  <div class="form-group col-md-12">
+                                    <label for="inputbirth">Upload Profile Picture</label>
+                                    {{profile_form.profile_picture}}
+                                  </div>
+                              </div>
+
+
+                         
+                            </div>
+
+
+                            <div class="card p-5">
+                           
+
+                              <h5 class="h5"> SECURITY </h5>
+                                  <!-- =========== EMAIL ADDRESS AND PASSWORD -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                      <label for="inputemail" name="username">Username</label>
+                                      {{user_form.username}}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputemail" name="email">Email</label>
+                                        {{user_form.email}}
+                                      </div>
+                                    {% comment %} <div class="form-group col-md-6">
+                                      <label for="inputemail mb-2"> Password </label> <br>
+                                      <h6 class="h6-password">********** </h6><span class="changePass"><button type="button" class="btn-change-pass p-2" data-toggle="modal" data-target="#change-pass-Modal">Change Password</button></span> <!-- Triger the MODAL -->
+                                    </div> {% endcomment %}
+                                </div> 
+
+
+                                <!--============= MODAL -->
+
+                                  <!-- Modal -->
+                                  <div class="modal fade" id="change-pass-Modal" role="dialog">
+                                    <div class="modal-dialog">
+                                    
+                                      <!--=========== MODAL CONTENT ========-->
+                                      <div class="modal-content">
+                                        <div class="modal       -header">
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                          <h4 class="modal-title">Change Password </h4> 
+                                        </div>
+
+                                        <div class="modal-body">
+                                          <h4 class="change-pass-title"> Change Password 
+                                            <span><button type="button" class="btn-close float-right" data-dismiss="modal"><i class="fa fa-xmark fa-sm"></i></button></span> </h4>
+
+                                              <label for="inputnewpass">New Password</label>
+                                                <div class="input-group mb-2">
+                                                  <input type="password" name="password" id="password" class="form-control" data-toggle="password">
+                                                  <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                      <i class="fa fa-eye"></i>
+                                                    </span>
+                                                  </div>
+                                                </div>
+
+                                              <label for="inputnewpass">Confirm New Password</label>
+                                                <div class="input-group">
+                                                  <input type="password" name="password" id="password" class="form-control" data-toggle="password">
+                                                  <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                      <i class="fa fa-eye"></i>
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn-save"> Save Changes </button>
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+
+                                 <!-- =========== CREATED AND UPDATED -->
+                                 <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                   <h6 class="h6">Created at</h6>
+                                   <h6 class="h6"> {{profile.user.created_at}} </h6>
+                                 </div>
+                                  <div class="form-group col-md-6">
+                                   <h6 class="h6">Last Updated </h6>
+                                   <h6 class="h6"> {{profile.updated_at}} </h6>
+                                 </div>  
+                             </div>
+                               
+                         
+                            </div>
+
+                             <div class="text-right">   
+                                <button class="discard-btn mt-3" > Discard </button>
+                                <input type="submit" class="save-myreports-btn" value="Save Changes">
+                            </div>
+                            <!-- END OF EDIT INFORMATION -->
+                </div>
+            </form>
+            </main>
+ 
+            <!-- ===== END OF CONTENT  ===== -->
+
+
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% include 'includes/alerts.html' %}
+
+{% endblock %}

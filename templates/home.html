@@ -1,0 +1,666 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Home </title>
+
+  <!-- Favicon-->
+  <link href="{% static 'images/faviconwhite.png' %}" rel="icon">
+
+  <!-- Boxicons CDN Link - for Icons -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+  <!-- Font Awesome  - Jocelle's Kit for Arrow Icons -->
+  <script src="https://kit.fontawesome.com/d6b7ac4c6c.js" crossorigin="anonymous"></script>
+
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{% static 'css/default.css' %}" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+
+  <!-- Dynamic  -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+  <!-- For youtube  -->
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+
+  <!-- For mobile  -->
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <style>
+    .bg-home-image {
+        background: url("{% static 'images/home/user-img.png' %}");
+        background-position: center;
+        background-size: cover;
+    }
+
+    .bg-quote-image {
+        background: linear-gradient(rgba(40, 58, 90, 0.9), rgba(40, 58, 90, 0.9)), url("{% static 'images/home/qc-circle.jpeg' %}");
+        background-position: center;
+        background-size: cover;
+    }
+</style>
+
+</head>
+
+<body oncontextmenu="return false" onkeydown="return false;" onmousedown="return false;">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+      <a href="index.html" class="logo me-auto"><img src="{% static 'images/home/SignosTrapiko.png' %}" alt=""
+          class="img-fluid"></a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#why-us">Benefits</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
+          <!-- <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li> -->
+          <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <!-- <li><a class="nav-link" href="#sign">Sign In</a></li> -->
+		  {% if user.is_authenticated %}
+		  <li><a class="nav-link signin" href="{% url 'logout' %}">Sign Out</a></li>
+          <li><a class="nav-link register" href="{% url 'login' %}">Home</a></li>
+		  {%else %}
+          <li><a class="nav-link signin" href="{% url 'login' %}">Sign In</a></li>
+          <li><a class="nav-link register" href="{% url 'registration' %}">Register</a></li>
+		  {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+
+    </div>
+  </header>
+  <!-- End Header -->
+
+  {% block auto-logout %}
+  {% endblock auto-logout %}  
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+          data-aos="fade-up" data-aos-delay="200">
+          <h1><b>Signos Trapiko:</b> Traffic Incident Report Management System</h1>
+          <h2>Designed to assist in traffic resolution and road development decisions in Quezon City</h2>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <!-- System Teaser  -->
+            <a href="https://www.youtube.com/watch?v=hL4ER5Pf6jM" class="glightbox btn-get-started scrollto"> <i
+                class="bi bi-play-circle"></i> Play Video </a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{% static 'images/home/hero-car-crash.png' %}" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content">
+          <p>
+            Link Technologies decided to make a platform for the convenience of its users and to readily provide data
+            analytics that
+            assists the authorities in deciding and planning Quezon city’s traffic safety.
+            <br> <br>
+            We introduce you to Signos Trapiko, a web application that allows public users to send reports at any time
+            while
+            providing proof of video or photo. Now, the Task Force members can also submit their reports directly to
+            the system which in just a few clicks will create a data visualization.
+          </p>
+        </div>
+      </div>
+
+      </div>
+    </section>
+    <!-- End About Us Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="count-box">
+              <i class='bx bx-user-voice'></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Public Users</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="count-box">
+              <i class='bx bxs-city' style="color: #ee6c20;"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="142" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Barangay</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+            <div class="count-box">
+              <i class="bi bi-headset" style="color: #15be56;"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="123" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Reports</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+            <div class="count-box">
+              <i class="bi bi-people" style="color: #bb0852;"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Hard Workers</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Counts Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us section-bg">
+      <div class="container-fluid" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch order-2 order-lg-3">
+
+            <div class="content">
+              <div class="section-title">
+                <h2>We Offer</h2>
+              </div>
+            </div>
+
+            <div class="accordion-list">
+              <ul>
+                <li>
+                  <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span>
+                    Data Analytics <i class="bx bx-chevron-down icon-show"></i><i
+                      class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
+                    <p>
+                      Our web application can generate data visualizations of the traffic incident reports for Task
+                      Force for Transport and Traffic Management (TF-TTM) to assist them in better visualizing the data
+                      and providing solutions. </p>
+                  </div>
+                </li>
+
+                <li>
+                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span>
+                    Better Assistance <i class="bx bx-chevron-down icon-show"></i><i
+                      class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
+                    <p>
+                      Using this web application, TF-TTM may quickly and efficiently develop solutions. Additionally, it
+                      will assist Quezon City TF-TTM in preventing traffic incidents. </p>
+                  </div>
+                </li>
+
+                <li>
+                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span>
+                    Public User's Convenience <i class="bx bx-chevron-down icon-show"></i><i
+                      class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list-3" class="collapse" data-bs-parent=".accordion-list">
+                    <p>
+                      Whenever they encounter a traffic incident, motorists, commuters, pedestrians, students,
+                      professionals, and others can submit a report. This will make it easier for TF-TTM to identify the
+                      incident's location and specifics. </p>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+
+          </div>
+
+          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img bg-home-image"
+             data-aos="zoom-in" data-aos-delay="150">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Why Us Section -->
+
+    <!--  Services Section  -->
+    <!-- <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>We Offer</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+            consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit
+            in iste officiis commodi quidem hic quas.</p>
+        </div>
+        <div class="row">
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class='bx bxs-report'></i></div>
+              <h4><a href="">Service 1</a></h4>
+              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+            data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class='bx bxs-report'></i></i></div>
+              <h4><a href="">Service 2</a></h4>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in"
+            data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class='bx bxs-report'></i></i></div>
+              <h4><a href="">Service 3</a></h4>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in"
+            data-aos-delay="400">
+            <div class="icon-box">
+              <div class="icon"><i class='bx bxs-report'></i></div>
+              <h4><a href="">Service 4</a></h4>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- End Services Section -->
+
+    <!--  quote Section  -->
+    <section id="quote" class="bg-quote-image quote">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="row">
+          <div class="col-lg-12 text-center text-lg-start">
+            <h1> An application for a better and secure transportation <br> . . .</h1>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- End quote Section -->
+
+    <!--  Testimonials Section -->
+    <!-- <section id="testimonials" class="testimonials section-bg">
+      <div class="container" data-aos="fade-up">
+        <header class="section-title">
+          <h2>Testimonials</h2>
+          <p>What they are saying about us</p>
+        </header>
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium
+                  quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/team/antolin.png" class="testimonial-img" alt="">
+                  <h3>User</h3>
+                  <h4>Occupation</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium
+                  quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/team/cruz.png" class="testimonial-img" alt="">
+                  <h3>User</h3>
+                  <h4>Occupation</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium
+                  quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/team/chan.png" class="testimonial-img" alt="">
+                  <h3>User</h3>
+                  <h4>Occupation</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section> -->
+    <!-- End Testimonials Section -->
+
+
+    <!--  Frequently Asked Questions Section  -->
+    <section id="faq" class="faq section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Frequently Asked Questions</h2>
+          <p> Want to know more about Signos Trapiko?</p>
+        </div>
+
+        <div class="faq-list">
+          <ul>
+            <li data-aos="fade-up" data-aos-delay="100">
+              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse"
+                data-bs-target="#faq-list-1"> How to Register?
+                <i class="bx bx-chevron-down icon-show"></i>
+                <i class="bx bx-chevron-up icon-close"></i></a>
+              <div id="faq-list-1" class="collapse" data-bs-parent=".faq-list">
+                <img src="{% static 'images/faq/register.png' %}" alt="" srcset="">
+                <p>
+
+                </p>
+              </div>
+            </li>
+
+            <li data-aos="fade-up" data-aos-delay="200">
+              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2"
+                class="collapsed">How to Submit an Incident Report?
+                <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+              <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
+                <img src="{% static 'images/faq/submit_report.png' %}" alt="" srcset="">
+                <p>
+
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Frequently Asked Questions Section -->
+
+    <!--  Team Section  -->
+    <section id="team" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>MEET OUR TEAM</h2>
+          <p>We are the Link Technologies group from the FEU Institute of Technology specializing in Service Management
+            and Business Analytics in the field of Information Technology.
+          </p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+              <div class="pic"><img src="{% static 'images/team/adviser.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Corazon Fernando-Raguro, PhD</h4>
+                <span></span>
+                <p>Project Mentor | Adviser</p>
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/mfraguro2020/" target="blank"><i class='bx bxl-linkedin'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=mgfernando@feutech.edu.ph"
+                    target="blank"><i class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="200">
+              <div class="pic"><img src="{% static 'images/team/chan.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Kimberly Gayle Chan</h4>
+                <span></span>
+                <p>Project Manager | Web Back-End Developer</p>
+                <div class="social">
+                  <a href="https://www.facebook.com/xinyi.kimgayle/" target="blank"><i class='bx bxl-facebook'></i></a>
+                  <a href="https://www.linkedin.com/in/kimberly-chan0288/" target="blank"><i
+                      class='bx bxl-linkedin'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=chan.kim0288@gmail.com" target="blank"><i
+                      class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="300">
+              <div class="pic"><img src="{% static 'images/team/antolin.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Patricia Veronica Antolin</h4>
+                <span></span>
+                <p>UI & UX Designer | Web Front-End Developer</p>
+                <div class="social">
+                  <a href="https://www.facebook.com/Tricia.Antolin14" target="blank"><i class='bx bxl-facebook'></i></a>
+                  <a href="https://www.linkedin.com/in/patricia-antolin-809170235/" target="blank"><i
+                      class='bx bxl-linkedin'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=tricia.veronica14@gmail.com"
+                    target="blank"><i class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+              <div class="pic"><img src="{% static 'images/team/cruz.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Maria Jocelle Cruz</h4>
+                <span></span>
+                <p>UI & UX Designer | Web Front-End Developer</p>
+                <div class="social">
+                  <a href="https://www.facebook.com/mariajocelle.cruz/" target="blank"><i
+                      class='bx bxl-facebook'></i></a>
+                  <a href="https://www.linkedin.com/in/maria-jocelle-cruz/" target="blank"><i
+                      class='bx bxl-linkedin'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=jocellecruz13@gmail.com" target="blank"><i
+                      class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+              <div class="pic"><img src="{% static 'images/team/lapuz.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>James Bryan Lapuz</h4>
+                <span></span>
+                <p>Editor | Communicator</p>
+                <div class="social">
+                  <a href="https://www.facebook.com/profile.php?id=100033000343008" target="blank"><i
+                      class='bx bxl-facebook'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=james.lapuz105@gmail.com"
+                    target="blank"><i class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+              <div class="pic"><img src="{% static 'images/team/mangalus.png' %}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Gabriel Jason Mangalus</h4>
+                <span></span>
+                <p>Editor | Communicator</p>
+                <div class="social">
+                  <a href="https://www.facebook.com/gabrielle.mangalus" target="blank"><i
+                      class='bx bxl-facebook'></i></a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=gjm2599@gmail.com" target="blank"><i
+                      class='bx bxl-gmail'></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Team Section -->
+
+    <!--  Contact Section  -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact Us</h2>
+          <p>
+
+          </p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h4>Location:</h4>
+                <p>FEU Institute of Technology</p>
+              </div>
+
+              <div class="email">
+                <i class="bi bi-envelope-fill"></i>
+                <h4>Email:</h4>
+                <p>linktechnologies2022@gmail.com</p>
+              </div>
+
+              <div class="page">
+                <i class="bi bi-facebook"></i>
+                <h4>Facebook:</h4>
+                <p>fb.com/feutech.linktechnologies</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.9114666827845!2d120.9864360148403!3d14.604118989800257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9f8b14eb259%3A0xad4d12caac9a068e!2sFEU%20Institute%20of%20Technology!5e0!3m2!1sen!2sph!4v1665750959113!5m2!1sen!2sph"
+              frameborder="0" style="border:0; width: 100%; height: 300px;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Contact Section -->
+
+  </main>
+  <!-- End #main -->
+
+  <!--  Footer  -->
+  <footer id="footer">
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        Copyright &copy; 2022-2023: <strong><span>Signos Trapiko</span></strong>. All Rights Reserved.
+      </div>
+      <div class="credits">
+        By: <a href="#">Link Technologies</a>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+  <!-- include Modal -->
+{% include 'modals/logout.html' %}
+{% include 'modals/logout_info.html' %}
+{% include 'modals/logout_warning.html' %}
+
+<!-- Auto logout-->
+{% for message in messages %}
+        {% if message.tags == 'info' %}
+        <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
+  <script>
+      $(document).ready(function(){
+          $('#infoModal').modal('show');
+      });
+  </script>
+        {% endif %}
+{% endfor %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,369 @@
+/*============ MAIN CONTENT */
+
+.h1{
+    font-size: 20px;
+    color:#345192;
+}
+
+.card {
+    margin-bottom: 35px;
+    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
+    border: none;
+}
+
+.card-body-profile{
+    background-color: #FEEFCA;
+}
+
+.social-profile {
+    color: #fff;
+}
+
+.social-profile a {
+    color: #fff;
+}
+
+.social-profile {
+    position: relative;
+    margin-bottom: 150px;
+}
+
+.social-profile .profilepicture {
+    position: absolute;
+    bottom: -75px;
+    width: 250px;
+    height: auto;
+    border-radius: 50rem;
+    left: 50px;
+}
+
+
+.social-nav {
+    position: absolute;
+    bottom: 0;
+}
+
+.social-prof {
+    color: #333;
+    text-align: center;
+}
+
+.social-prof .wrapper {
+    width: 70%;
+    margin: auto;
+    margin-top: -100px;
+}
+
+.social-prof img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 5px solid #fff;
+}
+
+.social-prof h3 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.social-prof p {
+    font-size: 18px;
+}
+
+.social-prof .nav-tabs {
+    border: none;
+}
+
+.card .nav>li {
+    position: relative;
+    display: block;
+}
+
+.card .nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    font-weight: 300;
+    border-radius: 4px;
+}
+
+.card .nav>li>a:focus,
+.card .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #eee;
+}
+
+.card .s-nav>li>a.active {
+    text-decoration: none;
+    background-color: #3afe;
+    color: #fff;
+}
+
+.text-blue {
+    color: #3afe;
+}
+
+
+.info-card h4 {
+    font-size: 15px;
+}
+
+.info-card h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.social-about .social-info {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.social-about p {
+    margin-bottom: 20px;
+}
+
+.info-card i {
+    color: #3afe;
+}
+
+
+.card-title, .card .card-title, .card-2 .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+a {
+    color: #333;
+}   
+
+.center{
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+.nav-item{
+    color: #345192;
+}
+    
+.img{
+    background-image: linear-gradient(to left,#20325A, #00CC9C); 
+    height: 250px; 
+    background-size: cover;
+}
+
+.about{
+    color: #345192;
+    font-size: 25px;
+    text-decoration: underline;
+}
+
+.photo-btn{
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 150px;
+    height: 35px;
+    color: #808080;
+    background: #ddd;
+    border: none;
+
+}
+
+.photo-btn:hover{
+    color: #808080;
+    background: #d4d4d4;
+    border: none;
+
+}
+
+.h5{
+    color: #494848;
+    font-weight: 600;
+}
+
+.h6{
+    margin-bottom: 10px;
+    color: #636363;
+}
+
+
+.h6-password{
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #636363;
+    width: 200px;
+    height: 38px;
+    padding:10px;       
+    display: inline-block;
+}
+
+.btn-change-pass{
+    border: none;
+    background-color: #fff;
+    color: #494848 ;
+    font-size: 10px;
+}
+
+.btn-change-pass:hover{
+    color: #3afe;
+    text-decoration:underline ;
+}
+
+.btn-save{
+    width:115px;
+    height: 35px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none; 
+    background: #345192;
+    color: #fff;
+}
+
+.btn-save:hover{
+    background-color: #1357a6;
+}
+
+.btn-close{
+    border-radius: 8px;
+    border: none;
+    background-color: #fff;
+    color:  #aaaaaa;
+}
+
+.save-btn{
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    background: #345192;
+    border: none;
+}
+
+.save-btn:hover{
+    background-color: #1357a6;
+}
+
+.discard-btn{
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    background: #909090;
+    border: none;
+
+}
+
+.discard-btn:hover{
+    color: #fff;
+    background: #b4b4b4;
+
+}
+
+.member-btn{
+  border-radius: 50px;
+  width: 100px;
+  height: auto;
+  color: #fff;
+  background: #EAA74D;
+  border: none;
+
+}
+
+
+.add-incident{  
+    font-size: 15px;        
+    text-align: right;
+}
+
+.add-incident-btn{
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.add-incident-btn:hover{
+    text-decoration: underline;    
+    color: #345192;
+}
+
+.incident-title{
+    font-size: 20px;
+    color: #345192;
+    font-weight: 600;
+}
+
+.padding-title{
+    margin-right: 20px;
+}
+
+.viewReport-img{
+    width: 100%;
+    height:  auto;
+    margin: 5px 5px 5px 5px;
+}
+
+
+.btn-{
+    background-color: #EAECF4;
+
+}
+
+.discard-myreports-btn{
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    font-size: 14px;
+    color: #fff;
+    background: #909090;
+    border: none;
+}
+
+.discard-myreports-btn:hover{
+    color: #fff;
+    background: #b4b4b4;
+}
+
+.save-myreports-btn{
+    width:115px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none; 
+    background: #345192;
+    color: #fff;
+}
+
+.save-myreports-btn:hover{
+    background-color: #1357a6;
+}
+
+.discard-link{
+    text-decoration: none;
+    color: #fff;
+}
+
+.discard-link:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.photos-side{
+    height: auto;
+    max-width: 100%;
+}
+
+video {
+    max-width: 100%;
+    height: auto;
+  }
+
+/*MAIN CONTENT*/

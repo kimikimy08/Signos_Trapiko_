@@ -1,0 +1,52 @@
+{% load static %}
+
+<!-- Start of Sidebar -->
+<ul class="navbar-nav sidebar sidebar-dark accordion fixed" id="accordionSidebar">
+
+    <!-- Signos Logo-->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+        <div class="sidebar-brand-icon">
+           <img src="{% static 'images/faviconwhite.png' %}" alt="" srcset="">
+        </div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Sidebar Heading  -->
+    <div class="sidebar-heading">Access</div>
+
+    <!-- My Reports -->
+    <li class="{% if '/myReport' == request.path or '/myReport/pending' == request.path or '/myReport/approved' == request.path or '/myReport/rejected' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'my_report' %}">
+        {% comment %} <a class="nav-link" href="{% url 'incident_form_member' %}"> {% endcomment %}
+            <i class='bx bx-file-blank'></i>
+            <span class="">My Reports</span></a>
+    </li>
+
+    <!-- My Profile-->
+    <li class="{% if '/member/profile/' == request.path %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'member_profile' %} ">
+            <i class='bx bx-user'></i>
+            <span class="">My Profile</span></a>
+    </li>
+
+    <!-- Inbox -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'm_inbox' %}">
+            <i class="fa-solid fa-inbox"></i>
+            <span class="">Inbox</span></a>
+    </li> 
+
+    <!-- Sign Out  -->
+    <li class="nav-item">
+        <a href="" class="nav-link" data-toggle="modal" data-target="#logoutModal">
+            <i class='bx bx-log-out'></i>
+            <span class="">Sign Out</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+</ul>
+<!-- End of Sidebar -->

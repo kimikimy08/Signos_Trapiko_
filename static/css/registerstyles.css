@@ -1,0 +1,74 @@
+
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+        :root {
+        /* Main Palette */
+        --DarkBlue: #20325A;
+        --ModBlue: #345192;
+        --SoftRed: #EF4B4C;
+        --StrongCyan: #00CC9C;
+        --SoftOrange: #EAA74D;
+        --GrayishBlue: #F7F8FC;
+        --Black: #222;
+        --White: #FFF;
+        }
+
+
+
+        body{
+            
+        
+            font-family: "Poppins", sans-serif;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        h1{
+            font-size:25px;
+        }
+        
+        p{
+            margin-top: -10px;
+            font-size: 13px;
+        }
+        
+        #registerform{
+            width: 1000px;
+            background:#F7F8FC;
+            font-size: 10px;
+            box-shadow: rgba(0, 0, 0, 0.10) 0px 2px 10px;
+            border-radius: 3px;
+            position: relative;
+            padding: 20px 25px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+        
+
+        #log{
+            text-decoration:none;
+            color:#000;
+        }
+
+        #log:hover{
+            color:#EF4B4C;
+            text-decoration:underline;  
+        }
+
+
+        .center{
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signin{
+            margin-top: 15px;
+        }
+
+        .text-danger p{
+            color: red;
+        }
+

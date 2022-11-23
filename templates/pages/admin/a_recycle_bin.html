@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/user_account.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_reports.css' %}" rel="stylesheet">
+
+
+{% endblock styles %}
+
+{% block content %}
+
+{% include 'includes/a_sidebar.html' %}
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        {% include 'includes/navbar.html' %}
+
+
+
+        <!-- ===== INSERT CONTENT HERE  ===== -->
+
+        <!-- Main Section Start -->
+        <!-- Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Title -->
+            <div class="d-flex bd-highlight">
+                <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                    <h4>Recycle Bin - Incident Report</h4>
+                </div>
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 bd-highlight">
+                        {% comment %} <a href="{% url 'attributes_builder_accident_add' %}" title ="Add User"
+                            class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
+                            <i class='bx bx-user-plus'></i> Add Accident Factor</a> {% endcomment %}
+                            {% comment %} <a href="{% url 'attributes_builder_accident_add_sub'%}" title ="Add User"
+                            class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
+                            <i class='bx bx-user-plus'></i> Add Accident Factor Sub Category</a> {% endcomment %}
+
+                        <!-- <a href="#add2"
+                            class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight"
+                            data-toggle="modal" data-toggle="tooltip">
+                            <i class='bx bx-user-plus'></i> Add User</a> -->
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- User Report Table  -->
+            <div class="card shadow mb-5 d-flex ">
+      
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <form id="form1" action="{% url 'a_recycle_bin' %}" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            
+                            {% if incidentReports %}
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bulkrestoreModal">Restore</a>
+                                    <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#bulkdeleteModal">Delete Forever</a>
+                                </div>
+                        <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                            style="cursor: pointer;" cellspacing="0">
+
+                            <!-- Table Header  -->
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Description</th>
+                                    <th>Location</th>
+                                    <th>Accident Factor</th>
+                                    <th>Collision Type</th>
+                                    <th>Crash Type</th>
+                                    {% comment %} <th>Accident Factor</th>
+                                    <th>Collision Type</th> {% endcomment %}
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    {% comment %} <th>Settings</th> {% endcomment %}
+                                </tr>
+                            </thead>
+
+                            <!-- Table Body  -->
+                            <tbody>
+                                        
+                                {% for incident in incidentReports %}
+                                {% if incident.user.username %}
+                                <tr>
+                                    {% if incident.status == 2 %}
+                                    <td>
+                                        {% comment %} <input type="checkbox" name="{{incident.id}}" id="check" disabled> {% endcomment %}
+                                    </td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="{{incident.id}}" id="check"></td>
+                                    {% endif %}
+                                    <td>{{incident.user.username}}</td>
+                                    <td>{% if incident.user.role %}{{incident.user.get_role}}{% endif %}</td>
+                                    <td>{{incident.description}}</td>
+                                    <td>{{incident.address}}</td>
+                                    <td>{{incident.accident_factor}}</td>
+                                    <td>{{incident.collision_type}}</td>
+                                    <td>{{incident.crash_type}}</td>
+                                    {% comment %} <td>{{incident__incident_general.accident_factor}}</td>
+                                    <td>{{incident.collision_type}}</td> {% endcomment %}
+                                    <td>{{incident.date}}</td>
+                                    <td>{{incident.time}}</td>
+                                    <td>
+                                        {% if incident.status == 1 %}
+                                        <span class="badge badge-warning">{{incident.get_status}}</span>
+                                        {% elif incident.status == 2 %}
+                                        <span class="badge badge-success">{{incident.get_status}}</span>
+                                        {% elif incident.status == 3 %}
+                                        <span class="badge badge-danger">{{incident.get_status}}</span>
+                                        {% endif %}
+                                    </td>
+                                    {% comment %} <td>
+                                            {% if incident.status == 2 %} 
+                                            {% else %}     
+                                            <a href="#" data-toggle="modal" data-target="#deleteModal{{ incident.id }}"><i class='bx bx-trash'
+                                                data-toggle="tooltip" title="Delete" ></i></a>
+                                                {% endif %}
+                                    </td> {% endcomment %}
+                                    
+                                </tr>
+                                        <!-- Delete Modal HTML -->
+                        <div class="modal fade" id="deleteModal{{ incident.id }}" tabindex="-1" role="dialog" aria-labelledby="usermodal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete this account?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                                <div class="modal-body">
+                                    <h6>Are you sure you want to move this file to the Recycle Bin?</h6>
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        
+                            
+                                
+                                            <a class="btn btn-sm btn-danger" value="Delete Forever" name="Delete Forever" href="{% url 'user_report_delete' incident.id %}">Yes</a>
+                                    
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BULK Delete Modal HTML -->
+<div class="modal fade" id="bulkdeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete this account?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+<div class="modal-body">
+    <h6>Are you sure you want to permanently delete the incident report?</h6>
+</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        
+
+        <input type="submit" class="btn btn-sm btn-danger" value="Yes" name="Yes">
+            {% comment %} <a class="btn btn-sm btn-danger" href="{% url 'my_report_delete' incident.id %}">Delete</a> {% endcomment %}
+    
+        </div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="bulkrestoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Restore this account?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+    <div class="modal-body">
+        <h6>Are you sure you want to restore the incident report?</h6>
+    </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            
+    
+            <input type="submit" class="btn btn-sm btn-danger" value="Restore" name="Restore">
+                {% comment %} <a class="btn btn-sm btn-danger" href="{% url 'my_report_delete' incident.id %}">Delete</a> {% endcomment %}
+        
+            </div>
+    </div>
+    </div>
+    </div>
+                        {% endif %}
+                                {% endfor %}
+                            </tbody>
+                            <!-- End of Table Body  -->
+
+                        </table>
+                        {% else %}
+
+                        <h5 class="text-center">No Incident Report Added.</h5>
+                             
+                        {% endif %}
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End of User Report Table  -->
+              <!--Pagination-->
+              {% if accident_factor %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+        {% if accident_factor.has_previous %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ accident_factor.previous_page_number }}">Previous</a>
+          </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+          </li>
+        {% endif %}
+
+        {% if accident_factor.number|add:'-4' > 1 %}
+            <li class="page-item"><a class="page-link" href="?page={{ accident_factor.number|add:'-5' }}">&hellip;</a></li>
+        {% endif %}
+
+        {% for i in accident_factor.paginator.page_range %}
+            {% if accident_factor.number == i %}
+                <li class="page-item active" aria-current="page">
+              <span class="page-link">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+            {% elif i > accident_factor.number|add:'-5' and i < accident_factor.number|add:'5' %}
+                 <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if accident_factor.paginator.num_pages > accident_factor.number|add:'4' %}
+           <li class="page-item"><a class="page-link" href="?page={{ accident_factor.number|add:'5' }}">&hellip;</a></li>
+        {% endif %}
+
+        {% if accident_factor.has_next %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ accident_factor.next_page_number }}">Next</a>
+          </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+    <!--end of Pagination-->
+        </div>
+        <!-- End of Page Content -->
+         </div>
+
+        <!-- Main Section End -->
+        <!-- ===== END OF CONTENT  ===== -->
+ <!-- Scroll to Top-->
+ <a class="scroll-to-top rounded" href="#scroll-up">
+    <i class='bx bxs-up-arrow'></i>
+</a>
+<!-- End of Scroll to Top-->
+
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+
+{% endblock %}

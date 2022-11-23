@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+
+<link href="{% static 'css/user_account.css' %}" rel="stylesheet"> 
+<link href=" {% static 'css/profile.css' %} " rel="stylesheet">
+
+{% endblock styles %}
+
+
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+           <!-- ===== MAIN CONTENT  ===== -->
+
+                <!-- Page Content -->
+                <main>
+                    <div class="container">
+                    
+                        <!-- FIRST PART OF USER PROFILE-->
+                        <h1> My Profile </h1>
+          
+                        <div class="card social-prof">
+                            <div class="card-body-profile">
+                                <div>
+                                    {% if profile.profile_picture %}
+                                <img class="thumbnail" src="{{profile.profile_picture.url}}" alt="Profile Picture">
+                                {% else %}
+                                <img class="thumbnail" src="{% static 'images/user.jpeg' %}" alt="Profile Picture">
+                                {% endif %}   
+                                <h3 class="text-center">{{profile.user.first_name}} {{profile.user.last_name}}</h3>
+                                <button class="member-btn mt-3" > {{profile.user.get_role}} </button>
+                                <a href="{% url 'admin_profile_edit' %}"><button class="edit-btn mb-3" type="button" href=""> Edit</button></a>
+                                </div>
+                            </div>
+                        </div>
+            
+            
+                      
+                        <div class="row">
+                            <!-- LEFT MOST BOXES -->
+                            <div class="col-lg-4">
+                                
+                                <!-- BASIC INFORMATION-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="about mb-2"> About You </div>
+                                        <div class ="basic-info pb-1"><strong>Name:</strong> {{profile.user.first_name}} {{profile.user.middle_name}} {{profile.user.last_name}}</div>  <!--Show Backend-->
+                                    <div class="basic-info pb-1"><strong> Birthday:</strong> {{profile.birthdate}} </div> <!--Show Backend-->
+                                    <div class="basic-info pb-1"><strong> Mobile number:</strong>  {{profile.user.mobile_number}} </div> <!--Show Backend-->
+                                    </div>
+                                </div>
+                                <!-- END OF BASIC INFORMATION-->
+
+                                <!-- PUBLISHED REPORTS-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="published-text"> <strong> Pending Report </strong></div>
+                                        <div class="published-text">{{incidentReports | length}}</div> <!-- SHOW BACKEND-->
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!-- END OF LEFT MOST BOXES-->
+            
+                            
+            
+            
+
+            
+                            <div class="col-lg-8 gedf-main">
+                                
+                                <!--REPORT PROCESS-->
+                                <div class="card social-timeline-card">
+                                    <div class="card-header">
+                                        <h5 >Reports</h5> 
+                                        <hr>
+                                        <ul class="nav nav-tabs card-header-tabs mt-4" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="{% if '/admins/profile/' == request.path %} nav-link active {% else %} nav-item {% endif %}" href="{% url 'admin_profile' %}">All Reports</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="{% if '/admins/profile/pending/' == request.path %} nav-link active {% else %} nav-item {% endif %}" href="{% url 'admin_profile_pending' %}">Pending</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="{% if '/admins/profile/approved/' == request.path %} nav-link active {% else %} nav-item {% endif %}" href="{% url 'admin_profile_approved' %}">Approved</a>
+                                            <li class="nav-item">
+                                                <a class="{% if '/admins/profile/rejected/' == request.path %} nav-link active {% else %} nav-item {% endif %}" href="{% url 'admin_profile_rejected' %}">Rejected</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                                <!-- END OF REPORT PROCESS -->
+                                {% if incidentReports %}
+                            {% for incident in incidentReports %}
+
+                                <!--- \\\\\\\Post-->
+                                <div class="card social-timeline-card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">
+                                                    <img class="rounded-circle" width="45" src="images/sampleprofile.jpg" alt="">
+                                                </div>
+                                                <div class="ml-2">
+                                                    <div class="h5 m-0 text-blue">{{profile.user.first_name}}</div>
+                                                    <div class="text-muted mb-1"> <i class="fa fa-clock-o fa-xs"></i> {{incident.created_at}}</div>
+    
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body"> <!-- BACKEND SHOW-->
+                                        {% if incident.upload_photovideo %}
+                                        {% if  ".jpg" in incident.upload_photovideo.url or ".png" in incident.upload_photovideo.url or ".jpeg" in incident.upload_photovideo.url %}
+                                        <div style="padding-bottom: 10px">
+                                        <img src="{{incident.upload_photovideo.url}}" alt="Profile Picture" class="photos-side">
+                                        </div>
+                                        {% else %}
+                                        <video controls>
+                                            <div style="padding-bottom: 10px">
+                                            <source src={{incident.upload_photovideo.url}} type="video/mp4">
+                                            </div>
+                                          Your browser does not support the video tag.
+                                          </video>
+                                        {% comment %} <a src="{{incident.upload_photovideo.url}}"> {% endcomment %}
+                                        {% endif %}{% endif %}
+    
+
+                                        <table>
+                                            
+                                            <tr>
+                                                <td> <p class = "padding-title"><strong>Address</strong></p></td>
+                                                <td> <p class ="padding">{{incident.address}} </p> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> <p class = "padding-title"><strong>Description</strong></p></td>
+                                                <td> <p class="padding"> {{incident.description}}</p> </td>
+                                            </tr>
+
+                                            
+                                        </table>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        {% if incident.get_status == 'Pending'%}
+                                            <span class="badge badge-primary">{{incident.get_status}}</span>
+                                            {% elif incident.get_status == 'Approved'%}
+                                            <span class="badge badge-primary-approved">{{incident.get_status}}</span>
+                                            {% elif incident.get_status == 'Rejected'%}
+                                            <span class="badge badge-primary-rejected">{{incident.get_status}}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+    
+                                    {% endfor %}
+                                    {% else %}
+    
+                            <h5 class="text-center">No User Report.</h5>
+                                 
+                            {% endif %}
+    
+                                
+                                
+                                <!-- Post /////-->
+                            </div>
+                           
+                        </div>
+                    </div>
+                </main>
+                <!-- End of Page Content -->
+                <!-- ===== END OF CONTENT  ===== -->
+
+            </div>
+            <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+{% endblock %}

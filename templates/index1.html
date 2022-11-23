@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+
+
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/m_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+<!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Generate Buttons -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Today's Incident Location</h4>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <a href="{% url 'superadmin_dashboard' %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
+                                <i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                        </div>
+                        <!-- <div class="p-2 bd-highlight">
+                            <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm bd-highlight">
+                                <i class="bx bxs-download"></i> Export</a>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <!-- Line Graph -->
+                        <div class="col-xl-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Quezon City Map</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div>
+                            
+                                        <div>
+                                  
+                                            <div class="container">
+                                                <div class="row mt-4">
+                                                    <div class="col-md-10 offset-md-1">
+                                                        <form method="post">
+                                                            {% csrf_token %}
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Filter Reports</h4>
+
+                                                                
+
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>From</label>
+                                                                    <input type="date" name="fromdate" class="form-control date" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Until</label>
+                                                                    <input type="date" name="todate" class="form-control date" required>
+                                                                </div>
+                                                                <label class="text-danger">Please ensure that the correct dates has been selected.</label>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                                <input type="submit" class="save-myreports-btn" value="Save Changes">
+                                                            </div>
+                                                        </form>
+                                                        {{ map1|safe }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Line Graph -->
+                    </div>
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+            
+
+
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+{% endblock %}
+

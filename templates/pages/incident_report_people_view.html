@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+{% if profile.user.role == 2 %}
+{% include 'includes/a_sidebar.html' %}
+{% elif profile.user.role == 3 %}
+{% include 'includes/sa_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <strong>First Name: </strong>
+                                            {% if person_instance.incident_first_name != None %}
+                                            {{person_instance.incident_first_name}}
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <strong>Middle Name: </strong>
+                                            {% if person_instance.incident_middle_name != None %}
+                                            {{person_instance.incident_middle_name}}
+                                            {% endif %}
+                                
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <strong>Last Name: </strong>
+                                            {% if person_instance.incident_last_name != None %}
+                                            {{person_instance.incident_last_name}}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <strong>Age: </strong>
+                                            {% if person_instance.incident_age != None %}
+                                            {{person_instance.incident_age}}
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <strong>Gender: </strong>
+                                            {% if person_instance.incident_gender != None %}
+                                            {{person_instance.incident_gender}}
+                                            {% endif %}
+                                
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <strong>Address: </strong>
+                                            {% if person_instance.incident_address != None %}
+                                            {{person_instance.incident_address}}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                            <!-- ================================= -->
+                                            <hr>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <strong>Involvement: </strong>
+                                                    {% if person_instance.incident_involvement != None %}
+                                                    {{person_instance.incident_involvement}}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <strong>ID Presented: </strong>
+                                                    {% if person_instance.incident_id_presented != None %}
+                                                    {{person_instance.incident_id_presented}}
+                                                    {% endif %}
+                                        
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <strong>ID Number: </strong>
+                                                    {% if person_instance.incident_id_number != None %}
+                                                    {{person_instance.incident_id_number}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <strong>Injury: </strong>
+                                                    {% if person_instance.incident_injury != None %}
+                                                    {{person_instance.incident_injury}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <strong>Driver Error: </strong>
+                                                    {% if person_instance.incident_driver_error != None %}
+                                                    {{person_instance.incident_driver_error}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <strong>Alcohol / Drugs: </strong>
+                                                    {% if person_instance.incident_alcohol_drugs != None %}
+                                                    {{person_instance.incident_alcohol_drugs}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <strong>Seat belt / Helmet: </strong>
+                                                    {% if person_instance.incident_seatbelt_helmet != None %}
+                                                    {{person_instance.incident_seatbelt_helmet}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                        <div class="modal-footer mb-3">
+                                            {% comment %} <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                value="Clear"> {% endcomment %}
+                                            {% comment %} <input type="submit" class="btn btn-primary" value="Edit"> {% endcomment %}
+                                            <button type="button" class="btn btn-primary"> <a href="{% url 'incident_report_people_edit' general_instance.id person_instance.id %}" style="text-decoration: none; color: white;">Edit</a Edit </a></button>
+                                           
+                                        </div>
+                                    </div>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+            </div>
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+        </div>
+       
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+{% endif %}
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}
+
+
+
+
+

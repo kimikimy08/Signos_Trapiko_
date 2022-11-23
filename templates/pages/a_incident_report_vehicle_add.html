@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                    <!-- User Report Table  -->
+                    <div class="card shadow mb-5 d-flex ">
+                        <!-- Top Pagination  -->
+                        {% comment %} <div class="card-header py-3">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_general' %}">General</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_people' %}">People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'incident_report_vehicle' %}">Vehicle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_media' %}">Media</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_remarks' %}">Remarks</a>
+                                </li>
+                            </ul>
+                        </div> {% endcomment %}
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                                   
+                                    
+                                        <form action="{% url 'a_incident_report_vehicle_add' general.id %}" enctype="multipart/form-data" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputClassification">Classification</label>
+                                                    {{vehicle_instance.classification}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputVehicle">Vehicle Type</label>
+                                                    {{vehicle_instance.vehicle_type}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputMake">Make / Brand</label>
+                                                    {{vehicle_instance.brand}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputPlateNumber">Plate Number</label>
+                                                    {{vehicle_instance.plate_number}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputEngineNumber">Engine Number</label>
+                                                    {{vehicle_instance.engine_number}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputChassisNumber">Chassis Number</label>
+                                                    {{vehicle_instance.chassis_number}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputInsurance">Insurance Details</label>
+                                                {{vehicle_instance.insurance_details}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputManeuver">Maneuver</label>
+                                                {{vehicle_instance.maneuver}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputDamage">Damage</label>
+                                                {{vehicle_instance.damage}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputDefect">Defect</label>
+                                                {{vehicle_instance.defect}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputLoading">Loading</label>
+                                                {{vehicle_instance.loading}}
+                                            </div>
+                                            </div>
+
+                                            <br>
+                                            <div class="modal-footer mb-3">
+                                                <button onclick="history.back()" class="btn btn-secondary">Back</button>
+                                        <input type="submit" class="btn btn-primary" value="Save">
+                                            </div>
+                                        </form>
+
+                                  
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+            </div>
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+       
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}
+
+
+
+
+

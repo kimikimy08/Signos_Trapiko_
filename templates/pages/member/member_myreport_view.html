@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_reports.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/m_sidebar.html' %}
+    
+
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+            <!-- ===== MAIN CONTENT  ===== -->
+
+           <!-- Page Content -->
+           <div class="container-fluid">
+                    
+            <div class="d-flex bd-highlight">
+                <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                    <h4>View Incident Report</h4> <!-- PAGE TITLE -->
+                </div>
+            </div>
+
+
+
+            <!-- User Report Table  -->
+            <div class="card shadow p-5">
+                <!-- Top Pagination  -->
+                {% if user_report.upload_photovideo %}
+                {% if  ".mp4" in user_report.upload_photovideo.url or ".mov" in user_report.upload_photovideo.url  %}
+                <div style="padding-bottom: 5px; padding-top: 5px" >
+                    <video width="400" height="auto" controls>
+                    <source src={{user_report.upload_photovideo.url}} type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+                    {% else %}
+                    
+                    <div style="padding-bottom: 5px; padding-top: 5px " >
+                    
+                        <img src="{{user_report.upload_photovideo.url}}" width="400" height="auto" alt="Profile Picture" class="photos-side">
+                        
+                     
+                    </div>
+                            {% comment %} <a src="{{incident.upload_photovideo.url}}"> {% endcomment %}
+                            {% endif %} 
+
+                
+               
+                {% endif %}
+                        <table>
+                            <tr>
+                                <td style = "width: 200px;"> <p class = "padding-title"><strong>Date and Time</strong></p></td>
+                                <td> <p class ="padding"> {{user_report.date}} {{user_report.time}}</p> </td>
+                            </tr>
+
+                            <tr>
+                                <td> <p class = "padding-title"><strong>Location</strong></p></td>
+                                <td> <p class="padding"> {{user_report.address}} </p> </td>
+                            </tr>
+
+                            <tr>
+                                <td> <p class = "padding-title"><strong>Description</strong></p></td>
+                                <td> <p class="padding"> {{user_report.description}} </p> </td>
+                            </tr>
+
+                            <tr>
+                                <td> <p class = "padding-title"><strong> Status</strong></p></td>
+                                <td> <p class="padding"> <i> {% if user_report.status %} {{user_report.get_status}} {% endif %} </i> </p> </td>
+                            </tr>
+                        </table>
+
+                        <div class="text-right">
+                            <button type="button" class="discard-myreports-btn"> <a href="{% url 'my_report' %}" class="discard-link"> Cancel </a></button>
+                            <button type="button" class="save-myreports-btn"> <a href="{% url 'my_report_edit' user_report.id %}" class="discard-link"> Edit Report </a></button>
+                        </div>   
+                                                      
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- End of User Report Table  -->
+
+        </div>
+        <!-- End of Page Content -->
+
+        </div>
+
+ 
+            <!-- ===== END OF CONTENT  ===== -->
+
+
+
+        </div>
+        <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+
+
+{% endblock %}

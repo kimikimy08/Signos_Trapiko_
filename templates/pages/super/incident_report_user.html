@@ -1,0 +1,74 @@
+
+    {% extends "incident_report_home.html" %}
+
+    {% block form_if %}{% block form_else %}
+    {% csrf_token %}
+        <fieldset>
+            <div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputWeather">Date</label>
+                        {{form.date}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputLight">Time</label>
+                        {{form.time}}
+                    </div>
+                </div>
+                <!-- ================================= -->
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputSeverity">Street Address</label>
+                    {{form.address}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputSeverity">City</label>
+                    {{form.city}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputSeverity">Zip Code</label>
+                    {{form.pin_code}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputSeverity">Latitude</label>
+                    {{form.latitude}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputSeverity">Longitude</label>
+                    {{form.longitude}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputSeverity">Description</label>
+                    {{form.description}}
+                    </div>
+                </div>
+
+                {{form.upload_photovideo}}
+
+                
+
+                <!-- ================================= -->
+                <br>
+                {% comment %} <div class="modal-footer mb-3">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                        value="Clear">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div> {% endcomment %}
+
+                <p class="error">
+                    {% if form.field.errors %}
+                        {% for error in form.field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+                </p>
+            </div>
+        </fieldset>
+    {% endblock %}{% endblock %}

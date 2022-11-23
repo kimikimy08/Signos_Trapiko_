@@ -1,0 +1,48 @@
+{% extends "incident_report_home.html" %}
+
+{% block form_if %}{% block form_else %}
+{% csrf_token %}
+    <fieldset>
+        {% comment %} <legend>Title</legend> {% endcomment %}
+        <div>
+            {% comment %} <label>{{ form.field.label }}:<p class="note">{{ form.field.help_text }}</p></label> 
+
+            <hr> {% endcomment %}
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+            data-target="#collapseMedia" aria-expanded="false"
+            aria-controls="collapseMedia">
+            <i class='bx bx-plus'></i> Add Media
+        </button>
+        <div class="collapse pt-4" id="collapseMedia">
+            <form>
+                <div class="form-group">
+                    <label>Upload Photo</label>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            {{form.incident_upload_photovideo}}
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <label for="inputInsurance">Description</label>
+                    {{form.media_description}}
+                </div>
+            </form>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                    value="Cancel">
+                <input type="submit" class="btn btn-primary" value="Save">
+            </div>
+        </div>
+
+            <p class="error">
+                {% if form.field.errors %}
+                    {% for error in form.field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </fieldset>
+{% endblock %}{% endblock %}

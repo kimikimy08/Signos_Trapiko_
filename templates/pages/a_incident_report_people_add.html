@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/a_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Incident Report</h4>
+                        </div>
+                    </div>
+
+                    <!-- User Report Table  -->
+                    <div class="card shadow mb-5 d-flex ">
+                        <!-- Top Pagination  -->
+                        {% comment %} <div class="card-header py-3">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_general_view' general.id %}">General</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'incident_report_people_view' general.id %}">People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_vehicle_view' general.id %}">Vehicle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_media_view' general.id %}">Media</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'incident_report_remarks_view' general.id %}">Remarks</a>
+                                </li>
+                            </ul>
+                        </div> {% endcomment %}
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+
+                                    
+
+                                    
+                                    
+                                        <form action="{% url 'a_incident_report_people_add' general.id %}" enctype="multipart/form-data" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputFirstName">First Name</label>
+                                                    {{person_instance.incident_first_name}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputMiddleName">Middle Name</label>
+                                                    {{person_instance.incident_middle_name}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputLastName">Last Name</label>
+                                                    {{person_instance.incident_last_name}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputAge">Age</label>
+                                                    {{person_instance.incident_age}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputGender">Gender</label>
+                                                    {{person_instance.incident_gender}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputAddress">Address</label>
+                                                {{person_instance.incident_address}}
+                                            </div>
+                                            <!-- ================================= -->
+                                            <hr>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputInvolvement">Involvement</label>
+                                                    {{person_instance.incident_involvement}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputID">ID Presented</label>
+                                                    {{person_instance.incident_id_presented}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputIDNumber">ID Number</label>
+                                                    {{person_instance.incident_id_number}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Injury</label>
+                                                {{person_instance.incident_injury}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Driver Error</label>
+                                                {{person_instance.incident_driver_error}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Alcohol / Drugs</label>
+                                                {{person_instance.incident_alcohol_drugs}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputInjury">Seat belt / Helmet </label>
+                                                {{person_instance.incident_seatbelt_helmet}}
+                                            </div>
+                                      
+                                        <div class="modal-footer mb-3">
+                                            <input type="submit"  onclick="history.back()" class="btn btn-secondary" value="Back" name="Back">
+                                           
+                                        <input type="submit" class="btn btn-primary" value="Save">
+                                        </div>
+                                    </form>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of User Report Table  -->
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+            </div>
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+       
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% include 'includes/alerts.html' %}
+
+            {% endblock %}
+
+
+
+
+

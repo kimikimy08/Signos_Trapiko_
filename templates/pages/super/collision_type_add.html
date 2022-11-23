@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link href="{% static 'css/user_account.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+<link href="{% static 'css/m_reports.css' %}" rel="stylesheet">
+
+
+{% endblock styles %}
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/sa_sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'includes/navbar.html' %}
+                <!-- Breadcrumb  -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border mb-4 shadow rounded-0">
+                        <li class="breadcrumb-item">Manage</li>
+                        <li class="breadcrumb-item">User Accounts</li>
+                        <!-- <li class="breadcrumb-item active"><a href="#">Page</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">All Users</li>
+                    </ol>
+                </nav>
+                <!-- End of Breadcrumb  -->
+
+
+
+                <!-- ===== INSERT CONTENT HERE  ===== -->
+
+                 <!-- Page Content -->
+                 <div class="container-fluid">
+                    
+                    <div class="d-flex bd-highlight">
+                        <div class="pg-title p-2 flex-grow-1 bd-highlight">
+                            <h4>Add Collision Type Category</h4> <!-- PAGE TITLE -->
+                        </div>
+                    </div>
+                    <form id="form1" action="{% url 'attributes_builder_collision_add'  %}" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                    <!-- User Account Management -Add  -->
+                    <div class="card shadow p-5 mb-5">
+                        
+                        <form>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Collision Type Category</label>
+                                    {{form.category}}
+                                </div>
+                            </div>
+
+
+                                
+                            <div class="footer-user-management">
+                                <div class="text-right">
+                                    <a href="{% url 'attributes_builder_collision' %}" class="discard-link"> 
+                                        <input type="button" 
+                                            class="btn btn-secondary" 
+                                            data-dismiss="modal" 
+                                            value="Discard" 
+                                            title="Discard"> 
+                                    </a>
+                                    <input type="submit" 
+                                            class="btn btn-primary" 
+                                            value="Save"
+                                            title="Save">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    </form>
+
+                </div>
+                <!-- End of Page Content -->
+
+                <!-- ===== END OF CONTENT  ===== -->
+
+
+            </div>
+            <!-- End of Main Content  -->
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+
+
+            {% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+            {% endblock %}
+
+
+
+
+

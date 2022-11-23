@@ -1,0 +1,87 @@
+{% extends "incident_report_home_admin.html" %}
+
+{% block form_if %}{% block form_else %}
+{% csrf_token %}
+    <fieldset>
+        {% comment %} <legend>Title</legend> {% endcomment %}
+        <div>
+            {% comment %} <label>{{ form.field.label }}:<p class="note">{{ form.field.help_text }}</p></label> 
+
+            <hr> {% endcomment %}
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                        data-target="#collapsePeople" aria-expanded="false"
+                                        aria-controls="collapsePeople">
+                                        <i class='bx bx-plus'></i> Add Vehicle
+                                    </button>
+                                    <div class="collapse pt-4" id="collapsePeople">
+                                        <form>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputClassification">Classification</label>
+                                                    {{form.classification}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputVehicle">Vehicle Type</label>
+                                                    {{form.vehicle_type}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputMake">Make / Brand</label>
+                                                    {{form.brand}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputPlateNumber">Plate Number</label>
+                                                    {{form.plate_number}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputEngineNumber">Engine Number</label>
+                                                    {{form.engine_number}}
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputChassisNumber">Chassis Number</label>
+                                                    {{form.chassis_number}}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputInsurance">Insurance Details</label>
+                                                {{form.insurance_details}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputManeuver">Maneuver</label>
+                                                {{form.maneuver}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputDamage">Damage</label>
+                                                {{form.damage}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputDefect">Defect</label>
+                                                {{form.defect}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputLoading">Loading</label>
+                                                {{form.loading}}
+                                            </div>
+                                            </div>
+
+                                            <br>
+                                            <div class="modal-footer mb-3">
+                                                <input type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    value="Clear">
+                                                <input type="submit" class="btn btn-primary" value="Save">
+                                            </div>
+                                            </div>
+
+            <p class="error">
+                {% if form.field.errors %}
+                    {% for error in form.field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </fieldset>
+{% endblock %}{% endblock %}

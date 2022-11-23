@@ -1,0 +1,454 @@
+
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Incident Report </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Favicon-->
+    <link href="{% static 'images/faviconwhite.png' %}" rel="icon">
+
+    <!-- Boxicons CDN Link - for Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Font Awesome  - Jocelle's Kit for Arrow Icons -->
+    <script src="https://kit.fontawesome.com/d6b7ac4c6c.js" crossorigin="anonymous"></script>
+
+    <!-- Default CSS -->
+    <link href="{% static 'css/vendor/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/incident_report.css' %} " rel="stylesheet">
+
+    <style>
+        select {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body id="scroll-up">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+            <!-- Start of Sidebar -->
+            {% include 'includes/a_sidebar.html' %}
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+            <div id="container-fluid">
+
+                    <!-- Start of Topbar / Header -->
+                    {% include 'includes/navbar.html' %}
+            
+                    <!-- End of Breadcrumb  -->  
+
+
+                <!--============== HEADER OF THE INCIDENT REPORT PAGE =============== -->
+      <!-- Page Title -->
+      <div class="d-flex bd-highlight">
+        <div class="pg-title p-3 flex-grow-1 bd-highlight">
+            <h4>Incident Report</h4>
+        </div>
+    </div>
+    
+    <div class="row mb-5">
+        <div class="col-md-12 col-md-offset-1">
+            <form id="msform" action="{% url 'a_incidentreports_additional' %}" method="post">  
+                    {% csrf_token %}
+                <!-- progressbar -->
+                <ul id="progressbar">
+
+                    <li class="active">People</li>
+                    <li>Vehicle</li>
+                    <li>Media</li>
+
+                </ul>
+
+                <!-- ========================================================== FIELDSETS ============================================ -->
+                
+                <!-- GENERAL -->
+                
+                <!-- PEOPLE -->
+                <fieldset>
+                    <h2 class="fs-title">People</h2>
+                    <div class="table-responsive">
+                        <table>
+                              
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="inputFirstName">First Name</label>
+                                            {{form_people.incident_first_name}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputMiddleName">Middle Name</label>
+                                            <{{form_people.incident_middle_name}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputLastName">Last Name</label>
+                                            {{form_people.incident_last_name}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="inputAge">Age</label>
+                                            {{form_people.incident_age}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputGender">Gender</label>
+                                            {{form_people.incident_gender}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAddress">Address</label>
+                                        {{form_people.incident_address}}
+                                    </div>
+                                    <!-- ================================= -->
+                                    <hr>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="inputInvolvement">Involvement</label>
+                                            {{form_people.incident_involvement}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputID">ID Presented</label>
+                                            {{form_people.incident_id_presented}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputIDNumber">ID Number</label>
+                                            {{form_people.incident_id_number}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputInjury">Injury</label>
+                                        {{form_people.incident_injury}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputInjury">Driver Error</label>
+                                        {{form_people.incident_driver_error}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputInjury">Alcohol / Drugs</label>
+                                        {{form_people.incident_alcohol_drugs}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputInjury">Seat belt / Helmet </label>
+                                        {{form_people.incident_seatbelt_helmet}}
+                                      
+        
+
+                                
+
+                            </div>
+                        </table>
+                    </div>
+
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+                </fieldset>
+
+
+                
+                <!-- VEHICLE -->
+                <fieldset>
+                    <h2 class="fs-title">Vehicle</h2>
+                    <div class="table-responsive">
+                        <table>
+                            
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputClassification">Classification</label>
+                                        {{form_vehicle.classification}}
+                                    </div>
+                                    
+                                    <div class="form-group col-md-4">
+                                        <label for="inputVehicle">Vehicle Type</label>
+                                        {{form_vehicle.vehicle_type}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputMake">Make / Brand</label>
+                                        {{form_vehicle.brand}}
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputPlateNumber">Plate Number</label>
+                                        {{form_vehicle.plate_number}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEngineNumber">Engine Number</label>
+                                        {{form_vehicle.engine_number}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputChassisNumber">Chassis Number</label>
+                                        {{form_vehicle.chassis_number}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputInsurance">Insurance Details</label>
+                                    {{form_vehicle.insurance_details}}
+
+                                <div class="form-group">
+                                    <label for="inputManeuver">Maneuver</label>
+                                    {{form_vehicle.maneuver}}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputDamage">Damage</label>
+                                    {{form_vehicle.damage}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDefect">Defect</label>
+                                    {{form_vehicle.defect}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputLoading">Loading</label>
+                                    {{form_vehicle.loading}}
+                                </div>
+                               
+                            
+
+                            
+
+                        </table>
+                    </div>  
+
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+                </fieldset>
+
+                <!-- MEDIA -->
+                <fieldset>
+                
+                    <h2 class="fs-title">Media</h2>
+                    {{form_media.media_description}}
+                    {{form_media.incident_upload_photovideo}}
+                    <br>
+                   
+            
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                    <input type="submit" name="submit" class="submit action-button" value="Submit"/>
+                </fieldset>
+
+            
+               
+            
+            </form>
+        </div>
+    </div>
+
+
+<!-- End of page Wrapper-->
+</div>
+                
+    <!-- End of Main Content  -->
+
+
+
+            <!-- Scroll to Top-->
+            <a class="scroll-to-top rounded" href="#scroll-up">
+                <i class='bx bxs-up-arrow'></i>
+            </a>
+            <!-- End of Scroll to Top-->
+
+            <!-- Footer  -->
+            {% comment %} <footer>
+                <div class="text-center p-3"> Copyright &copy 2022-2023, QC-TFTTM. All Rights Reserved. </div>
+            </footer> {% endcomment %}
+            <!-- End of Footer  -->
+
+        </div>
+        <!-- End of Content Wrapper  -->
+
+
+    <!-- End of Page Wrapper -->
+
+    <script>
+
+        $("#id_accident_factor").change(function () {
+            const url = $("#form_incidentgeneral").attr("data-acc-url");  // get the url of the `load_cities` view
+            const accidentId = $(this).val();  // get the selected country ID from the HTML input
+        
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+                data: {
+                    'accident_factor_id': accidentId       // add the country id to the GET parameters
+                },
+                success: function (data) {
+                    let select_element = $('#id_accident_subcategory'); //Sub_category select  
+                    //console.log(data) // `data` is the return of the `load_cities` view function
+                    $(select_element).html(data);  // replace the contents of the city input with the data that came from the server
+        
+                    let html_data = '';
+                    data.forEach(function (accident_subcategory) {
+                        html_data += `<option value="${accident_subcategory.id}">${accident_subcategory.sub_category}</option>`
+                    });
+                    console.log(html_data);
+                    $("#id_accident_subcategory").html(html_data);
+        
+                }
+            });
+            console.log(data);
+        });
+
+        $("#id_collision_type").change(function () {
+            const url = $("#form_incidentgeneral").attr("data-acc-url");  // get the url of the `load_cities` view
+            const collisionId = $(this).val();  // get the selected country ID from the HTML input
+        
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+                data: {
+                    'collision_type_id': collisionId       // add the country id to the GET parameters
+                },
+                success: function (data) {  
+                    //console.log(data) // `data` is the return of the `load_cities` view function
+                    $("#id_collision_subcategory").html(data);  // replace the contents of the city input with the data that came from the server
+        
+                    let html_data = '<option value="">---------</option>';
+                    data.forEach(function (collision_subcategory) {
+                        html_data += `<option value="${collision_subcategory.id}">${collision_subcategory.sub_category}</option>`
+                        
+                    });
+                    console.log(html_data);
+                    // $("#id_general-collision_subcategory").html(html_data);
+                    // if ($("#id_general-collision_subcategory").find(html_data).length <= 1){
+                    //     $("#id_general-collision_subcategory").disable=true;
+                    // }
+        
+                }
+            });
+        
+        });
+
+        //jQuery time
+        var current_fs, next_fs, previous_fs; //fieldsets
+        var left, opacity, scale; //fieldset properties which we will animate
+        var animating; //flag to prevent quick multi-click glitches
+        
+
+        $(".next").click(function(){
+            if(animating) return false;
+            animating = true;
+    
+            current_fs = $(this).parent();
+            next_fs = $(this).parent().next();
+    
+            //activate next step on progressbar using the index of next_fs
+            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    
+            //show the next fieldset
+            next_fs.show();
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+                step: function(now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale current_fs down to 80%
+                    scale = 1 - (1 - now) * 0.2;
+                    //2. bring next_fs from the right(50%)
+                    left = (now * 50)+"%";
+                    //3. increase opacity of next_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({
+                'transform': 'scale('+scale+')',
+                'position': 'absolute'
+              });
+                    next_fs.css({'left': left, 'opacity': opacity});
+                },
+                duration: 800,
+                complete: function(){
+                    current_fs.hide();
+                    animating = false;
+                },
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+        });
+    
+        $(".previous").click(function(){
+            if(animating) return false;
+            animating = true;
+    
+            current_fs = $(this).parent();
+            previous_fs = $(this).parent().prev();
+    
+            //de-activate current step on progressbar
+            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+    
+            //show the previous fieldset
+            previous_fs.show();
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+                step: function(now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale previous_fs from 80% to 100%
+                    scale = 0.8 + (1 - now) * 0.2;
+                    //2. take current_fs to the right(50%) - from 0%
+                    left = ((1-now) * 50)+"%";
+                    //3. increase opacity of previous_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({'left': left});
+                    previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+                },
+                duration: 800,
+                complete: function(){
+                    current_fs.hide();
+                    animating = false;
+                },
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+        });
+
+        
+    
+        
+    </script>
+
+ <!-- Vendor Script -->
+
+    <script script type="text/javascript" src="{% static 'js/vendor/jquery/jquery.easing.min.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- User Report Vendor Script-->
+    <script src="{% static 'js/vendor/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/vendor/dataTables.bootstrap4.min.js' %}"></script>
+
+
+    <!-- Custom Script  -->
+    <script script type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/default.js' %}"></script>
+    <script script type="text/javascript" src="{% static 'js/user_report.js' %}"></script>
+   
+
+    
+    
+
+    {% comment %} <script script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script> {% endcomment %}
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&v=3.exp&sensor=false&libraries=places"></script>
+    
+    {% comment %} <script script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script> {% endcomment %}
+    
+    <script script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    
+
+    {% comment %} <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> {% endcomment %}
+</body>
+
+</html>
