@@ -89,7 +89,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'signos_link.urls'
+ROOT_URLCONF = 'signosTrapiko.urls'
 
 TEMPLATES = [
     {
@@ -109,7 +109,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'signos_link.wsgi.application'
+WSGI_APPLICATION = 'signosTrapiko.wsgi.application'
 
 
 # Database
