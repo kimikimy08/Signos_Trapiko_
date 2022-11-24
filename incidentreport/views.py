@@ -2861,23 +2861,24 @@ def simple_upload(request):
                 for index, rows in data.iterrows():
                     
                        
+                        userid = rows["User ID"] 
                         generalid = rows["User ID"]
-                        date = rows["Date"] if rows["Date"] else datetime.date.today()
+                        date = rows["Date"] 
                         time = rows["Time"]
-                        description = rows["Description"] if rows["Description"] else " "
-                        address = rows["Address"] if rows["Address"] else " "
-                        latitude = rows["Latitude"] if rows["Latitude"] else " "
-                        longitude = rows["Longitude"] if rows["Longitude"] else " "
-                        status = rows["Status"] if rows["Status"] else " "
-                        weather = rows["Weather"] if rows["Weather"] else " "
-                        light = rows["Light"] if rows["Light"] else " "
-                        accident_factor = rows["Accident Factor"] if rows["Accident Factor"] else " "
-                        collision_type = rows["Collision Type"] if rows["Collision Type"] else " "
-                        crash_type = rows["Crash"] if rows["Crash"] else " "
-                        severity = rows["Severity"] if rows["Severity"] else " "
-                        movement_code = rows["Movement Code"] if rows["Movement Code"] else " "
-                        responder = rows["Responder"] if rows["Responder"] else " "
-                        action_taken = rows["Action Taken"] if rows["Action Taken"] else " "
+                        description = rows["Description"] 
+                        address = rows["Address"]
+                        latitude = rows["Latitude"] 
+                        longitude = rows["Longitude"] 
+                        status = rows["Status"]
+                        weather = rows["Weather"] 
+                        light = rows["Light"] 
+                        accident_factor = rows["Accident Factor"] 
+                        collision_type = rows["Collision Type"] 
+                        crash_type = rows["Crash"] 
+                        severity = rows["Severity"]
+                        movement_code = rows["Movement Code"] 
+                        responder = rows["Responder"]
+                        action_taken = rows["Action Taken"] 
                     
                         # user_report_instance = IncidentGeneral.objects.get(userid=userid)
                         # general_instance = IncidentGeneral.objects.get(generalid=generalid)
@@ -3112,22 +3113,22 @@ def a_simple_upload(request):
                     
                         userid = rows["User ID"] 
                         generalid = rows["User ID"]
-                        date = rows["Date"] if rows["Date"] else datetime.date.today()
+                        date = rows["Date"] 
                         time = rows["Time"]
-                        description = rows["Description"] if rows["Description"] else " "
-                        address = rows["Address"] if rows["Address"] else " "
-                        latitude = rows["Latitude"] if rows["Latitude"] else " "
-                        longitude = rows["Longitude"] if rows["Longitude"] else " "
-                        status = rows["Status"] if rows["Status"] else " "
-                        weather = rows["Weather"] if rows["Weather"] else " "
-                        light = rows["Light"] if rows["Light"] else " "
-                        accident_factor = rows["Accident Factor"] if rows["Accident Factor"] else " "
-                        collision_type = rows["Collision Type"] if rows["Collision Type"] else " "
-                        crash_type = rows["Crash"] if rows["Crash"] else " "
-                        severity = rows["Severity"] if rows["Severity"] else " "
-                        movement_code = rows["Movement Code"] if rows["Movement Code"] else " "
-                        responder = rows["Responder"] if rows["Responder"] else " "
-                        action_taken = rows["Action Taken"] if rows["Action Taken"] else " "
+                        description = rows["Description"] 
+                        address = rows["Address"]
+                        latitude = rows["Latitude"] 
+                        longitude = rows["Longitude"] 
+                        status = rows["Status"]
+                        weather = rows["Weather"] 
+                        light = rows["Light"] 
+                        accident_factor = rows["Accident Factor"] 
+                        collision_type = rows["Collision Type"] 
+                        crash_type = rows["Crash"] 
+                        severity = rows["Severity"]
+                        movement_code = rows["Movement Code"] 
+                        responder = rows["Responder"]
+                        action_taken = rows["Action Taken"] 
                     
                         # user_report_instance = IncidentGeneral.objects.get(userid=userid)
                         # general_instance = IncidentGeneral.objects.get(generalid=generalid)

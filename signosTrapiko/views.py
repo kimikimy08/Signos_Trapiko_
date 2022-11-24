@@ -1,7 +1,15 @@
 from django.shortcuts import render
+from incidentreport.models import IncidentGeneral
+from accounts.models import UserProfile, User
 
 def home(request):
-    return render(request, 'home.html')
+    user = User.objects.filter(is_deleted=False)
+    incident_general = IncidentGeneral.objects.all()
+    context = {
+        'user': user,
+        'incident_general': incident_general,
+    }
+    return render(request, 'home.html', context)
 
 def error_404(request, exception):
    context = {}
