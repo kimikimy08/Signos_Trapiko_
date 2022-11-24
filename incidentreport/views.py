@@ -3161,7 +3161,6 @@ def a_simple_upload(request):
                         
                         
                         if created:
-                            usergeneral1.save()
                             usergeneral.save()
                             userremarks.save()
                 messages.success(request, "The files has been uploaded to the database")
