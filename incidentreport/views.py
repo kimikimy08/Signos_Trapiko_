@@ -3133,22 +3133,16 @@ def a_simple_upload(request):
                         # general_instance = IncidentGeneral.objects.get(generalid=generalid)
                         
                         # get_or_create is used to eliminate forming or any duplicate record 
-                        IncidentGeneral, created = IncidentGeneral.objects.get_or_create(
+                        usergeneral, created = IncidentGeneral.objects.get_or_create(
                             user=request.user,
-                            userid=userid,
+                            generalid = generalid,
                             date=date,
                             time=time,
                             description=description,
                             address=address,
                             latitude=latitude,
                             longitude=longitude,
-                            status=status
-                        )
-                        
-                        usergeneral, created = IncidentGeneral.objects.get_or_create(
-                            user=request.user,
-                            user_report=IncidentGeneral.objects.get(userid=userid),
-                            generalid = generalid,
+                            status=status,
                             weather=weather,
                             light=light,
                             accident_factor=AccidentCausation.objects.get(category=accident_factor),
@@ -3167,7 +3161,7 @@ def a_simple_upload(request):
                         
                         
                         if created:
-                            IncidentGeneral.save()
+                            usergeneral1.save()
                             usergeneral.save()
                             userremarks.save()
                 messages.success(request, "The files has been uploaded to the database")
