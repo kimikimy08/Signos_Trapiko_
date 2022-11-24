@@ -208,7 +208,7 @@ class IncidentGeneralForm(forms.ModelForm):
     
     class Meta:
         model = IncidentGeneral
-        fields = [ 'accident_factor', 'collision_type',  'crash_type', 'weather', 'light', 'severity', 'movement_code', 'description', 'upload_photovideo', 'address', 'country', 'state', 'city', 'pin_code', 'latitude', 'longitude', 'date', 'time', 'status']
+        fields = [ 'accident_factor', 'collision_type',  'crash_type', 'weather', 'light', 'severity', 'movement_code', 'description', 'upload_photovideo', 'address', 'country', 'state', 'city', 'pin_code', 'latitude', 'longitude', 'date', 'time', 'status', 'duplicate']
 
     def __init__(self, *args, **kwargs):
         super(IncidentGeneralForm, self).__init__(*args, **kwargs)
@@ -234,6 +234,7 @@ class IncidentGeneralForm(forms.ModelForm):
         self.fields['longitude'].widget.attrs['class'] = 'form-control'
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['status'].widget.attrs['class'] = 'form-control'
+        self.fields['duplicate'].widget.attrs['class'] = 'form-control'
         self.fields['date'].widget.attrs['autocomplete'] = 'off'
         self.fields['date'].input_formats = settings.DATE_INPUT_FORMATS
         

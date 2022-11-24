@@ -1689,6 +1689,10 @@ def incident_report_general_edit(request, id=None):
             general_instance.save()
             user_report.save()
             
+            # incidentReports = get_object_or_404(IncidentGeneral, id=general_instance)
+            # if incidentReports.duplicate == 'Duplicate':
+            #     incidentReports.soft_delete()
+            
             messages.success(request, 'Profile updated')
 
             return redirect('user_reports')
