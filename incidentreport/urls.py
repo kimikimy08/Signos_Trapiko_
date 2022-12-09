@@ -130,4 +130,5 @@ urlpatterns = [
     
     path('incidentReports/template/', views.sa_template, name='sa_template'),
     path('incidentReport/template/', views.a_template, name='a_template'),
+
 ]

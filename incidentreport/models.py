@@ -384,14 +384,19 @@ class IncidentMedia(SoftDeleteModel):
     
 
 class IncidentRemark(SoftDeleteModel):
+    Option = (
+        ("Yes", "Yes"),
+        ('No', 'No'),
+    )
     incident_general = models.OneToOneField(IncidentGeneral, on_delete=models.CASCADE, null=True, blank=True)
-    responder =  models.CharField(max_length=250, blank=True)
+    responder =  models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     action_taken = models.TextField(max_length=250, blank=True)
+    incident_location = models.CharField(choices=Option,max_length=250, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.responder
+        return self.action_taken
     
     # @receiver(post_save, sender=IncidentGeneral)
     # def create_user_report_remark(sender, instance, created, **kwargs):

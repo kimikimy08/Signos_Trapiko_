@@ -33,27 +33,45 @@ from datetime import datetime, timedelta
 @user_passes_test(check_role_super_admin)
 def user_reports(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.all().order_by('-updated_at')
+    
+    incidentReports = IncidentRemark.objects.all().order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.all().order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
+    if request.method == 'POST':
+        incident_id = request.POST.get('inc_id')
+        incident_general = IncidentGeneral.objects.filter(id=incident_id).order_by('-updated_at')
+    
+    # for j in incidentReports:
+    #     x = request.POST.get(str(j.id))
+    #     print(x)
+    #     c = IncidentGeneral.objects.get(id=j.id)
+    #     notifications = Notification.objects.filter(incident_report__in=c).order_by('-date')
+    # incident_general = IncidentGeneral.objects.filter(pk=request.id)
+    # incident_general = IncidentGeneral.objects.filter(pk =).order_by('-updated_at')
+    
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     if request.method == 'POST':
+        # if request.POST.get('Restore') == 'Restore':
         for i in incidentReports:
             x = request.POST.get(str(i.id))
             print(x)
+            
             if str(x) == 'on':
                 b = IncidentGeneral.objects.get(id=i.id)
                 b.soft_delete()
                 # b.is_deleted = True
                 # b.deleted_at = timezone.now()
                 messages.success(request, 'User Report successfully deleted')
+            
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications,
         # 'IncidentGeneral': IncidentGeneral
     }
     return render(request, 'pages/user_report.html', context)
-
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -63,10 +81,12 @@ def user_reports_pending(request):
 
     # incidentReports = IncidentGeneral.objects.filter(user_report__status = 1).order_by('-updated_at')
     incidentReports = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     if request.method == 'POST':
+        
         for i in incidentReports:
             x = request.POST.get(str(i.id))
             print(x)
@@ -79,6 +99,7 @@ def user_reports_pending(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications,
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -1291,6 +1312,7 @@ def sa_incidentreports(request):
                 
                 responder = request.POST.get("responder")
                 action_taken = request.POST.get("action_taken")
+                incident_location = request.POST.get("incident_location")
                 form.user = request.user
                 # user_report=IncidentGeneral(user=request.user,date=date,time=time,address=address,city=city,pin_code=pin_code,latitude=latitude,longitude=longitude,description=description)
                 # user_report.status = 2
@@ -1314,14 +1336,32 @@ def sa_incidentreports(request):
                 # else:
                 #     incident_general.save()
                     
-                remarks = "new incident"
-                text_preview = 'created a new incident report'
+                # remarks = "new incident"
+                # text_preview = 'created a new incident report'
 
-                notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
-                notification_report.save()
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+                # notification_report.save()
                 
-                incident_remarks = IncidentRemark(incident_general=incident_general, responder=responder,action_taken=action_taken)
+                incident_remarks = IncidentRemark(incident_general=incident_general, responder=responder,action_taken=action_taken, incident_location=incident_location)
                 incident_remarks.save()
+                
+                # remarks = "update respond status"
+                # text_preview = 'responder'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=responder)
+                # notification_report.save()
+                
+                # remarks = "update action status"
+                # text_preview = 'remarks'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=action_taken)
+                # notification_report.save()
+                
+                # remarks = "update incident location status"
+                # text_preview = 'remarks'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=action_taken)
+                # notification_report.save()
                 
                 
                 
@@ -1495,6 +1535,7 @@ def a_incidentreports(request):
                 
                 responder = request.POST.get("responder")
                 action_taken = request.POST.get("action_taken")
+                incident_location = request.POST.get("incident_location")
                 form.user = request.user
                 # user_report=IncidentGeneral(user=request.user,date=date,time=time,address=address,city=city,pin_code=pin_code,latitude=latitude,longitude=longitude,description=description)
                 # user_report.status = 2
@@ -1513,14 +1554,26 @@ def a_incidentreports(request):
                 incident_general.save()
                 
                 
-                remarks = "new incident"
-                text_preview = 'created a new incident report'
+                # remarks = "new incident"
+                # text_preview = 'created a new incident report'
 
-                notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
-                notification_report.save()
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+                # notification_report.save()
                 
-                incident_remarks = IncidentRemark(incident_general=incident_general,responder=responder,action_taken=action_taken)
+                incident_remarks = IncidentRemark(incident_general=incident_general,responder=responder,action_taken=action_taken, incident_location=incident_location)
                 incident_remarks.save()
+                
+                # remarks = "update respond status"
+                # text_preview = 'responder'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=responder)
+                # notification_report.save()
+                
+                # remarks = "update action status"
+                # text_preview = 'remarks'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=action_taken)
+                # notification_report.save()
                 
                 
                 
@@ -1969,7 +2022,41 @@ def incident_report_remarks_edit(request, id=None):
         remarks_instance = IncidentRemarksForm(request.POST  or None, request.FILES  or None, instance=remarks)
         if remarks_instance.is_valid():
             user_report.instance.username = request.user
+            
+            responder = request.POST.get("responder")
+            action_taken = request.POST.get("action_taken")
+            incident_location = request.POST.get("incident_location")
+            
             remarks_instance.save()
+            
+            remarks_save = get_object_or_404(IncidentRemark, pk=id)
+            
+            remarks = "update respond status"
+            text_preview = responder
+
+            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, responder=remarks_save.responder,remarks=remarks, notification_type=1, text_preview=text_preview)
+            notification_report.save()
+            
+            remarks = "update action status"
+            text_preview = action_taken
+            
+
+            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+            notification_report.save()
+            
+            remarks = "update incident location status"
+            text_preview = incident_location
+            if text_preview == "Yes":
+                text = "reached the incident location"
+                notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
+                notification_report.save()
+            elif text_preview == "No":
+                text = ""
+                notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
+                notification_report.save()
+
+           
+            
             messages.success(request, 'Profile updated')
 
             return redirect('user_reports')
@@ -2663,15 +2750,32 @@ def a_incident_report_general_edit(request, id=None):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_admin)
 def a_incident_report_remarks_edit(request, id=None):
-    IncidentGeneral =  get_object_or_404(IncidentGeneral, pk=id)
+    incidentGeneral =  get_object_or_404(IncidentGeneral, pk=id)
     general = get_object_or_404(IncidentGeneral, pk=id)
     remarks = get_object_or_404(IncidentRemark, pk=id)
     if request.method == 'POST':
-        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=IncidentGeneral)
+        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=incidentGeneral)
         remarks_instance = IncidentRemarksForm(request.POST  or None, request.FILES  or None, instance=remarks)
         if remarks_instance.is_valid():
             user_report.instance.username = request.user
+            responder = request.POST.get("responder")
+            action_taken = request.POST.get("action_taken")
             remarks_instance.save()
+            
+            remarks_save = get_object_or_404(IncidentRemark, pk=id)
+            
+            remarks = "update respond status"
+            text_preview = responder
+
+            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, responder=remarks_save.responder,remarks=remarks, notification_type=1, text_preview=text_preview)
+            notification_report.save()
+                
+            remarks = "update action status"
+            text_preview = action_taken
+
+            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+            notification_report.save()
+            
             messages.success(request, 'Profile updated')
 
             return redirect('user_reports')
@@ -2686,7 +2790,7 @@ def a_incident_report_remarks_edit(request, id=None):
         'remarks_instance': remarks_instance,
         'user_report' : user_report,
         'general': general,
-        'IncidentGeneral': IncidentGeneral, 
+        'incidentGeneral': incidentGeneral, 
         'remarks':remarks
     }
     

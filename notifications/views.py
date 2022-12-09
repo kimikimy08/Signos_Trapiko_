@@ -10,15 +10,17 @@ from accounts.models import User, UserProfile
 def ShowNotifications(request):
     
     profile = get_object_or_404(UserProfile, user=request.user)
-    notifications = Notification.objects.filter(user=request.user).order_by('-date')
+    # notifications = Notification.objects.filter(pk=request.id).order_by('-date')
     notifications_default = Notification.objects.all().order_by('-date')
     notifications_create = notifications_default.exclude(user=request.user)
     notifications_member = Notification.objects.filter(sender=request.user).order_by('-date')
+    notifications_all = Notification.objects.filter(text_preview = "updated status to approved").distinct('incident_report')
     context = {
         'profile': profile,
-        'notifications': notifications,
+        # 'notifications': notifications,
         'notifications_create': notifications_create,
-        'notifications_member': notifications_member
+        'notifications_member': notifications_member,
+        'notifications_all': notifications_all
     }
     return render(request, 'notifications.html', context)
 

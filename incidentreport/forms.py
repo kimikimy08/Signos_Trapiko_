@@ -327,13 +327,16 @@ class IncidentMediaForm(forms.ModelForm):
 class IncidentRemarksForm(forms.ModelForm):
     class Meta:
         model = IncidentRemark
-        fields = [ 'responder', 'action_taken']
+        fields = [ 'responder', 'action_taken', 'incident_location']
 
     def __init__(self, *args, **kwargs):
         super(IncidentRemarksForm, self).__init__(*args, **kwargs)
         self.fields['responder'].required = True
+        self.fields['action_taken'].required = False
+        self.fields['incident_location'].required = False
         self.fields['responder'].widget.attrs['class'] = 'form-control'
         self.fields['action_taken'].widget.attrs['class'] = 'form-control'
+        self.fields['incident_location'].widget.attrs['class'] = 'form-control'
         
 class AccidentCausationForm(forms.ModelForm):
     class Meta:

@@ -19,83 +19,43 @@
 <div class="columns is-mobile is-centered">
   <div class="column is-half">
 
-{% for notification in notifications_member %}
-{% if notification.remarks == "new incident" %}
+    {% for notification in notifications_all %}
 
 
-<div class="notification">
-  
-
-  <article class="media">
-<figure class="media-left">
-<p class="image is-64x64">
-    {% if notification.user.userprofile.profile_picture %}
-        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
-      {% else %}
-        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-    {% endif %}
-</p>
-</figure>
-<div class="media-content">
-<div class="content">
-    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
-    <br>
-    <p>{{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt; {{ notification.text_preview }}</p>
-    <strong><small>{{ notification.date|naturaltime }}</small></strong>
-</div>
-</div>
-
-<div class="media-right">
-<figure class="image is-128x128">
-  <img src="{{ notification.post.picture.url }}">
-</figure>
-</div>
-</article>
-
-  </div>
-
-
-{% endif %}
-
-
-{% if notification.remarks == "update incident status" %}
-
-<div class="notification">
-  
-
-  <article class="media">
-<figure class="media-left">
-<p class="image is-64x64">
-    {% if notification.user.userprofile.profile_picture %}
-        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
-      {% else %}
-        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-    {% endif %}
-</p>
-</figure>
-<div class="media-content">
-<div class="content">
-    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
-    <br>
-    <p>{{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; <strong> {{ notification.text_preview }} </strong>
-      with {{ notification.incident_report.address }} from {{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt; on reported date {{ notification.incident_report.created_at }}
+    <div class="notification">
+      
+    
+      <article class="media">
+    <figure class="media-left">
+    <p class="image is-64x64">
+        {% if notification.user.userprofile.profile_picture %}
+            <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
+          {% else %}
+            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+        {% endif %}
     </p>
-    <strong><small>{{ notification.date|naturaltime }}</small></strong>
-</div>
-</div>
-
-<div class="media-right">
-<figure class="image is-128x128">
-  <img src="{{ notification.post.picture.url }}">
-</figure>
-</div>
-</article>
-
-  </div>
-  {% endif %}
-
-
-{% endfor %}
+    </figure>
+    <div class="media-content">
+    <div class="content">
+        <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
+        <br>
+        <p>There is an incident located at {{ notification.incident_report.address }} on reported date {{ notification.incident_report.created_at }}
+        </p>
+        <strong><small>{{ notification.date|naturaltime }}</small></strong>
+    </div>
+    </div>
+    
+    <div class="media-right">
+    <figure class="image is-128x128">
+      <img src="{{ notification.post.picture.url }}">
+    </figure>
+    </div>
+    </article>
+    
+      </div>
+    
+    
+    {% endfor %}
 </div>
 </div>
 </div>
@@ -111,127 +71,43 @@
       {% include 'includes/navbar.html' %}
 <div class="columns is-mobile is-centered">
   <div class="column is-half">
-{% for notification in notifications_create %}
-{% if notification.notification_type == 1 %}
-
-{% if notification.remarks == "new incident" %}
+    {% for notification in notifications_all %}
 
 
-<div class="notification">
-  
-
-  <article class="media">
-<figure class="media-left">
-<p class="image is-64x64">
-    {% if notification.user.userprofile.profile_picture %}
-        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
-      {% else %}
-        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-    {% endif %}
-</p>
-</figure>
-<div class="media-content">
-<div class="content">
-    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
-    <br>
-    <p>{{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt; {{ notification.text_preview }}</p>
-    <strong><small>{{ notification.date|naturaltime }}</small></strong>
-</div>
-</div>
-
-<div class="media-right">
-<figure class="image is-128x128">
-  <img src="{{ notification.post.picture.url }}">
-</figure>
-</div>
-</article>
-
-  </div>
-
-
-{% endif %}
-
-
-{% if notification.remarks == "update incident status" %}
-
-<div class="notification">
-  
-
-  <article class="media">
-<figure class="media-left">
-<p class="image is-64x64">
-    {% if notification.user.userprofile.profile_picture %}
-        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
-      {% else %}
-        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-    {% endif %}
-</p>
-</figure>
-<div class="media-content">
-<div class="content">
-    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
-    <br>
-    <p>{{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; <strong> {{ notification.text_preview }} </strong>
-      with {{ notification.incident_report.address }} from {{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt;  on reported date {{ notification.incident_report.created_at }}
+    <div class="notification">
+      
+    
+      <article class="media">
+    <figure class="media-left">
+    <p class="image is-64x64">
+        {% if notification.user.userprofile.profile_picture %}
+            <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
+          {% else %}
+            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+        {% endif %}
     </p>
-    <strong><small>{{ notification.date|naturaltime }}</small></strong>
-</div>
-</div>
-
-<div class="media-right">
-<figure class="image is-128x128">
-  <img src="{{ notification.post.picture.url }}">
-</figure>
-</div>
-</article>
-
-  </div>
-  {% endif %}
-
-
-
-{% endif %}
-
-
-{% if notification.notification_type == 2 %}
-
-
-<div class="notification">
-  
-
-  <article class="media">
-<figure class="media-left">
-<p class="image is-64x64">
-    {% if notification.user.userprofile.profile_picture %}
-        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
-      {% else %}
-        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-    {% endif %}
-</p>
-</figure>
-<div class="media-content">
-<div class="content">
-    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
-    <br>
-    <p>{{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt; {{ notification.text_preview }}</p>
-    <strong><small>{{ notification.date|naturaltime }}</small></strong>
-</div>
-</div>
-
-<div class="media-right">
-<figure class="image is-128x128">
-  <img src="{{ notification.post.picture.url }}">
-</figure>
-</div>
-</article>
-
-  </div>
-
-
-{% endif %}
-
-
-{% endfor %}
+    </figure>
+    <div class="media-content">
+    <div class="content">
+        <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
+        <br>
+        <p>There is an incident located at {{ notification.incident_report.address }} on reported date {{ notification.incident_report.created_at }}
+        </p>
+        <strong><small>{{ notification.date|naturaltime }}</small></strong>
+    </div>
+    </div>
+    
+    <div class="media-right">
+    <figure class="image is-128x128">
+      <img src="{{ notification.post.picture.url }}">
+    </figure>
+    </div>
+    </article>
+    
+      </div>
+    
+    
+    {% endfor %}
 </div>
 </div>
 </div>
@@ -245,7 +121,7 @@
       {% include 'includes/navbar.html' %}
 <div class="columns is-mobile is-centered">
   <div class="column is-half">
-{% for notification in notifications_create %}
+{% comment %} {% for notification in notifications_create %}
 {% if notification.remarks == "new incident" %}
 
 
@@ -321,7 +197,46 @@
   {% endif %}
 
 
+{% endfor %} {% endcomment %}
+
+{% for notification in notifications_all %}
+
+
+<div class="notification">
+  
+
+  <article class="media">
+<figure class="media-left">
+<p class="image is-64x64">
+    {% if notification.user.userprofile.profile_picture %}
+        <img src="{{ notification.user.userprofile.profile_picture.url }}" alt="Placeholder image">
+      {% else %}
+        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+    {% endif %}
+</p>
+</figure>
+<div class="media-content">
+<div class="content">
+    <strong>{{ notification.user.first_name }} {{ notification.user.last_name }}</strong> <small>&lt;{{ notification.user.username }}&gt;</small> 
+    <br>
+    <p>There is an incident located at {{ notification.incident_report.address }} on reported date {{ notification.incident_report.created_at }}
+    </p>
+    <strong><small>{{ notification.date|naturaltime }}</small></strong>
+</div>
+</div>
+
+<div class="media-right">
+<figure class="image is-128x128">
+  <img src="{{ notification.post.picture.url }}">
+</figure>
+</div>
+</article>
+
+  </div>
+
+
 {% endfor %}
+
 </div>
 </div>
 </div>

@@ -30,8 +30,14 @@ class Notification(models.Model):
     incident_report = models.ForeignKey('incidentreport.IncidentGeneral', on_delete=models.CASCADE, blank=True, null=True)
     sender = models.ForeignKey('accounts.User', on_delete=models.CASCADE, blank=True, null=True, related_name="noti_from_user")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="noti_user")
+    responder = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="noti_responder")
     notification_type = models.IntegerField(choices=TYPES)
     remarks = models.CharField(max_length=90, blank=True)
     text_preview = models.CharField(max_length=90, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     is_seen = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.id}"
+    
+    

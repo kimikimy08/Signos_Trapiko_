@@ -104,7 +104,7 @@
                                     {% else %}
                                     <td><input type="checkbox" name="{{incident.id}}" id="check"></td>
                                     {% endif %}
-                                    <td>{{incident.user.username}}</td>
+                                    <td>{{incident.user.username}} </td>
                                     <td>{% if incident.user.role %}{{incident.user.get_role}}{% endif %}</td>
                                     <td>{{incident.description}}</td>
                                     <td>{{incident.address}}</td>
