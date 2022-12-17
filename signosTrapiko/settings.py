@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'dashboard',
     'inbox',
     'notifications',
-    'reports'
     # 'livereload'
     
 ]
