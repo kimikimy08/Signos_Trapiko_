@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'css/m_myreports.css' %}" rel="stylesheet">
+
+<link href="{% static 'css/vendor/bootstrap.min.css' %}" rel="stylesheet"> 
+<link href=" {% static 'css/forgot-password.css' %} " rel="stylesheet">
+
+{% endblock styles %}
+
+
+
+{% block content %}
+
+
+<!-- Page Wrapper -->
+
+{% include 'includes/m_sidebar.html' %}
+    
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'includes/navbar.html' %}
+
+
+
+           <!-- ===== MAIN CONTENT  ===== -->
+
+                <!-- Page Content -->
+                
+                    <div class="container">
+                        <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+                            
+                            <div class="logo">
+                                <img src="{% static 'images/SignosTrapiko.png' %}" class="img-fluid w-60 mb-2" alt="logo" href="#!">
+                            </div>
+                
+                
+                            <form class="rounded bg-white shadow p-5" action="{% url 'otpVerify' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                            
+                                <h3 class="text-dark fw-bolder fs-4 mb-2"> OTP? </h3>
+                                
+                                <p style="font-size: 13px; "> In order to proceed with the incident report, we appreciate you to enter OTP sent to your mobile device </p> 
+                                
+                                <div class = "form-floating mb-3">
+                                    {% comment %} <input type="text" class="form-control" id="floating-emailaddress" name="otp"> {% endcomment %}
+                                    {{form.otp}}
+                                    <label for="floating-emailaddress" required> OTP</label>
+                                </div>
+                
+                
+                                <button type="submit" class="btn btn-primary submit-btn w-100 mb-4"> Submit </button> 
+                
+                                {% comment %} <div class="goback-login fw-normal text-muted">
+                                   <a href="#!" class="text-dark fw-normal text-decoration-none"> Back to Login </a>
+                                </div> {% endcomment %}
+                
+                              
+                            </form>
+                        </div>
+                    </div>
+                
+             
+                <!-- End of Page Content -->
+                <!-- ===== END OF CONTENT  ===== -->
+
+            </div>
+            <!-- End of Main Content  -->
+
+
+        <!-- Scroll to Top-->
+        <a class="scroll-to-top rounded" href="#scroll-up">
+            <i class='bx bxs-up-arrow'></i>
+        </a>
+        <!-- End of Scroll to Top-->
+
+{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
+
+{% endblock %}

@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.conf import settings
-from .models import IncidentGeneral, IncidentPerson, IncidentVehicle, IncidentRemark, IncidentMedia, AccidentCausation, CollisionType, CrashType
+from .models import IncidentGeneral, IncidentPerson, IncidentVehicle, IncidentRemark, IncidentMedia, AccidentCausation, CollisionType, CrashType, IncidentOTP
 #from .validators import allow_only_images_validator
 from django.forms.formsets import BaseFormSet
 from accounts.validators import allow_only_images_validator, allow_only_images_video_validator
@@ -334,6 +334,23 @@ class IncidentRemarksForm(forms.ModelForm):
         self.fields['responder'].required = True
         self.fields['action_taken'].required = False
         self.fields['incident_location'].required = False
+        self.fields['responder'].widget.attrs['disabled'] = 'disabled'
+        self.fields['responder'].widget.attrs['class'] = 'form-control'
+        self.fields['action_taken'].widget.attrs['class'] = 'form-control'
+        self.fields['incident_location'].widget.attrs['class'] = 'form-control'
+
+class IncidentRemarksForm_super(forms.ModelForm):
+    class Meta:
+        model = IncidentRemark
+        fields = [ 'responder', 'action_taken', 'incident_location']
+
+    def __init__(self, *args, **kwargs):
+        super(IncidentRemarksForm_super, self).__init__(*args, **kwargs)
+        self.fields['responder'].required = True
+        self.fields['action_taken'].required = False
+        self.fields['incident_location'].required = False
+        self.fields['action_taken'].widget.attrs['disabled'] = 'disabled'
+        self.fields['incident_location'].widget.attrs['disabled'] = 'disabled'
         self.fields['responder'].widget.attrs['class'] = 'form-control'
         self.fields['action_taken'].widget.attrs['class'] = 'form-control'
         self.fields['incident_location'].widget.attrs['class'] = 'form-control'
@@ -357,6 +374,15 @@ class CollisionTypeForm(forms.ModelForm):
         super(CollisionTypeForm, self).__init__(*args, **kwargs)
         self.fields['category'].widget.attrs['class'] = 'form-control'
     
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = IncidentOTP
+        fields = [ 'otp', ]
+
+    def __init__(self, *args, **kwargs):
+        super(CodeForm, self).__init__(*args, **kwargs)
+        self.fields['otp'].required = True
+        self.fields['otp'].widget.attrs['class'] = 'form-control'
 
 
 class CrashTypeForm(forms.ModelForm):

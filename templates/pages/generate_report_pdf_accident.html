@@ -169,43 +169,37 @@ footer {
      <table class="table" style="width:100%">
       <h3>{{report1.fromdate}} {{report1.todate}}</h3>
           <thead>
-              <tr>
-                <th scope="col">DATE</th>
-                <th scope="col">TIME</th>
-                <th scope="col">ADDRESS</th>
-                  <th scope="col">ACCIDENT CAUSATION</th>
-                  {% comment %} <th scope="col">ACCIDENT CAUSATION SUB-CATEGORY</th> {% endcomment %}
-                  <th scope="col">SEVERITY</th>
-              </tr>
+            <tr>
+              <th scope="col">ACCIDENT FACTOR</th>
+                
+                {% comment %} <th scope="col">ACCIDENT CAUSATION SUB-CATEGORY</th> {% endcomment %}
+                <th scope="col">DAMAGE TO PROPERTY</th>
+                <th scope="col">FATAL</th>
+                <th scope="col">NON-FATAL</th>
+                <th scope="col">TOTAL COUNT</th>
+            </tr>
           </thead>
           <tbody>
               {% for i in incident_general_accident %}
-            
               <tr>
-                <td scope="row">{{i.date}}</td>
-                <td scope="row">{{i.time}}</td>
-                <td scope="row">{{i.address}}</td>
-                  <td scope="row">{{i.accident_factor.category}}</td>
-                  {% comment %} <td scope="row">{{i.accident_subcategory.sub_category}}</td> {% endcomment %}
-                  <td>{{i.severity}}</td>
-                 
+                <td scope="row">{{i.accident_factor__category}}</td>
+               
+                  <td scope="row">{{i.damage_to_property}}</td>
+                <td scope="row">{{i.fatal}}</td>
+                <td scope="row">{{i.non_fatal}}</td>
+                <td scope="row">{{i.total_count}}</td>
+                  {% comment %} <td scope="row">{{i.accident_subcategory.sub_category}}</td> {% endcomment %}             
            
               </tr>
               {% endfor %}
 
-              <tr>
-                  <td scope="row"></td>
-                  <td>TOTAL: </td>
-                  <td>{{incident_general_accident | length}}</td>
-                  
-              </tr>
           </tbody>
       </table> 
 
       
 
     </div>
-    <div class="table-container" style="overflow-x:auto">
+     {% comment %} <div class="table-container" style="overflow-x:auto">
 
 
        <h3>SUMMARY</h3>
@@ -235,13 +229,13 @@ footer {
                  <td>TOTAL: </td>
                  <td>{{incident_general_accident | length}}</td>
                  
-             </tr> {% endcomment %}
+             </tr> 
          </tbody>
      </table> 
  
        
  
-     </div>
+     </div> {% endcomment %}
     {% comment %} <p style="text-align:right; font-size:12px;">*All values are in INR<p> {% endcomment %}
 </body>
 

@@ -51,12 +51,12 @@ def send_verfication_email_inbox(request, user, mail_subject, email_template, us
     mail.send()
 
 def send_sms(user_code,phone_number):
-    account_sid = 'AC544a74e1519b84282c6d22e90d4dbe12'
-    auth_token = '058ea780845da159b017ced55f4668de'
+    account_sid = 'AC4da56b3cf16e2b95ed8254534035f91c'
+    auth_token = '6cb3556ab1687d21859bd73e7031b83f'
     client = Client(account_sid, auth_token)
     message = client.messages.create(
         body= f'Hi! You user and verification code is {user_code}',
-        from_ = '+15702829445',
+        from_ = '+15044145165',
         to = f'{phone_number}'
     )
     print(message.sid)

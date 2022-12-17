@@ -2,7 +2,7 @@
 <html lang="en">
 {% load static %}
 <head>
-  <title>Vehocle Type</title>
+  <title>Vehicle Type</title>
 <style>
   .clearfix:after {
   content: "";
@@ -157,7 +157,8 @@ footer {
       <br>
       <br>
     </div>
-    <h3>Collision Type vs Severity</h3>
+    <h3>Vehicle Type vs Severity</h3>
+    
     <div id="company" class="clearfix">
     </div>
     <br>
@@ -166,38 +167,39 @@ footer {
     <div class="table-container" style="overflow-x:auto">
 
      <table class="table" style="width:100%">
+      <h3>{{report1.fromdate}} {{report1.todate}}</h3>
           <thead>
-              <tr>
-                  <th scope="col">VEHICLE CLASSIFICATION</th>
-                  {% comment %} <th scope="col">COLLISION TYPE SUB-CATEGORY</th> {% endcomment %}
-                  <th scope="col">SEVERITY</th>
-              </tr>
+            <tr>
+              <th scope="col">VEHICLE TYPE</th>
+                
+                {% comment %} <th scope="col">ACCIDENT CAUSATION SUB-CATEGORY</th> {% endcomment %}
+                <th scope="col">DAMAGE TO PROPERTY</th>
+                <th scope="col">FATAL</th>
+                <th scope="col">NON-FATAL</th>
+                <th scope="col">TOTAL COUNT</th>
+            </tr>
           </thead>
           <tbody>
-              {% for i in incident_vehicle %}
-            
+              {% for i in incident_general_accident %}
               <tr>
-                  <td scope="row">{{i.classification}}</td>
-                  {% comment %} <td scope="row">{{i.collision_subcategory.sub_category}}</td> {% endcomment %}
-                  <td>{{i.incident_general.severity}}</td>
-                 
+                <td scope="row">{{i.vehicle_type}}</td>
+               
+                  <td scope="row">{{i.damage_to_property}}</td>
+                <td scope="row">{{i.fatal}}</td>
+                <td scope="row">{{i.non_fatal}}</td>
+                <td scope="row">{{i.total_count}}</td>
+                  {% comment %} <td scope="row">{{i.accident_subcategory.sub_category}}</td> {% endcomment %}             
            
               </tr>
               {% endfor %}
 
-              <tr>
-               
-                  <td>TOTAL: </td>
-                  <td>{{incident_vehicle | length}}</td>
-                  
-              </tr>
           </tbody>
       </table> 
 
       
 
     </div>
-    <div class="table-container" style="overflow-x:auto">
+    {% comment %} <div class="table-container" style="overflow-x:auto">
 
 
        <h3>SUMMARY</h3>
@@ -214,26 +216,26 @@ footer {
              
            
              <tr>
-                 <td scope="row">{{incident_vehicle2 | length}}</td>
-                 <td scope="row">{{incident_vehicle1 | length}}</td>
-                 <td>{{incident_vehicle3 | length}}</td>
+                 <td scope="row">{{incident_general_accident2 | length}}</td>
+                 <td scope="row">{{incident_general_accident1 | length}}</td>
+                 <td>{{incident_general_accident3 | length}}</td>
                 
           
              </tr>
             
-{% comment %}  
-             <tr>
+ 
+             {% comment %} <tr>
                  <td scope="row"></td>
                  <td>TOTAL: </td>
-                 <td>{{incident_general_collision | length}}</td>
+                 <td>{{incident_general_accident | length}}</td>
                  
-             </tr> {% endcomment %}
+             </tr> 
          </tbody>
      </table> 
  
        
  
-     </div>
+     </div> {% endcomment %}
     {% comment %} <p style="text-align:right; font-size:12px;">*All values are in INR<p> {% endcomment %}
 </body>
 

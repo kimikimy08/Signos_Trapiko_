@@ -1,14 +1,15 @@
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import BytesIO
 from django.http import JsonResponse
 from django.shortcuts import render
 import folium
 from folium import plugins
-from folium.plugins import HeatMapWithTime
+from folium.plugins import HeatMapWithTime, HeatMap
 from folium.plugins import FastMarkerCluster
 from folium.plugins import MarkerCluster
 import plotly.express as px
+from django.core.paginator import Paginator
 from django.db.models import Count
 import numpy as np
 
@@ -21,6 +22,7 @@ from incidentreport.models import IncidentGeneral, IncidentRemark, IncidentMedia
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
 from django.views.decorators.cache import cache_control
+
 
 # Create your views here.
 
@@ -230,7 +232,7 @@ def superadmin_dashboard(request):
     print(data2)
 
     df = pd.DataFrame(incident_general.values(
-        'latitude', 'longitude'))
+        'date', 'latitude', 'longitude'))
     
 
     # incident_vehicle = IncidentVehicle.objects.all()
@@ -243,21 +245,57 @@ def superadmin_dashboard(request):
     # .annotate(count_id=Count('id'))        # Count the number of articles in the grouping
     # .order_by('-month')[:12]
 
+
+    queryset = IncidentGeneral.objects.filter(status=2).values('address','latitude', 'longitude').annotate(total_count=Count('address')).order_by('-total_count')
+    paginator = Paginator(queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+   
     # coordenadas = list(IncidentGeneral.objects.values_list('user_report__latitude','user_report__longitude'))[-1]
-    map1 = folium.Map(location=[14.676208, 121.043861],
-                      zoom_start=12)
+    
 
     # df = df.dropna(axis=0, subset=['user_report__latitude', 'user_report__longitude', 'accident_factor', 'user_report__date'])
     # mapquestopen
+    
+    today = datetime.today()
+    yesterday = (today - timedelta(days=1)).strftime("%Y-%m-%d")
+    threedays = (today - timedelta(days=3)).strftime("%Y-%m-%d")
+    one_week_ago = (today - timedelta(days=7)).strftime("%Y-%m-%d")
+    thirty_days_ago = (today - timedelta(days=360)).strftime("%Y-%m-%d")
+    today = today.strftime("%Y-%m-%d")
+
+    print("Today     :",today ,
+        "\nYesterday :",yesterday ,
+        "\nT-3       :",threedays ,
+        "\nT-7       :",one_week_ago ,
+        "\nT-30      :",thirty_days_ago  )
+    
+    #Converting submission_date to datetime 
+    df["date"] = pd.to_datetime(df.date)
+    #Filtering Three days back data 
+    date_df = df[df['date'] > thirty_days_ago]
+    print(date_df)
+    
+    df_location = pd.DataFrame(incident_general.values('latitude', 'longitude'))
+    print(df_location)
+    
+    map1 = folium.Map(location=[14.676208, 121.043861],
+                      zoom_start=12)
 
     fg = folium.FeatureGroup(name='Marker Cluster', show=False)
     map1.add_child(fg)
+    
+    # HeatMap(covid_heatmap_df, 
+    #     min_opacity=0.4,
+    #     blur = 18
+    #            ).add_to(folium.FeatureGroup(name='Heat Map').add_to(hm))
 
     fg2 = folium.FeatureGroup(name='Heat Map', show=True)
     map1.add_child(fg2)
 
-    plugins.HeatMap(df).add_to(fg2)
-    FastMarkerCluster(data=df.values.tolist()).add_to(fg)
+    plugins.HeatMap(df_location).add_to(fg2)
+    FastMarkerCluster(data=df_location.values.tolist()).add_to(fg)
     # marker_cluster = MarkerCluster().add_to(fg)
     folium.TileLayer(('openstreetmap'), attr='openstreetmap').add_to(map1)
     # folium.TileLayer('mapquestopen', attr='mapquestopen').add_to(map1)
@@ -268,7 +306,38 @@ def superadmin_dashboard(request):
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
 
-    plugins.HeatMap(df).add_to(fg2)
+    plugins.HeatMap(df_location).add_to(fg2)
+    
+    currentmonth_df = date_df[(date_df['date'] > thirty_days_ago)]
+    print(currentmonth_df)
+    
+    inc_heatmaptime_df = currentmonth_df.merge(df_location, how='left')[['date','latitude','longitude']]
+    inc_heatmaptime_df.dropna(inplace=True)
+    print(inc_heatmaptime_df)
+    
+    time_index = list(inc_heatmaptime_df['date'].sort_values().astype('str').unique())
+    print(time_index)
+    
+    inc_heatmaptime_df['date'] = inc_heatmaptime_df['date'].sort_values(ascending=True)
+    data = []
+    for _, d in inc_heatmaptime_df.groupby('date'):
+        data.append([[row['latitude'], row['longitude']] for _, row in d.iterrows()])
+    print(data)
+    
+    hmt = folium.Map(location=[14.676208, 121.043861],
+               tiles='cartodbpositron',#'cartodbpositron', stamentoner
+               zoom_start=12,
+               control_scale=True)
+
+    HeatMapWithTime(data,
+                    index=time_index,
+                    auto_play=True,
+                    use_local_extrema=True
+                ).add_to(hmt)
+    
+    # fg2 = folium.FeatureGroup(name='Heat Map with Time', show=False)
+    # map.add_child(fg2)
+    # plugins.HeatMapWithTime(data).add_to(fg2)
 
     map2 = folium.Map(location=[14.676208, 121.043861],
                       zoom_start=12, zoom_control=False,
@@ -289,9 +358,11 @@ def superadmin_dashboard(request):
 
     map1 = map1._repr_html_()
     map2 = map2._repr_html_()
+    hmt = hmt._repr_html_()
     context = {
         'map1': map1,
         'map2': map2,
+        'hmt': hmt,
         'labels': labels,
         'data': data,
         'labels1': labels1,
@@ -301,7 +372,8 @@ def superadmin_dashboard(request):
         'incidentReports_pending': incidentReports_pending,
         "incidentReports": incidentReports,
         'incidentReports_approved': incidentReports_approved,
-        'incidentReports_today': incidentReports_today
+        'incidentReports_today': incidentReports_today,
+        'queryset': page_obj
     }
     return render(request, 'pages/sa_Dashboard.html', context)
 

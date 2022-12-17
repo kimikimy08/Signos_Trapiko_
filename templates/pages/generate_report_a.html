@@ -111,20 +111,62 @@
                                       class="text-dark text-decoration-none">Vehicle Classification vs Severity (PDF)</a></td>
                           </tr> {% endcomment %}
                           <tr>
+                            <td>  <a href="#" data-toggle="modal" data-target="#select_location">Location vs Severity (PDF)</a></td>
+                            </tr>
+                          <tr>
+                            <tr>
+                                <td>  <a href="#" data-toggle="modal" data-target="#select_month_year">Month vs Severity (PDF)</a></td>
+                                </tr> 
+                          <tr>
                             <td>  <a href="#" data-toggle="modal" data-target="#select_accident">Accident Factor vs Severity (PDF)</a></td>
                             </tr>
                           <tr>
                             <td>  <a href="#" data-toggle="modal" data-target="#select_collision">Collision Type vs Severity (PDF)</a></td>
                             </tr>
-                            {% comment %} <tr>
+                           <tr>
                                 <td>  <a href="#" data-toggle="modal" data-target="#select_vehicle">Vehicle Classification vs Severity (PDF)</a></td>
-                                </tr> {% endcomment %}
+                                </tr>
+                                {% comment %} <tr>
+                                    <td>  <a href="#" data-toggle="modal" data-target="#select_damage_to_property">Damage to Property (PDF)</a></td>
+                                    </tr>  {% endcomment %}
+
                       </tbody>
                       <!-- End of Table Body  -->
 
  <!-- Modals  -->
         <!-- Selecte Date Modal -->
 
+        <div class="modal fade" id="select_location" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_location' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
 
         <div class="modal fade" id="select_accident" role="dialog">
             <div class="modal-dialog">
@@ -136,7 +178,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  <form action="{% url 'a_generateinvoice_accident' %}" method="POST">
+                  <form action="{% url 'sa_generateinvoice_accident' %}" method="POST">
                     {% csrf_token %}
                     
                     <div class="form-group ">
@@ -168,7 +210,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  <form action="{% url 'a_generateinvoice_collision' %}" method="POST">
+                  <form action="{% url 'sa_generateinvoice_collision' %}" method="POST">
                     {% csrf_token %}
                     
                     <div class="form-group ">
@@ -201,6 +243,70 @@
                 </div>
                 <div class="modal-body">
                   <form action="{% url 'sa_generateinvoice_vehicle' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
+
+        <div class="modal fade" id="select_month_year" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_month_year' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group ">
+                        <label>From Date</label>
+                        <input type="date" name="fromdate" class="form-control date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" name="todate" class="form-control date" required>
+                    </div>
+                    
+                      <hr>
+                      <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div> 
+
+        <div class="modal fade" id="select_damage_to_property" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Filter Reports</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'sa_generateinvoice_damage_to_property' %}" method="POST">
                     {% csrf_token %}
                     
                     <div class="form-group ">
@@ -282,6 +388,6 @@
             <!-- End of Scroll to Top-->
 
 
-           
+            {% comment %} {% include 'includes/alerts.html' %} {% endcomment %}
 
             {% endblock %}

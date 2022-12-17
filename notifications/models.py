@@ -33,7 +33,7 @@ class Notification(models.Model):
     responder = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="noti_responder")
     notification_type = models.IntegerField(choices=TYPES)
     remarks = models.CharField(max_length=90, blank=True)
-    text_preview = models.CharField(max_length=90, blank=True)
+    text_preview = models.TextField(max_length=1000, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     is_seen = models.BooleanField(default=False)
     

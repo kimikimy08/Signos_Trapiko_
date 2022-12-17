@@ -38,6 +38,15 @@
                         <div class="pg-title p-2 flex-grow-1 bd-highlight">
                             <h4>Incident Report</h4>
                         </div>
+                        
+                        {% if remarks_instance_id.incident_location == True %}
+                            <button type="submit" class="d-sm-inline-block btn btn-sm btn-secondary shadow-sm mr-1 bd-highlight" disabled><i class="bx bx-map-alt"></i> I've Arrived</a></button>
+                        {% else %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="d-sm-inline-block btn btn-sm btn-success shadow-sm mr-1 bd-highlight"><i class="bx bx-map-alt"></i> I've Arrived</a></button>
+                        </form>
+                        {% endif %}
                     </div>
 
                     <!-- User Report Table  -->
@@ -180,7 +189,11 @@
                                         <!-- ================================= -->
                                         <br>
                                         <div class="modal-footer mb-3">
-                                            <button type="button" class="btn btn-info"> <a href="{% url 'a_incident_report_general_edit' general_instance.id %}" class="discard-link"> Edit </a></button>
+                                            {% if remarks_instance_id.incident_location == True %}
+                                            <button type="button" class="btn btn-primary"> <a href="{% url 'a_incident_report_general_edit' general_instance.id %}" style="text-decoration: none; color: white;">Edit</a Edit </a></button>
+                                            {% else %}
+                                            <button type="button" class="btn btn-secondary" disabled> <a style="text-decoration: none; color: white;">Edit </a></button>
+                                            {% endif %}
                                         </div>
                                         
                                 </table>

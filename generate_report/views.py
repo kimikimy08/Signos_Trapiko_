@@ -8,7 +8,7 @@ import xlwt
 from accounts.models import UserProfile, User
 from incidentreport.models import AccidentCausation,IncidentGeneral, IncidentVehicle
 import pytz
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q
 from django.db.models import Q
 from io import BytesIO
 from django.http import HttpResponse
@@ -19,6 +19,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
 from generate_report.models import GenerateReport
 from django.views.decorators.cache import cache_control
+
+
 
 # Create your views here.
 @login_required(login_url='login')
@@ -389,7 +391,7 @@ def generate_reports(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_super)
+@user_passes_test(check_role_super_admin)
 def GenerateInvoiceAccident(request):
     try:
         if request.method == 'POST':
@@ -401,7 +403,12 @@ def GenerateInvoiceAccident(request):
         print(fromdate, todate)
     
         # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
-        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ])
+        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('accident_factor', 'accident_factor__category').annotate(
+            damage_to_property=Count('accident_factor', filter=Q(severity='Damage to Property')),
+            fatal=Count('accident_factor', filter=Q(severity='Fatal')),
+            non_fatal=Count('accident_factor', filter=Q(severity='Non-Fatal')),
+            total_count = Count('accident_factor', filter=Q(severity='Damage to Property')) + Count('accident_factor', filter=Q(severity='Fatal')) + Count('accident_factor', filter=Q(severity='Non-Fatal'))
+           ).order_by('accident_factor').exclude(accident_factor__isnull=True)
         incident_general_accident1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
         incident_general_accident2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
         incident_general_accident3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
@@ -414,7 +421,7 @@ def GenerateInvoiceAccident(request):
         return HttpResponse("505 Not Found")
     data = {
         'incident_general_accident': incident_general_accident,
-        'incident_general_classification': incident_general_classification,
+        # 'incident_general_accident_1': incident_general_accident_1,
         'incident_general_collision': incident_general_collision,
         'incident_general_accident1': incident_general_accident1,
         'incident_general_accident2': incident_general_accident2,
@@ -432,7 +439,6 @@ def GenerateInvoiceAccident(request):
         content = "inline; filename='%s'" %(filename)
             #download = request.GET.get("download")
             #if download:
-        content = "attachment; filename=%s" %(filename)
         response['Content-Disposition'] = content
         return response
         # return HttpResponse("Not found")
@@ -440,7 +446,77 @@ def GenerateInvoiceAccident(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_super)
+@user_passes_test(check_role_super_admin)
+def GenerateInvoiceLocation(request):
+    try:
+        if request.method == 'POST':
+            fromdate = request.POST.get('fromdate')
+            todate = request.POST.get('todate')
+            report = GenerateReport(user=request.user, fromdate=fromdate, todate=todate, report="Location PDF")
+            report.save()
+            
+        print(fromdate, todate)
+    
+        # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
+        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('address', 'latitude', 'longitude').annotate(
+            damage_to_property=Count('address', filter=Q(severity='Damage to Property')),
+            fatal=Count('address', filter=Q(severity='Fatal')),
+            non_fatal=Count('address', filter=Q(severity='Non-Fatal')),
+            total_count = Count('address', filter=Q(severity='Damage to Property')) + Count('address', filter=Q(severity='Fatal')) + Count('address', filter=Q(severity='Non-Fatal'))
+           ).order_by()
+        # total_count = Sum(incident_general_accident.values())
+        incident_general_accident1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_accident2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_accident3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_classification = IncidentGeneral.objects.filter(status = 2, severity="Damage to Property", date__range=[fromdate, todate ]).distinct('address', 'latitude', 'longitude')
+        incident_general_collision = IncidentGeneral.objects.filter(status = 2, severity="Damage to Property", date__range=[fromdate, todate ]).distinct('address', 'latitude', 'longitude') #you can filter using order_id as well
+        # count_damage_to_property = Count('IncidentGeneral', filter=Q(severity='Damage to Property'))
+        # count_fatal = Count('IncidentGeneral', filter=Q(severity='Fatal'))
+        # count_non_fatal = Count('IncidentGeneral', filter=Q(severity='Non-Fatal'))
+        # user_incident_generals = incident_general_accident.annotate(damage_to_property=count_damage_to_property).annotate(fatal=count_fatal).annotate(non_fatal=count_non_fatal)
+        
+        report1 = GenerateReport.objects.all().order_by('-created_at')[:1]
+        
+        # for user_incident in user_incident_generals:
+        #     nb_fatal = user_incident.fatal
+        #     nb_non_fatal = user_incident.non_fatal
+        
+        
+    except:
+        return HttpResponse("505 Not Found")
+    data = {
+        'incident_general_accident': incident_general_accident,
+        'incident_general_classification': incident_general_classification,
+        'incident_general_collision': incident_general_collision,
+        'incident_general_accident1': incident_general_accident1,
+        'incident_general_accident2': incident_general_accident2,
+        'incident_general_accident3': incident_general_accident3,
+        'report1':report1,
+        # 'count_damage_to_property': count_damage_to_property,
+        # 'count_fatal': count_fatal,
+        # 'count_non_fatal': count_non_fatal,
+        # 'user_incident_generals': user_incident_generals
+            # 'amount': order_db.total_amount,
+    }
+    pdf = render_to_pdf('pages/generate_report_pdf_location.html', data)
+        #return HttpResponse(pdf, content_type='application/pdf')
+
+        # force download
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Location.pdf" #%(data['incident_general.id'])
+        content = "inline; filename='%s'" %(filename)
+            #download = request.GET.get("download")
+            #if download:
+        content = "filename=%s" %(filename)
+        response['Content-Disposition'] = content
+        return response
+        # return HttpResponse("Not found")
+    return render(request, 'pages/generate_report_sa.html')
+
+@login_required(login_url='login')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_passes_test(check_role_super_admin)
 def GenerateInvoiceCollision(request):
     try:
         fromdate = request.POST.get('fromdate')
@@ -449,7 +525,12 @@ def GenerateInvoiceCollision(request):
         print(fromdate, todate)
     
         # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
-        incident_general_collision = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ])
+        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('collision_type', 'collision_type__category').annotate(
+            damage_to_property=Count('collision_type', filter=Q(severity='Damage to Property')),
+            fatal=Count('collision_type', filter=Q(severity='Fatal')),
+            non_fatal=Count('collision_type', filter=Q(severity='Non-Fatal')),
+            total_count = Count('collision_type', filter=Q(severity='Damage to Property')) + Count('collision_type', filter=Q(severity='Fatal')) + Count('collision_type', filter=Q(severity='Non-Fatal'))
+           ).order_by('collision_type').exclude(collision_type__isnull=True)
         incident_general_collision1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
         incident_general_collision2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
         incident_general_collision3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ]).annotate(Count('severity'))
@@ -462,9 +543,8 @@ def GenerateInvoiceCollision(request):
     except:
         return HttpResponse("505 Not Found")
     data = {
-        'incident_general_collision': incident_general_collision,
+        'incident_general_accident': incident_general_accident,
         'incident_general_classification': incident_general_classification,
-        'incident_general_collision': incident_general_collision,
         'incident_general_collision1': incident_general_collision1,
         'incident_general_collision2': incident_general_collision2,
         'incident_general_collision3': incident_general_collision3,
@@ -481,7 +561,6 @@ def GenerateInvoiceCollision(request):
         content = "inline; filename='%s'" %(filename)
             #download = request.GET.get("download")
             #if download:
-        content = "attachment; filename=%s" %(filename)
         response['Content-Disposition'] = content
         return response
         # return HttpResponse("Not found")
@@ -489,7 +568,7 @@ def GenerateInvoiceCollision(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_super)
+@user_passes_test(check_role_super_admin)
 def GenerateInvoiceVehicle(request):
     try:
         fromdate = request.POST.get('fromdate')
@@ -498,35 +577,160 @@ def GenerateInvoiceVehicle(request):
         print(fromdate, todate)
     
         # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
-        incident_vehicle = IncidentVehicle.objects.filter(incident_general__status = 2, incident_general__date__range=[fromdate, todate ])
-        incident_vehicle1 = IncidentVehicle.objects.filter(incident_general__status = 2,incident_general__severity='Fatal', incident_general__date__range=[fromdate, todate ] ).annotate(Count('incident_general__severity'))
-        incident_vehicle2 = IncidentVehicle.objects.filter(incident_general__status = 2,incident_general__severity='Damage to Property', incident_general__date__range=[fromdate, todate ] ).annotate(Count('incident_general__severity'))
-        incident_vehicle3 = IncidentVehicle.objects.filter(incident_general__status = 2,incident_general__severity='Non-Fatal', incident_general__date__range=[fromdate, todate ] ).annotate(Count('incident_general__severity'))
-            # incident_general_classification = IncidentGeneral.objects.filter(user_report__status = 2, severity="Damage to Property").distinct('accident_factor')
+        incident_general_accident = IncidentVehicle.objects.filter(incident_general__status = 2, incident_general__date__range=[fromdate, todate ]).values('vehicle_type').annotate(
+            damage_to_property=Count('vehicle_type', filter=Q(incident_general__severity='Damage to Property')),
+            fatal=Count('vehicle_type', filter=Q(incident_general__severity='Fatal')),
+            non_fatal=Count('vehicle_type', filter=Q(incident_general__severity='Non-Fatal')),
+            total_count = Count('vehicle_type', filter=Q(incident_general__severity='Damage to Property')) + Count('vehicle_type', filter=Q(incident_general__severity='Fatal')) + Count('vehicle_type', filter=Q(incident_general__severity='Non-Fatal'))
+           ).order_by('vehicle_type').exclude(vehicle_type__isnull=True)
+        incident_general_collision1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ]).annotate(Count('severity'))
+        incident_general_classification = IncidentGeneral.objects.filter(status = 2, severity="Damage to Property", date__range=[fromdate, todate ]).distinct('accident_factor')
+        report = GenerateReport(user=request.user, fromdate=fromdate, todate=todate, report="Vehicle Type PDF")
+        report.save()
+        report1 = GenerateReport.objects.all().order_by('-created_at')[:0]      
            
+            
     except:
         return HttpResponse("505 Not Found")
-        
-    data = {'incident_vehicle': incident_vehicle,
-            'incident_vehicle1': incident_vehicle1,
-            'incident_vehicle2': incident_vehicle2,
-            'incident_vehicle3': incident_vehicle3,
-                # 'incident_general_collision3': incident_general_collision3,
-                # 'amount': order_db.total_amount,
-        }
+    data = {
+        'incident_general_accident': incident_general_accident,
+        'incident_general_classification': incident_general_classification,
+        'incident_general_collision1': incident_general_collision1,
+        'incident_general_collision2': incident_general_collision2,
+        'incident_general_collision3': incident_general_collision3,
+        'report1': report1
+            # 'amount': order_db.total_amount,
+    }
     pdf = render_to_pdf('pages/generate_report_pdf_vehicle.html', data)
         #return HttpResponse(pdf, content_type='application/pdf')
 
         # force download
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Vehicle_Classification.pdf" #%(data['incident_general.id'])
+        filename = "Vehicle_Type.pdf" #%(data['incident_general.id'])
         content = "inline; filename='%s'" %(filename)
             #download = request.GET.get("download")
             #if download:
-        content = "attachment; filename=%s" %(filename)
         response['Content-Disposition'] = content
         return response
+        # return HttpResponse("Not found")
+    return render(request, 'pages/generate_report_sa.html')
+
+@login_required(login_url='login')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_passes_test(check_role_super_admin)
+def GenerateInvoiceMonthYear(request):
+    try:
+        fromdate = request.POST.get('fromdate')
+        todate = request.POST.get('todate')
+            
+        print(fromdate, todate)
+    
+        # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
+        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('date__month', 'date__year').annotate(
+            damage_to_property=Count('date__month', filter=Q(severity='Damage to Property')),
+            fatal=Count('date__month', filter=Q(severity='Fatal')),
+            non_fatal=Count('date__month', filter=Q(severity='Non-Fatal')),
+            total_count = Count('date__month', filter=Q(severity='Damage to Property')) + Count('date__month', filter=Q(severity='Fatal')) + Count('date__month', filter=Q(severity='Non-Fatal'))
+           ).order_by('date__month').exclude(date__month__isnull=True)
+        
+        incident_general_accident_year = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('date__year').annotate(
+            damage_to_property=Count('date__year', filter=Q(severity='Damage to Property')),
+            fatal=Count('date__year', filter=Q(severity='Fatal')),
+            non_fatal=Count('date__year', filter=Q(severity='Non-Fatal')),
+            total_count = Count('date__year', filter=Q(severity='Damage to Property')) + Count('date__year', filter=Q(severity='Fatal')) + Count('date__year', filter=Q(severity='Non-Fatal'))
+           ).order_by('date__year').exclude(date__year__isnull=True)
+        
+        incident_general_collision1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ]).annotate(Count('severity'))
+        incident_general_classification = IncidentGeneral.objects.filter(status = 2, severity="Damage to Property", date__range=[fromdate, todate ]).distinct('accident_factor')
+        report = GenerateReport(user=request.user, fromdate=fromdate, todate=todate, report="Vehicle Type PDF")
+        report.save()
+        report1 = GenerateReport.objects.all().order_by('-created_at')[:0]      
+           
+            
+    except:
+        return HttpResponse("505 Not Found")
+    data = {
+        'incident_general_accident': incident_general_accident,
+        'incident_general_accident_year': incident_general_accident_year,
+        'incident_general_collision1': incident_general_collision1,
+        'incident_general_collision2': incident_general_collision2,
+        'incident_general_collision3': incident_general_collision3,
+        'report1': report1
+            # 'amount': order_db.total_amount,
+    }
+    pdf = render_to_pdf('pages/generate_report_pdf_month_year.html', data)
+        #return HttpResponse(pdf, content_type='application/pdf')
+
+        # force download
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "MonthAndYear.pdf" #%(data['incident_general.id'])
+        content = "inline; filename='%s'" %(filename)
+            #download = request.GET.get("download")
+            #if download:
+        response['Content-Disposition'] = content
+        return response
+        # return HttpResponse("Not found")
+    return render(request, 'pages/generate_report_sa.html')
+
+@login_required(login_url='login')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_passes_test(check_role_super)
+def GenerateInvoiceDamageToProperty(request):
+    try:
+        fromdate = request.POST.get('fromdate')
+        todate = request.POST.get('todate')
+            
+        print(fromdate, todate)
+    
+        # incident_general_accident = IncidentGeneral.objects.filter(user_report__status = 2).values('accident_factor__category').annotate(Count('severity'), filter=Q(severity='Damage to Property'))
+        incident_general_accident = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ], severity="Damage to Property").exclude(severity__isnull=True)
+        
+        incident_general_accident_year = IncidentGeneral.objects.filter(status = 2, date__range=[fromdate, todate ]).values('date__year').annotate(
+            damage_to_property=Count('date__year', filter=Q(severity='Damage to Property')),
+            fatal=Count('date__year', filter=Q(severity='Fatal')),
+            non_fatal=Count('date__year', filter=Q(severity='Non-Fatal')),
+            total_count = Count('date__year', filter=Q(severity='Damage to Property')) + Count('date__year', filter=Q(severity='Fatal')) + Count('date__year', filter=Q(severity='Non-Fatal'))
+           ).order_by('date__year').exclude(date__year__isnull=True)
+        
+        incident_general_collision1 = IncidentGeneral.objects.filter(status = 2,severity='Fatal', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision2 = IncidentGeneral.objects.filter(status = 2,severity='Damage to Property', date__range=[fromdate, todate ] ).annotate(Count('severity'))
+        incident_general_collision3 = IncidentGeneral.objects.filter(status = 2,severity='Non-Fatal', date__range=[fromdate, todate ]).annotate(Count('severity'))
+        incident_general_classification = IncidentGeneral.objects.filter(status = 2, severity="Damage to Property", date__range=[fromdate, todate ]).distinct('accident_factor')
+        report = GenerateReport(user=request.user, fromdate=fromdate, todate=todate, report="Vehicle Type PDF")
+        report.save()
+        report1 = GenerateReport.objects.all().order_by('-created_at')[:0]      
+           
+            
+    except:
+        return HttpResponse("505 Not Found")
+    data = {
+        'incident_general_accident': incident_general_accident,
+        'incident_general_accident_year': incident_general_accident_year,
+        'incident_general_collision1': incident_general_collision1,
+        'incident_general_collision2': incident_general_collision2,
+        'incident_general_collision3': incident_general_collision3,
+        'report1': report1
+            # 'amount': order_db.total_amount,
+    }
+    pdf = render_to_pdf('pages/generate_report_pdf_damage_to_property.html', data)
+        #return HttpResponse(pdf, content_type='application/pdf')
+
+        # force download
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "MonthAndYear.pdf" #%(data['incident_general.id'])
+        content = "inline; filename='%s'" %(filename)
+            #download = request.GET.get("download")
+            #if download:
+        response['Content-Disposition'] = content
+        return response
+        # return HttpResponse("Not found")
     return render(request, 'pages/generate_report_sa.html')
 
 @login_required(login_url='login')

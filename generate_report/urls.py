@@ -16,6 +16,9 @@ urlpatterns = [
     path('generate_reports/accident/', views.GenerateInvoiceAccident, name = 'sa_generateinvoice_accident'),
     path('generate_reports/collision/', views.GenerateInvoiceCollision,name='sa_generateinvoice_collision'),
     path('generate_reports/vehicle/', views.GenerateInvoiceVehicle, name = 'sa_generateinvoice_vehicle'),
+    path('generate_reports/location/', views.GenerateInvoiceLocation, name = 'sa_generateinvoice_location'),
+    path('generate_reports/monthyear/', views.GenerateInvoiceMonthYear, name = 'sa_generateinvoice_month_year'),
+    path('generate_reports/damagetoproperty/', views.GenerateInvoiceDamageToProperty, name = 'sa_generateinvoice_damage_to_property'),
     
     path('generate_report/', views.generate_report, name='generate_report'),
     path('generate_report/accident/', views.A_GenerateInvoiceAccident, name = 'a_generateinvoice_accident'),

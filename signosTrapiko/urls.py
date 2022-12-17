@@ -36,6 +36,7 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path('', include('inbox.urls')),
     path('', include('notifications.urls')),
+    path('', include('reports.urls')),
 ] 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

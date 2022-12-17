@@ -86,10 +86,10 @@
                         <div class="p-2 bd-highlight">
                             <a href="{% url 'a_simple_upload' %}" title ="Add User"
                                 class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
-                                <i class='bx bx-user-plus'></i> Upload Incident General</a>
-                                <a href="{% url 'a_simple_upload_additional'%}" title ="Add User"
+                                <i class='bx bx-user-plus'></i> Upload Incident Report</a>
+                                {% comment %} <a href="{% url 'a_simple_upload_additional'%}" title ="Add User"
                                 class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
-                                <i class='bx bx-user-plus'></i> Upload Incident Additional</a>
+                                <i class='bx bx-user-plus'></i> Upload Incident Additional</a> {% endcomment %}
     
                             <!-- <a href="#add2"
                                 class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight"
@@ -134,108 +134,217 @@
                         class="btn btn-sm btn-success">Recycle Bin</a>
                         <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#bulkdeleteModal">Bulk Delete</a>
                 </div>
-                            <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
-                                style="cursor: pointer;" cellspacing="0">
+                <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                style="cursor: pointer;" cellspacing="0">
+    <thead>
+        <tr>
+            <th></th>
+           
+            <th>Username</th>
+            <th>Role</th>
+            <th>Description</th>
+            <th>Location</th>
+            {% comment %} <th>Accident Factor</th>
+            <th>Collision Type</th> {% endcomment %}
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Settings</th>
+            <th></th>
+        </tr>
+    </thead>
 
-                                <!-- Table Header  -->
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Username</th>
-                                        <th>Role</th>
-                                        <th>Description</th>
-                                        <th>Location</th>
-                                        {% comment %} <th>Accident Factor</th>
-                                        <th>Collision Type</th> {% endcomment %}
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
-                                        <th>Settings</th>
-                                    </tr>
-                                </thead>
-
-                                <!-- Table Body  -->
-                                <tbody>
-                                    
-                                    {% for incident in incidentReports %}
-                                    {% if incident.user.username %}
-                                    <tr>
-                                        {% if incident.status == 2 %}
-                                        <td>
-                                            {% comment %} <input type="checkbox" name="{{incident.id}}" id="check" disabled> {% endcomment %}
-                                        </td>
-                                        {% else %}
-                                        <td><input type="checkbox" name="{{incident.id}}" id="check"></td>
-                                        {% endif %}
-                                        <td>{{incident.user.username}}</td>
-                                        <td>{% if incident.user.role %}{{incident.user.get_role}}{% endif %}</td>
-                                        <td>{{incident.description}}</td>
-                                        <td>{{incident.address}}</td>
-                                        {% comment %} <td>{{incident__incident_general.accident_factor}}</td>
-                                        <td>{{incident.collision_type}}</td> {% endcomment %}
-                                        <td>{{incident.date}}</td>
-                                        <td>{{incident.time}}</td>
-                                        <td>
-                                            {% if incident.status == 1 %}
-                                            <span class="badge badge-warning">{{incident.get_status}}</span>
-                                            {% elif incident.status == 2 %}
-                                            <span class="badge badge-success">{{incident.get_status}}</span>
-                                            {% elif incident.status == 3 %}
-                                            <span class="badge badge-danger">{{incident.get_status}}</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'a_incident_report_general_view' incident.id %}"><i class='bx bxs-folder-open'
-                                                title="View"></i></a>
+    <tbody>
+    <div class="container" id="accordion">
+        <div class="card">
+            {% for incident in incidentReports %}
+            {% if incident.incident_general.user.username %}
+                <tr>
                    
-                                                {% if incident.status == 2 %} 
-                                                {% else %}     
-                                                <a href="#" data-toggle="modal" data-target="#deleteModal{{ incident.id }}"><i class='bx bx-trash'
-                                                    data-toggle="tooltip" title="Delete" ></i></a>
-                                                    {% endif %}
-                                        </td>
-                                        
-                                    </tr>
-                                            <!-- Delete Modal HTML -->
-
-                            <div class="modal fade" id="deleteModal{{ incident.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp; Delete Incident</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                </button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            <div class="text-center text-danger"><i class="far fa-times-circle fa-5x mb-4 mt-2"></i></div>
-                                            <div class="text-center text-danger">
-                                                <span>Do you want to delete this incident report?</span>
-                                                {% comment %} <div class="text-dark mt-3 mb-2">Customer: <strong>{{users.username}}</strong></div> {% endcomment %}
-                                            </div>
-                                    </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                       
+                                {% if incident.incident_general.status == 2 %}
+                                <td>
+                                    {% comment %} <input type="checkbox" name="{{incident.id}}" id="check" disabled> {% endcomment %}
+                                </td>
+                                {% else %}
+                                <td><input type="checkbox" name="{{incident.incident_general.id}}" id="check"></td>
+                                {% endif %}
+                                <td>{{incident.incident_general.user.username}}</td>
+                                <td>{% if incident.incident_general.user.role %}{{incident.user.get_role}}{% endif %}</td>
+                                <td>{{incident.incident_general.description}}</td>
+                                <td>{{incident.incident_general.address}}</td>
+                                {% comment %} <td>{{incident__incident_general.accident_factor}}</td>
+                                <td>{{incident.collision_type}}</td> {% endcomment %}
+                                <td>{{incident.incident_general.date}}</td>
+                                <td>{{incident.incident_general.time}}</td>
+                                <td>
+                                    {% if incident.incident_general.status == 1 %}
+                                    <span class="badge badge-warning">{{incident.incident_general.get_status}}</span>
+                                    {% elif incident.incident_general.status == 2 %}
+                                    <span class="badge badge-success">{{incident.incident_general.get_status}}</span>
+                                    {% elif incident.incident_general.status == 3 %}
+                                    <span class="badge badge-danger">{{incident.incident_general.get_status}}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'a_incident_report_general_view' incident.incident_general.id %}"><i class='bx bxs-folder-open'
+                                        title="View"></i></a>
+           
+                                        {% if incident.incident_general.status == 2 %} 
+                                        {% else %}     
+                                        <a href="#" data-toggle="modal" data-target="#deleteModal{{ incident.incident_general.id }}"><i class='bx bx-trash'
+                                            data-toggle="tooltip" title="Delete" ></i></a>
+                                            {% endif %}
                                             
-                                
-                                    
-                                                <a class="btn btn-sm btn-danger" href="{% url 'user_report_delete' incident.id %}">Delete</a>
+                                            
                                         
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </td>
+                                <td>
+                                    <a href="#"  data-toggle="collapse"
+                                            data-target="#collapse{{incident.incident_general.id}}" onclick=""><i class="fa-sharp fa-solid fa-caret-down"></i></a>
+                                </td>
+                                
 
-                            <!-- BULK Delete Modal HTML -->
-{% include 'modals/bulkdelete.html' %}            
+                   
+                </tr>
 
+                <tr>
+                    <td id="collapse{{incident.incident_general.id}}" class="collapse" colspan="10" >
+
+                        <div class="columns is-mobile is-centered">
+                            <div class="column is-half">
+                                <ul class="timeline">
+                          {% for notification in notifications %}
+
+                          {% if notification.incident_report.id == incident.incident_general.id %}
+                         
+                         
+                          {% if notification.remarks == "new incident" %}
+
+                         
+                            <li class="timeline-item mb-5">
+                            
+                              <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
+                              <p class="text-muted">
+                                {{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt; sent an incident report
+                              </p>
+                            </li>
+
+                          
+                         
+                          
+                            {% endif %}
+                          
+                            {% if notification.remarks == "update remarks status" and incident.responder != None %}
+
+                            <li class="timeline-item mb-5">
+                              
+                              <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
+                              <p class="text-muted">
+                              
+                                  {{ notification.text_preview }}
+                                  
+                             
+                              </p>
+                            </li>
 
                             {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                                <!-- End of Table Body  -->
 
-                            </table>
+                            {% comment %} {% if notification.remarks == "update action status" and incident.action_taken != "" %}
+
+                          <li class="timeline-item mb-5">
+                            
+                            <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
+                            <p class="text-muted">
+                            
+                                {{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; The incident report (ref# incident{{incident.incident_general.id}}) was 
+                                <strong>{{ incident.action_taken }} </strong>
+                           
+                            </p>
+                          </li>
+
+                          {% endif %}
+
+                          {% if notification.remarks == "update incident location status" and incident.incident_location != "" %}
+
+                          <li class="timeline-item mb-5">
+                            
+                            <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
+                            <p class="text-muted">
+                            
+                                {{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; 
+                                <strong>{{ notification.text_preview }} </strong>
+                           
+                            </p>
+                          </li>
+
+                          {% endif %} {% endcomment %}
+                          
+                          {% if notification.remarks == "update incident status" %}
+
+                          <li class="timeline-item mb-5">
+                            
+                            <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
+                            <p class="text-muted">
+                                {% if notification.text_preview == "updated status to approved" %}
+                                {{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; <strong> {{ notification.text_preview }} </strong> and completed the report
+                                information  of the incident report (ref# incident{{incident.incident_general.id}})
+                                {% else %}
+                                {{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; <strong> {{ notification.text_preview }} </strong>
+                                {% endif %}
+                            </p>
+                          </li>
+
+                          
+                            {% endif %}
+
+            
+                        
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                          </div>
+                          </div>
+                          </div>
+                    </td>
+                </tr>
+                <div class="modal fade" id="deleteModal{{ incident.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp; Delete Incident</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <div class="text-center text-danger"><i class="far fa-times-circle fa-5x mb-4 mt-2"></i></div>
+                                <div class="text-center text-danger">
+                                    <span>Do you want to delete this incident report?</span>
+                                    {% comment %} <div class="text-dark mt-3 mb-2">Customer: <strong>{{users.username}}</strong></div> {% endcomment %}
+                                </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                
+                    
+                        
+                                    <a class="btn btn-sm btn-danger" href="{% url 'user_report_delete' incident.id %}">Delete</a>
+                            
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BULK Delete Modal HTML -->
+{% include 'modals/bulkdelete.html' %}    
+{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    </tbody>
+
+</table>
                             {% else %}
 
                             <h5 class="text-center">No User Report Added.</h5>
@@ -353,10 +462,10 @@
                             <div class="p-2 bd-highlight">
                                 <a href="{% url 'simple_upload' %}" title ="Add User"
                                     class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
-                                    <i class='bx bx-user-plus'></i> Upload Incident General</a>
-                                    <a href="{% url 'simple_upload_additional'%}" title ="Add User"
+                                    <i class='bx bx-user-plus'></i> Upload Incident Report</a>
+                                    {% comment %} <a href="{% url 'simple_upload_additional'%}" title ="Add User"
                                     class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
-                                    <i class='bx bx-user-plus'></i> Upload Incident Additional</a>
+                                    <i class='bx bx-user-plus'></i> Upload Incident Additional</a> {% endcomment %}
         
                                 <!-- <a href="#add2"
                                     class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight"
@@ -439,7 +548,7 @@
                                                     <td><input type="checkbox" name="{{incident.incident_general.id}}" id="check"></td>
                                                     {% endif %}
                                                     <td>{{incident.incident_general.user.username}}</td>
-                                                    <td>{% if incident.incident_general.user.role %}{{incident.user.get_role}}{% endif %}</td>
+                                                    <td>{% if incident.incident_general.user.role %}{{incident.incident_general.user.get_role}}{% endif %}</td>
                                                     <td>{{incident.incident_general.description}}</td>
                                                     <td>{{incident.incident_general.address}}</td>
                                                     {% comment %} <td>{{incident__incident_general.accident_factor}}</td>
@@ -470,7 +579,7 @@
                                                     </td>
                                                     <td>
                                                         <a href="#"  data-toggle="collapse"
-                                                                data-target="#collapse{{incident.incident_general.id}}" onclick=""><i class="fa-sharp fa-solid fa-circle-arrow-right"></i></a>
+                                                                data-target="#collapse{{incident.incident_general.id}}" onclick=""><i class="fa-sharp fa-solid fa-caret-down"></i></a>
                                                     </td>
                                                     
                     
@@ -504,14 +613,14 @@
                                               
                                                 {% endif %}
                                               
-                                                {% if notification.remarks == "update respond status" and incident.responder != None %}
+                                                {% if notification.remarks == "update remarks status" and incident.responder != None %}
 
                                                 <li class="timeline-item mb-5">
                                                   
                                                   <p class="text-muted mb-2 fw-bold">{{ notification.date}}</p>
                                                   <p class="text-muted">
                                                   
-                                                      <strong>{{  notification.responder }} </strong> was responded to the report of {{ notification.sender.first_name }} {{ notification.sender.last_name }} &lt;{{ notification.sender.username }}&gt;
+                                                    {{ notification.user.first_name }} {{ notification.user.last_name }} &lt;{{ notification.user.username }}&gt; {{notification.text_preview}} {{notification.responder.username}}
                                                       
                                                  
                                                   </p>
@@ -519,7 +628,7 @@
   
                                                 {% endif %}
 
-                                                {% if notification.remarks == "update action status" and incident.action_taken != "" %}
+                                                {% comment %} {% if notification.remarks == "update action status" and incident.action_taken != "" %}
 
                                               <li class="timeline-item mb-5">
                                                 
@@ -547,7 +656,7 @@
                                                 </p>
                                               </li>
 
-                                              {% endif %}
+                                              {% endif %} {% endcomment %}
                                               
                                               {% if notification.remarks == "update incident status" %}
 
@@ -598,7 +707,7 @@
                                                     
                                         
                                             
-                                                        <a class="btn btn-sm btn-danger" href="{% url 'user_report_delete' incident.id %}">Delete</a>
+                                                        <a class="btn btn-sm btn-danger" href="{% url 'user_reports_delete' incident.id %}">Delete</a>
                                                 
                                                     </div>
                                             </div>
@@ -606,8 +715,8 @@
                                     </div>
     
                                     <!-- BULK Delete Modal HTML -->
-    {% include 'modals/bulkdelete.html' %}    
-    {% endif %}
+                                    {% include 'modals/bulkdelete.html' %}    
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

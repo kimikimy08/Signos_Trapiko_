@@ -19,6 +19,8 @@ from datetime import datetime
 from uuid import uuid4
 from notifications.models import Notification
 from django.utils.deconstruct import deconstructible
+import random
+from generate_report.models import UploadFile
 
 
 def path_and_rename(path):
@@ -143,8 +145,9 @@ class IncidentGeneral(SoftDeleteModel):
         ('Non-Fatal', 'Non-Fatal'),
     )
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='incident_generals', editable=False, null=True, blank=True)
     generalid = models.CharField(max_length=250, unique=True, null=True, blank=True)
+    upload_id = models.ForeignKey(UploadFile, on_delete=models.CASCADE, editable=False, null=True, blank=True)
     description = models.TextField(max_length=250, blank=True)
     address = models.CharField(max_length=250)
     country = models.CharField(max_length=50, blank=True, null=True)
@@ -155,8 +158,8 @@ class IncidentGeneral(SoftDeleteModel):
     longitude = models.FloatField(max_length=20, blank=True, null=True)
     geo_location = gismodels.PointField(blank=True, null=True, srid=4326) # New field
     upload_photovideo = models.FileField(upload_to=incident_image_upload_path, blank=True, null=True)
-    date = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
-    time = models.TimeField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    date = models.DateField(auto_now_add=False, auto_now=False)
+    time = models.TimeField(auto_now_add=False, auto_now=False)
     status = models.PositiveSmallIntegerField(choices=STATUS, blank=True, null=True)
     duplicate =  models.CharField(choices=IF_DUPLICATE,max_length=250, blank=True, null=True)
     duplicate_general =  models.ForeignKey('incidentreport.IncidentGeneral', on_delete=models.CASCADE, null=True, blank=True)
@@ -166,7 +169,7 @@ class IncidentGeneral(SoftDeleteModel):
     weather =  models.CharField(choices=WEATHER, max_length=250,blank=True, null=True)
     light =  models.CharField(choices=LIGHT,max_length=250, blank=True, null=True)
     severity = models.CharField(choices=SEVERITY, max_length=250, blank=True, null=True)
-    movement_code = models.CharField(max_length=250, blank=True)
+    movement_code = models.CharField(max_length=250, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -390,13 +393,13 @@ class IncidentRemark(SoftDeleteModel):
     )
     incident_general = models.OneToOneField(IncidentGeneral, on_delete=models.CASCADE, null=True, blank=True)
     responder =  models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    action_taken = models.TextField(max_length=250, blank=True)
-    incident_location = models.CharField(choices=Option,max_length=250, blank=True, null=True)
+    action_taken = models.TextField(max_length=250, blank=True, null=True)
+    incident_location = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.action_taken
+    def __int__(self):
+        return self.id
     
     # @receiver(post_save, sender=IncidentGeneral)
     # def create_user_report_remark(sender, instance, created, **kwargs):
@@ -404,6 +407,27 @@ class IncidentRemark(SoftDeleteModel):
     #         IncidentRemark.objects.create(incident_general=instance)
     
     # post_save.connect(create_user_report_remark, sender=IncidentGeneral) 
+
+class IncidentOTP(SoftDeleteModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, null=True, blank=True)
+    incident_general = models.OneToOneField(IncidentGeneral, on_delete=models.CASCADE, null=True, blank=True)
+    is_incident_verified = models.BooleanField(default=False)
+    otp = models.CharField(max_length=6, blank = True)
+    
+    def __str__(self):
+        return str(self.otp)
+    
+    def save(self, *args, **kwargs):
+        number_list = [0,1,2,3,4,5,6,7,8,9]
+        code_items = []
+        
+        for i in range(6):
+            num = random.choice(number_list)
+            code_items.append(num)
+        
+        code_string = "".join(str(item) for item in code_items)
+        self.otp = code_string
+        super().save(*args, **kwargs)
 
 
 class Incident(SoftDeleteModel):

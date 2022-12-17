@@ -70,11 +70,11 @@
                                                             incident such as date, time, location, and accident
                                                             causation.
                                                         </p>
-                                                        <a href="{% static 'csv/input_general_template.csv' %}" target="_blank"><button class="btn card_btn">Download</button></a>
+                                                        <a href="{% static 'csv/Offline_Incident_Report.csv' %}" target="_blank"><button class="btn card_btn">Download</button></a>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="cards_item">
+                                            {% comment %} <li class="cards_item">
                                                 <div class="card">
                                                     <div class="card_image"><img src="{% static 'images/csv.png' %}"></div>
                                                     <div class="card_content">
@@ -88,7 +88,7 @@
                                                         <a href="{% static 'csv/input_additional_template.csv' %}" target="_blank"><button class="btn card_btn">Download</button></a>
                                                     </div>
                                                 </div>
-                                            </li>
+                                            </li> {% endcomment %}
                                         </ul>
                                     </div>
                                 </table>

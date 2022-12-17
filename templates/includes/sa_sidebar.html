@@ -51,6 +51,9 @@
                 <a class="{% if '/generate_reports/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'generate_reports' %}">
                     <i class='bx bxs-file-pdf'></i>
                     <span>Generate Report</span></a>
+                    <a class="{% if '/generate_reports/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'sa_reportslist' %}">
+                        <i class='bx bxs-file-pdf'></i>
+                        <span>Report</span></a>
                     <a class="{% if '/incidentReports/template/' == request.path %} collapse-item active {% else %} collapse-item{% endif %}" href="{% url 'sa_template' %}">
                         <i class='bx bxs-file-pdf'></i>
                         <span>Download Template</span></a>

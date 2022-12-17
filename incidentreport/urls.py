@@ -8,6 +8,7 @@ urlpatterns = [
     path('userReport/approved/', views.user_report_approved, name='user_report_approved'),
     path('userReport/rejected/', views.user_report_rejected, name='user_report_rejected'),
     path('userReport/today/', views.user_report_today, name='user_report_today'),
+    path('userReport/delete/<int:id>/', views.user_report_delete, name='user_report_delete'),
     # path('userReport/today', views.user_report_today, name='user_report_today'),
     
     path('userReports/', views.user_reports, name='user_reports'),
@@ -15,7 +16,7 @@ urlpatterns = [
     path('userReports/approved/', views.user_reports_approved, name='user_reports_approved'),
     path('userReports/rejected/', views.user_reports_rejected, name='user_reports_rejected'),
     path('userReports/today/', views.user_reports_today, name='user_reports_today'),
-    path('userReports/delete/<int:id>/', views.user_report_delete, name='user_report_delete'),
+    path('userReports/delete/<int:id>/', views.user_reports_delete, name='user_reports_delete'),
    
     
     path('myReport/', views.my_report, name='my_report'),
@@ -130,5 +131,8 @@ urlpatterns = [
     
     path('incidentReports/template/', views.sa_template, name='sa_template'),
     path('incidentReport/template/', views.a_template, name='a_template'),
-
+    
+    
+    # path('incidentReport/incident/otp/<str:uid>/', views.otpVerify, name='otpVerify')
+    path('incidentReport/incident/otp/', views.otpVerify, name='otpVerify')
 ]

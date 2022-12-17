@@ -1,5 +1,6 @@
 import csv
 import os
+import random
 from django.conf import settings
 from django.db import IntegrityError
 from django.forms import ValidationError
@@ -9,10 +10,10 @@ from django.urls import reverse
 from accounts.models import UserProfile, User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
-from incidentreport.models import  IncidentGeneral, IncidentRemark, IncidentMedia, IncidentPerson, IncidentVehicle, AccidentCausation, CollisionType, CrashType
+from incidentreport.models import  IncidentGeneral, IncidentRemark, IncidentMedia, IncidentPerson, IncidentVehicle, AccidentCausation, CollisionType, CrashType, IncidentOTP
 from django.contrib import messages
 
-from .forms import IncidentGeneralForm, IncidentGeneralForm_admin_super, IncidentPersonForm, IncidentVehicleForm, IncidentMediaForm, IncidentRemarksForm, AccidentCausationForm,  CollisionTypeForm, CrashTypeForm,UserForm
+from .forms import CodeForm, IncidentGeneralForm, IncidentGeneralForm_admin_super, IncidentPersonForm, IncidentVehicleForm, IncidentMediaForm, IncidentRemarksForm, AccidentCausationForm,  CollisionTypeForm, CrashTypeForm,UserForm, IncidentRemarksForm_super
 from formtools.wizard.views import SessionWizardView
 from django.core.files.storage import FileSystemStorage
 from django.forms.models import construct_instance
@@ -26,6 +27,10 @@ from django.views.decorators.cache import cache_control
 from django.utils.dateparse import parse_datetime
 from notifications.models import Notification
 from datetime import datetime, timedelta
+from generate_report.models import UploadFile
+import uuid, base64
+
+from accounts.utils import send_verfication_email, send_sms
 
 
 @login_required(login_url='login')
@@ -34,12 +39,9 @@ from datetime import datetime, timedelta
 def user_reports(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     
-    incidentReports = IncidentRemark.objects.all().order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__is_deleted=False).order_by('-updated_at')
     incidentReports_gen = IncidentGeneral.objects.all().order_by('-updated_at')
     notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
-    if request.method == 'POST':
-        incident_id = request.POST.get('inc_id')
-        incident_general = IncidentGeneral.objects.filter(id=incident_id).order_by('-updated_at')
     
     # for j in incidentReports:
     #     x = request.POST.get(str(j.id))
@@ -80,8 +82,10 @@ def user_reports_pending(request):
     profile = get_object_or_404(UserProfile, user=request.user)
 
     # incidentReports = IncidentGeneral.objects.filter(user_report__status = 1).order_by('-updated_at')
-    incidentReports = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
-    notifications = Notification.objects.filter(incident_report__in=incidentReports).order_by('-date')
+    # incidentReports = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 1, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -109,7 +113,9 @@ def user_reports_pending(request):
 @user_passes_test(check_role_super_admin)
 def user_reports_approved(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status = 2).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 2, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 2).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -124,6 +130,7 @@ def user_reports_approved(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -133,7 +140,10 @@ def user_reports_approved(request):
 @user_passes_test(check_role_super_admin)
 def user_reports_rejected(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 3, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -148,6 +158,7 @@ def user_reports_rejected(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -155,8 +166,11 @@ def user_reports_rejected(request):
 @user_passes_test(check_role_super_admin)
 def user_reports_today(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    today = datetime.datetime.today().date()
-    incidentReports = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    today = datetime.today().date()
+    # incidentReports = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(created_at__date=today, incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -171,6 +185,7 @@ def user_reports_today(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -178,6 +193,16 @@ def user_reports_today(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_super_admin)
 def user_report_delete(request, id=None):
+    incidentReports = get_object_or_404(IncidentGeneral, id=id)
+    #user_report = IncidentGeneral.objects.all()
+    incidentReports.soft_delete()
+    messages.success(request, 'User Report successfully deleted')
+    return redirect('user_reports')
+
+@login_required(login_url='login')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_passes_test(check_role_super_admin)
+def user_reports_delete(request, id=None):
     incidentReports = get_object_or_404(IncidentGeneral, id=id)
     #user_report = IncidentGeneral.objects.all()
     incidentReports.soft_delete()
@@ -192,7 +217,10 @@ def user_report_delete(request, id=None):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_report(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.all().order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.all().order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.all().order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -209,6 +237,7 @@ def user_report(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
         # 'IncidentGeneral': IncidentGeneral
     }
     return render(request, 'pages/user_report.html', context)
@@ -219,7 +248,10 @@ def user_report(request):
 @user_passes_test(check_role_admin)
 def user_report_pending(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 1, incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -234,6 +266,7 @@ def user_report_pending(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -243,7 +276,10 @@ def user_report_pending(request):
 @user_passes_test(check_role_admin)
 def user_report_approved(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status = 2).order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.filter(status = 2).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 2, incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 2).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -258,6 +294,7 @@ def user_report_approved(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -267,7 +304,10 @@ def user_report_approved(request):
 @user_passes_test(check_role_admin)
 def user_report_rejected(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 3, incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 3).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -282,6 +322,7 @@ def user_report_rejected(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -292,7 +333,10 @@ def user_report_rejected(request):
 def user_report_today(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     today = datetime.today().date()
-    incidentReports = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    # incidentReports = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(created_at__date=today, incident_general__is_deleted=False, responder=request.user).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(created_at__date=today).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -307,6 +351,7 @@ def user_report_today(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/user_report.html', context)
 
@@ -316,7 +361,12 @@ def user_report_today(request):
 @user_passes_test(check_role_member)
 def my_report(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(user=request.user).order_by('-created_at')
+    # incidentReports = IncidentRemark.objects.filter(user=request.user).order_by('-created_at')
+    
+    incidentReports = IncidentRemark.objects.filter(incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.all().order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
+    
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -332,6 +382,7 @@ def my_report(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/member/member_myreport.html', context)
 
@@ -342,7 +393,10 @@ def my_report(request):
 @user_passes_test(check_role_member)
 def my_report_pending(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status=1, user=request.user)
+    # incidentReports = IncidentGeneral.objects.filter(status=1, user=request.user)
+    incidentReports = IncidentRemark.objects.filter(status = 1, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -358,6 +412,7 @@ def my_report_pending(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/member/member_myreport.html', context)
 
@@ -367,7 +422,10 @@ def my_report_pending(request):
 @user_passes_test(check_role_member)
 def my_report_approved(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status=2, user=request.user)
+    # incidentReports = IncidentGeneral.objects.filter(status=2, user=request.user)
+    incidentReports = IncidentRemark.objects.filter(status = 2, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 2, user=request.user).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -383,6 +441,7 @@ def my_report_approved(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/member/member_myreport.html', context)
 
@@ -392,7 +451,10 @@ def my_report_approved(request):
 @user_passes_test(check_role_member)
 def my_report_rejected(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    incidentReports = IncidentGeneral.objects.filter(status=3, user=request.user)
+    # incidentReports = IncidentGeneral.objects.filter(status=3, user=request.user)
+    incidentReports = IncidentRemark.objects.filter(status = 3, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports_gen = IncidentGeneral.objects.filter(status = 3, user=request.user).order_by('-updated_at')
+    notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -408,6 +470,7 @@ def my_report_rejected(request):
     context = {
         'profile': profile,
         'incidentReports': page_obj,
+        'notifications': notifications
     }
     return render(request, 'pages/member/member_myreport.html', context)
 
@@ -580,6 +643,9 @@ class multistepformsubmission_member(SessionWizardView):
 #     attWizardView = multistepformsubmission_member.as_view(FORMS1)
 #     return attWizardView(request)
 
+
+        
+
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_member)
@@ -652,9 +718,21 @@ def incident_form_member(request):
                 remarks_instance.incident_general = incident_general
                 remarks_instance.save()
                 
+                # general_save = get_object_or_404(IncidentGeneral, pk=request.id)
                 
-                messages.success(request,"Data Save Successfully")
-                return redirect('my_report')
+                request.session['pk'] = incident_general.pk
+                print(request.session['pk'])
+            
+                # remarks = "update remarks status"
+                # text_preview = "has appointed a responder"
+                # otp=random.randint(1000,9999)
+                # profile=IncidentOTP.objects.create(user=request.user, incident_general=general_save, otp=f'{otp}')
+                
+                # send_sms()
+                
+                
+                # messages.success(request,"Data Save Successfully")
+                return redirect('otpVerify')
             
             else:
                 messages.error(request,"Data Not Save Successfully")
@@ -680,6 +758,32 @@ def incident_form_member(request):
     }
     return render(request,"pages/member/member_myreport_add.html", context)
 
+
+def otpVerify(request):
+    form = CodeForm(request.POST or None)
+    pk = request.session.get('pk')
+    print(pk)
+    if pk:
+        incident_otp = IncidentOTP.objects.get(incident_general=pk)
+        code = incident_otp.otp
+        code_user = f"{incident_otp.incident_general.user.username}: {incident_otp.otp}"
+        if not request.POST:
+            print(code_user)
+            send_sms(code_user, incident_otp.incident_general.user.mobile_number)
+        if form.is_valid():
+            num = form.cleaned_data.get('otp')
+            if str(code) == num:
+                incident_otp.is_incident_verified = True
+                incident_otp.otp
+                incident_otp.save()
+                return redirect('my_report')
+            else:
+                incident_general = IncidentGeneral.objects.get(pk=pk)
+                incident_general.delete()
+                return redirect('my_report')
+    return render(request, 'pages/member/member_otp.html', {'form':form})
+            
+    
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -1708,7 +1812,7 @@ def a_incidentreports_additional(request):
 def incident_report_general_view(request, id):
     profile = get_object_or_404(UserProfile, user=request.user)
     general_instance = get_object_or_404(IncidentGeneral, pk=id)
-    
+    remarks_instance_id = get_object_or_404(IncidentRemark, pk=id)
     #user_instance = IncidentGeneral.objects.all()
     user_report = IncidentGeneral.objects.all()
     person_instance  = IncidentPerson.objects.all()
@@ -1722,7 +1826,8 @@ def incident_report_general_view(request, id):
         'vehicle_instance': vehicle_instance,
         'media_instance': media_instance,
         'remarks_instance': remarks_instance,
-        'profile':profile
+        'profile':profile,
+        'remarks_instance_id': remarks_instance_id
     }
 
     return render(request, 'pages/incident_report_general_view.html', context)
@@ -2019,7 +2124,7 @@ def incident_report_remarks_edit(request, id=None):
     remarks = get_object_or_404(IncidentRemark, pk=id)
     if request.method == 'POST':
         user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=IncidentGeneral)
-        remarks_instance = IncidentRemarksForm(request.POST  or None, request.FILES  or None, instance=remarks)
+        remarks_instance = IncidentRemarksForm_super(request.POST  or None, request.FILES  or None, instance=remarks)
         if remarks_instance.is_valid():
             user_report.instance.username = request.user
             
@@ -2031,29 +2136,29 @@ def incident_report_remarks_edit(request, id=None):
             
             remarks_save = get_object_or_404(IncidentRemark, pk=id)
             
-            remarks = "update respond status"
-            text_preview = responder
+            remarks = "update remarks status"
+            text_preview = "has appointed a responder"
 
             notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, responder=remarks_save.responder,remarks=remarks, notification_type=1, text_preview=text_preview)
             notification_report.save()
             
-            remarks = "update action status"
-            text_preview = action_taken
+            # remarks = "update action status"
+            # text_preview = action_taken
             
 
-            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
-            notification_report.save()
+            # notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+            # notification_report.save()
             
-            remarks = "update incident location status"
-            text_preview = incident_location
-            if text_preview == "Yes":
-                text = "reached the incident location"
-                notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
-                notification_report.save()
-            elif text_preview == "No":
-                text = ""
-                notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
-                notification_report.save()
+            # remarks = "update incident location status"
+            # text_preview = incident_location
+            # if text_preview == "Yes":
+            #     text = "reached the incident location"
+            #     notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
+            #     notification_report.save()
+            # elif text_preview == "No":
+            #     text = ""
+            #     notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
+            #     notification_report.save()
 
            
             
@@ -2065,7 +2170,7 @@ def incident_report_remarks_edit(request, id=None):
             print(user_report.errors)
 
     else:
-        remarks_instance = IncidentRemarksForm(instance=remarks)
+        remarks_instance = IncidentRemarksForm_super(instance=remarks)
         user_report = IncidentGeneralForm(instance=IncidentGeneral)
     context = {
         'remarks_instance': remarks_instance,
@@ -2449,12 +2554,17 @@ def a_incident_report_media_add(request, id=None):
 def a_incident_report_general_view(request, id):
     profile = get_object_or_404(UserProfile, user=request.user)
     general_instance = get_object_or_404(IncidentGeneral, pk=id)
+    remarks_instance_id = get_object_or_404(IncidentRemark, pk=id)
     #user_instance = IncidentGeneral.objects.all()
     user_report = IncidentGeneral.objects.all()
     person_instance  = IncidentPerson.objects.all()
     vehicle_instance = IncidentVehicle.objects.all()
     media_instance = IncidentMedia.objects.all()
     remarks_instance = IncidentRemark.objects.all()
+    if request.method == 'POST':
+        remarks_instance_id.incident_location = True
+        remarks_instance_id.save()
+        return redirect('a_incident_report_general_view', id=id)
     print(general_instance)
     context = {
         'user_report': user_report,
@@ -2463,7 +2573,8 @@ def a_incident_report_general_view(request, id):
         'vehicle_instance': vehicle_instance,
         'media_instance': media_instance,
         'remarks_instance': remarks_instance,
-        'profile':profile
+        'profile':profile,
+        'remarks_instance_id': remarks_instance_id
     }
 
     return render(request, 'pages/a_incident_report_general_view.html', context)
@@ -2514,6 +2625,8 @@ def a_incident_report_remarks_view(request, id):
     person_instance  = IncidentPerson.objects.all()
     vehicle_instance = IncidentVehicle.objects.all()
     media_instance = IncidentMedia.objects.all()
+    
+    
     # remarks_instance = IncidentRemark.objects.all()
     context = {
         'user_report': user_report,
@@ -2760,21 +2873,37 @@ def a_incident_report_remarks_edit(request, id=None):
             user_report.instance.username = request.user
             responder = request.POST.get("responder")
             action_taken = request.POST.get("action_taken")
+            incident_location = request.POST.get("incident_location")
             remarks_instance.save()
             
             remarks_save = get_object_or_404(IncidentRemark, pk=id)
             
-            remarks = "update respond status"
-            text_preview = responder
-
+            if remarks_save.action_taken == "":
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.responder.username + " have arrived at the incident location. " +  remarks_save.responder.username + " have responded."
+            elif remarks_save.responder == "":
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.action_taken + " the incident report."
+            elif remarks_save.incident_location == "Yes":
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.responder.username + " have arrived at the incident location. " +  remarks_save.responder.username + " have responded and " + remarks_save.action_taken + " the incident report."
+            elif remarks_save.incident_location == "No":
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.responder.username + " have not arrived at the incident location. " +  remarks_save.responder.username + " have responded and " + remarks_save.action_taken + " the incident report."
+            elif remarks_save.incident_location == "":
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.responder.username + " have responded and " + remarks_save.action_taken + " the incident report."
+            else:
+                remarks = "update remarks status"
+                text_preview = "Actions Taken: " + remarks_save.responder.username + " have arrived at the incident location. " +  remarks_save.responder.username + " have responded and " + remarks_save.action_taken + " the incident report."
             notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, responder=remarks_save.responder,remarks=remarks, notification_type=1, text_preview=text_preview)
             notification_report.save()
                 
-            remarks = "update action status"
-            text_preview = action_taken
+            # remarks = "update action status"
+            # text_preview = action_taken
 
-            notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
-            notification_report.save()
+            # notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
+            # notification_report.save()
             
             messages.success(request, 'Profile updated')
 
@@ -2950,10 +3079,14 @@ def admin_user_report_media_delete(request, id):
 @user_passes_test(check_role_super)
 def simple_upload(request):
     data = None
+    code = str(uuid.uuid4()).replace('-', '').upper()[:12]
+    
     
     try:
         if request.method == 'POST':
             data = request.FILES['myfile']
+            csv_file_name = request.FILES.get('myfile').name
+            csv_file = request.FILES.get('myfile')
             
             if not data.name.endswith('.csv'):
                 messages.warning(request, 'Wrong file type was uploaded')
@@ -2962,9 +3095,13 @@ def simple_upload(request):
                 data = pd.read_csv(data, header=0, encoding="UTF-8", na_values=[' '])
                 data = data.astype(object).where(pd.notnull(data), None)
             try:
+                obj, created = UploadFile.objects.get_or_create(user=request.user, upload_id=code, csv_file=csv_file_name)
+                if created:
+                    obj.csv_file = csv_file
+                    obj.save()
+    
                 for index, rows in data.iterrows():
-                    
-                       
+
                         userid = rows["User ID"] 
                         generalid = rows["User ID"]
                         date = rows["Date"] 
@@ -2987,11 +3124,14 @@ def simple_upload(request):
                         # user_report_instance = IncidentGeneral.objects.get(userid=userid)
                         # general_instance = IncidentGeneral.objects.get(generalid=generalid)
                         
-                        # get_or_create is used to eliminate forming or any duplicate record 
+                        # get_or_create is used to eliminate forming or any duplicate record
+                        
+                        
                         
                         usergeneral, created = IncidentGeneral.objects.get_or_create(
                             user=request.user,
                             generalid = generalid,
+                            upload_id = UploadFile.objects.get(upload_id=code),
                             date=date,
                             time=time,
                             description=description,
@@ -3008,18 +3148,30 @@ def simple_upload(request):
                             movement_code=movement_code
                         )
                         
+                        
                         userremarks, created = IncidentRemark.objects.get_or_create(
                             incident_general = IncidentGeneral.objects.get(generalid=generalid),
                             responder=responder,
                             action_taken=action_taken
                         )
                         
+                        notif, created = Notification.objects.get_or_create(
+                            incident_report = IncidentGeneral.objects.get(generalid=generalid),
+                            sender = request.user, 
+                            user=request.user, remarks="new incident", notification_type=1, text_preview='created a new incident report'
+                        )
+                        
                         
                         
                         if created:
-                            
                             usergeneral.save()
                             userremarks.save()
+                            notif.save()
+                            
+                
+                # incident_general = get_object_or_404(IncidentGeneral, pk=request.id)
+
+                            
                 messages.success(request, "The files has been uploaded to the database")
                             # return redirect('simple_upload')
                         
@@ -3550,3 +3702,4 @@ def sa_template(request):
 @user_passes_test(check_role_admin)
 def a_template(request):
     return render(request, 'pages/admin/a_template.html')
+
