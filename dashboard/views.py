@@ -29,7 +29,7 @@ from django.views.decorators.cache import cache_control
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_admin)
+# @user_passes_test(check_role_admin)
 def admin_dashboard(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -167,7 +167,7 @@ def admin_dashboard(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_super)
+# @user_passes_test(check_role_super)
 def superadmin_dashboard(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -380,7 +380,7 @@ def superadmin_dashboard(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_super_admin)
+# @user_passes_test(check_role_super_admin)
 def index_map(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -450,7 +450,7 @@ def index_map(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_passes_test(check_role_admin)
+# @user_passes_test(check_role_admin)
 def index_map_admin(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
