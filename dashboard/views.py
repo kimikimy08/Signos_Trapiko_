@@ -1,15 +1,13 @@
-
-from datetime import datetime, timedelta
+from datetime import datetime
 from io import BytesIO
 from django.http import JsonResponse
 from django.shortcuts import render
 import folium
 from folium import plugins
-from folium.plugins import HeatMapWithTime, HeatMap
+from folium.plugins import HeatMapWithTime
 from folium.plugins import FastMarkerCluster
 from folium.plugins import MarkerCluster
 import plotly.express as px
-from django.core.paginator import Paginator
 from django.db.models import Count
 import numpy as np
 
@@ -23,13 +21,12 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
 from django.views.decorators.cache import cache_control
 
-
 # Create your views here.
 
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @user_passes_test(check_role_admin)
+@user_passes_test(check_role_admin)
 def admin_dashboard(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -167,7 +164,7 @@ def admin_dashboard(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @user_passes_test(check_role_super)
+@user_passes_test(check_role_super)
 def superadmin_dashboard(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -209,12 +206,6 @@ def superadmin_dashboard(request):
 
     data = list(queryset.values_list('severity_count', flat=True))
     labels = list(queryset.values_list('severity', flat=True))
-    
-    # queryset1 = incident_general.exclude(accident_causation=None).values(
-    #     'severity').annotate(severity_count=Count('severity'))
-
-    # data = list(queryset.values_list('severity_count', flat=True))
-    # labels = list(queryset.values_list('severity', flat=True))
 
     queryset1 = incident_vehicle.exclude(vehicle_type=None).values(
         'vehicle_type').annotate(vehicle_type_count=Count('vehicle_type'))
@@ -232,7 +223,7 @@ def superadmin_dashboard(request):
     print(data2)
 
     df = pd.DataFrame(incident_general.values(
-        'date', 'latitude', 'longitude'))
+        'latitude', 'longitude'))
     
 
     # incident_vehicle = IncidentVehicle.objects.all()
@@ -245,35 +236,21 @@ def superadmin_dashboard(request):
     # .annotate(count_id=Count('id'))        # Count the number of articles in the grouping
     # .order_by('-month')[:12]
 
-
-    queryset = IncidentGeneral.objects.filter(status=2).values('address','latitude', 'longitude').annotate(total_count=Count('address')).order_by('-total_count')
-    paginator = Paginator(queryset, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-   
     # coordenadas = list(IncidentGeneral.objects.values_list('user_report__latitude','user_report__longitude'))[-1]
-    
-
-    # df = df.dropna(axis=0, subset=['user_report__latitude', 'user_report__longitude', 'accident_factor', 'user_report__date'])
-    # mapquestopen
-    
-
-    
     map1 = folium.Map(location=[14.676208, 121.043861],
                       zoom_start=12)
 
+    # df = df.dropna(axis=0, subset=['user_report__latitude', 'user_report__longitude', 'accident_factor', 'user_report__date'])
+    # mapquestopen
+
     fg = folium.FeatureGroup(name='Marker Cluster', show=False)
     map1.add_child(fg)
-    
-    # HeatMap(covid_heatmap_df, 
-    #     min_opacity=0.4,
-    #     blur = 18
-    #            ).add_to(folium.FeatureGroup(name='Heat Map').add_to(hm))
 
     fg2 = folium.FeatureGroup(name='Heat Map', show=True)
     map1.add_child(fg2)
 
+    plugins.HeatMap(df).add_to(fg2)
+    FastMarkerCluster(data=df.values.tolist()).add_to(fg)
     # marker_cluster = MarkerCluster().add_to(fg)
     folium.TileLayer(('openstreetmap'), attr='openstreetmap').add_to(map1)
     # folium.TileLayer('mapquestopen', attr='mapquestopen').add_to(map1)
@@ -284,20 +261,7 @@ def superadmin_dashboard(request):
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
 
-   
-    
-   
-    
-    hmt = folium.Map(location=[14.676208, 121.043861],
-               tiles='cartodbpositron',#'cartodbpositron', stamentoner
-               zoom_start=12,
-               control_scale=True)
-
-
-    
-    # fg2 = folium.FeatureGroup(name='Heat Map with Time', show=False)
-    # map.add_child(fg2)
-    # plugins.HeatMapWithTime(data).add_to(fg2)
+    plugins.HeatMap(df).add_to(fg2)
 
     map2 = folium.Map(location=[14.676208, 121.043861],
                       zoom_start=12, zoom_control=False,
@@ -318,11 +282,9 @@ def superadmin_dashboard(request):
 
     map1 = map1._repr_html_()
     map2 = map2._repr_html_()
-    hmt = hmt._repr_html_()
     context = {
         'map1': map1,
         'map2': map2,
-        'hmt': hmt,
         'labels': labels,
         'data': data,
         'labels1': labels1,
@@ -332,15 +294,14 @@ def superadmin_dashboard(request):
         'incidentReports_pending': incidentReports_pending,
         "incidentReports": incidentReports,
         'incidentReports_approved': incidentReports_approved,
-        'incidentReports_today': incidentReports_today,
-        'queryset': page_obj
+        'incidentReports_today': incidentReports_today
     }
     return render(request, 'pages/sa_Dashboard.html', context)
 
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @user_passes_test(check_role_super_admin)
+@user_passes_test(check_role_super_admin)
 def index_map(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
@@ -410,7 +371,7 @@ def index_map(request):
 
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @user_passes_test(check_role_admin)
+@user_passes_test(check_role_admin)
 def index_map_admin(request):
     fromdate = request.POST.get('fromdate')
     todate = request.POST.get('todate')
