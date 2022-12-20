@@ -13,7 +13,7 @@ from accounts.views import check_role_admin, check_role_super, check_role_member
 from incidentreport.models import  IncidentGeneral, IncidentRemark, IncidentMedia, IncidentPerson, IncidentVehicle, AccidentCausation, CollisionType, CrashType, IncidentOTP
 from django.contrib import messages
 
-from .forms import CodeForm, IncidentGeneralForm, IncidentGeneralForm_admin_super, IncidentPersonForm, IncidentVehicleForm, IncidentMediaForm, IncidentRemarksForm, AccidentCausationForm,  CollisionTypeForm, CrashTypeForm,UserForm, IncidentRemarksForm_super
+from .forms import CodeForm, IncidentGeneralForm, IncidentGeneralForm_admin_super, IncidentPersonForm, IncidentVehicleForm, IncidentMediaForm, IncidentRemarksForm, AccidentCausationForm,  CollisionTypeForm, CrashTypeForm,UserForm, IncidentRemarksForm_super, IncidentRemarksForm_admin
 from formtools.wizard.views import SessionWizardView
 from django.core.files.storage import FileSystemStorage
 from django.forms.models import construct_instance
@@ -1382,7 +1382,7 @@ def sa_incidentreports(request):
         form_general = IncidentGeneralForm_admin_super(request.POST or None, request.FILES or None)
         # form_people = IncidentRemarksForm(request.POST or None, request.FILES or None)
         form_media = IncidentRemarksForm(request.POST or None, request.FILES or None)
-        form_remarks = IncidentRemarksForm_super(request.POST or None, request.FILES or None)
+        form_remarks = IncidentRemarksForm(request.POST or None, request.FILES or None)
         try:
             if form.is_valid() and form_general.is_valid() and form_remarks.is_valid():
                 date=parse_datetime(request.POST.get("date"))
@@ -1489,7 +1489,7 @@ def sa_incidentreports(request):
     else:
         form = IncidentGeneralForm_admin_super()
         form_general = IncidentGeneralForm_admin_super()
-        form_remarks = IncidentRemarksForm_super()        
+        form_remarks = IncidentRemarksForm()        
     context = {
         'form': form,
         'form_general': form_general,
@@ -2868,7 +2868,7 @@ def a_incident_report_remarks_edit(request, id=None):
     remarks = get_object_or_404(IncidentRemark, pk=id)
     if request.method == 'POST':
         user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=incidentGeneral)
-        remarks_instance = IncidentRemarksForm(request.POST  or None, request.FILES  or None, instance=remarks)
+        remarks_instance = IncidentRemarksForm_admin(request.POST  or None, request.FILES  or None, instance=remarks)
         if remarks_instance.is_valid():
             user_report.instance.username = request.user
             responder = request.POST.get("responder")
@@ -2913,7 +2913,7 @@ def a_incident_report_remarks_edit(request, id=None):
             print(user_report.errors)
 
     else:
-        remarks_instance = IncidentRemarksForm(instance=remarks)
+        remarks_instance = IncidentRemarksForm_admin(instance=remarks)
         user_report = IncidentGeneralForm(instance=IncidentGeneral)
     context = {
         'remarks_instance': remarks_instance,
