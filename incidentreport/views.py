@@ -1382,7 +1382,7 @@ def sa_incidentreports(request):
         form_general = IncidentGeneralForm_admin_super(request.POST or None, request.FILES or None)
         # form_people = IncidentRemarksForm(request.POST or None, request.FILES or None)
         form_media = IncidentRemarksForm(request.POST or None, request.FILES or None)
-        form_remarks = IncidentRemarksForm(request.POST or None, request.FILES or None)
+        form_remarks = IncidentRemarksForm_super(request.POST or None, request.FILES or None)
         try:
             if form.is_valid() and form_general.is_valid() and form_remarks.is_valid():
                 date=parse_datetime(request.POST.get("date"))
@@ -1489,7 +1489,7 @@ def sa_incidentreports(request):
     else:
         form = IncidentGeneralForm_admin_super()
         form_general = IncidentGeneralForm_admin_super()
-        form_remarks = IncidentRemarksForm()        
+        form_remarks = IncidentRemarksForm_super()        
     context = {
         'form': form,
         'form_general': form_general,
