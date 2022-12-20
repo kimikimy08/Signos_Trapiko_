@@ -94,11 +94,11 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label for="inputEmail4" class="required-field">Date</label>
-                                                            {{form.date}}
+                                                            {{form_general.date}}
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="inputPassword4" class="required-field">Time</label>
-                                                            {{form.time}}
+                                                            {{form_general.time}}
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -106,27 +106,27 @@
                                                     <!--==================LOCATION=====================-->
                                                     <div class="form-group">
                                                         <label for="inputAddress" class="required-field">Street Address</label>
-                                                        {{form.address}}
+                                                        {{form_general.address}}
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label for="inputCity">City</label>
-                                                            {{form.city}}
+                                                            {{form_general.city}}
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="inputZip">Zip</label>
-                                                            {{form.pin_code}}
+                                                            {{form_general.pin_code}}
                                                         </div>
                                                     </div>
             
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label for="inputSeverity">Latitude</label>
-                                                            {{form.latitude}}
+                                                            {{form_general.latitude}}
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="inputSeverity">Longitude</label>
-                                                            {{form.longitude}}
+                                                            {{form_general.longitude}}
                                                         </div>
                                                     </div>
             
@@ -176,7 +176,7 @@
             
                                                         <div class="form-group col-md-12">
                                                             <label for="inputDescription" class="required-field">Description</label>
-                                                            {{form.description}}
+                                                            {{form_general.description}}
                                                         </div>
                                                     </div>
                                                     
@@ -187,6 +187,10 @@
                                                     <div class="form-group">
                                                         <label for="inputActionsTaken">Actions Taken</label>
                                                         {{form_remarks.action_taken}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputActionsTaken">Actions Taken</label>
+                                                        {{form_remarks.incident_location}}
                                                     </div>
                                             </table>
                                         </div>

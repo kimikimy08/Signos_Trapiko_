@@ -327,45 +327,40 @@ class IncidentMediaForm(forms.ModelForm):
 class IncidentRemarksForm(forms.ModelForm):
     class Meta:
         model = IncidentRemark
-        fields = [ 'responder', 'action_taken', 'incident_location']
+        fields = [ 'responder', 'action_taken']
 
     def __init__(self, *args, **kwargs):
         super(IncidentRemarksForm, self).__init__(*args, **kwargs)
-        self.fields['incident_location'].required = False
+        self.fields['responder'].required = False
+        self.fields['action_taken'].required = False
         self.fields['responder'].widget.attrs['class'] = 'form-control'
         self.fields['action_taken'].widget.attrs['class'] = 'form-control'
-        self.fields['incident_location'].widget.attrs['class'] = 'form-control'
         
 class IncidentRemarksForm_admin(forms.ModelForm):
     class Meta:
         model = IncidentRemark
-        fields = [ 'responder', 'action_taken', 'incident_location']
+        fields = [ 'responder', 'action_taken']
 
     def __init__(self, *args, **kwargs):
         super(IncidentRemarksForm_admin, self).__init__(*args, **kwargs)
         self.fields['responder'].required = True
         self.fields['action_taken'].required = False
-        self.fields['incident_location'].required = False
         self.fields['responder'].widget.attrs['disabled'] = 'disabled'
         self.fields['responder'].widget.attrs['class'] = 'form-control'
         self.fields['action_taken'].widget.attrs['class'] = 'form-control'
-        self.fields['incident_location'].widget.attrs['class'] = 'form-control'
 
 class IncidentRemarksForm_super(forms.ModelForm):
     class Meta:
         model = IncidentRemark
-        fields = [ 'responder', 'action_taken', 'incident_location']
+        fields = [ 'responder', 'action_taken']
 
     def __init__(self, *args, **kwargs):
         super(IncidentRemarksForm_super, self).__init__(*args, **kwargs)
         self.fields['responder'].required = True
         self.fields['action_taken'].required = False
-        self.fields['incident_location'].required = False
         self.fields['action_taken'].widget.attrs['disabled'] = 'disabled'
-        self.fields['incident_location'].widget.attrs['disabled'] = 'disabled'
         self.fields['responder'].widget.attrs['class'] = 'form-control'
         self.fields['action_taken'].widget.attrs['class'] = 'form-control'
-        self.fields['incident_location'].widget.attrs['class'] = 'form-control'
         
 class AccidentCausationForm(forms.ModelForm):
     class Meta:

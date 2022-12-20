@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = Path(BASE_DIR, "templates")
 
 # remove
-# STATIC_DIR = Path(BASE_DIR, "static")
+STATIC_DIR = Path(BASE_DIR, "static")
 
 from google.oauth2 import service_account
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
@@ -179,15 +179,15 @@ DATE_INPUT_FORMATS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # remove
-# STATIC_URL = 'static/'
-# STATICFILES_DIRS = [
-#     STATIC_DIR,
-# ]
-# STATIC_ROOT = Path(BASE_DIR, 'staticfiles')
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+STATIC_ROOT = Path(BASE_DIR, 'staticfiles')
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = Path(BASE_DIR, 'media')
@@ -216,14 +216,14 @@ DEFAULT_FROM_EMAIL = 'Link Technologies <linktechnologies2022@gmail.com>'
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
-# GDAL_LIBRARY_PATH = "/opt/homebrew/Cellar/gdal/3.5.2_1/lib/libgdal.dylib"
-# GEOS_LIBRARY_PATH = "/opt/homebrew/Cellar/geos/3.11.0/lib/libgeos_c.dylib"
+GDAL_LIBRARY_PATH = "/opt/homebrew/Cellar/gdal/3.5.2_1/lib/libgdal.dylib"
+GEOS_LIBRARY_PATH = "/opt/homebrew/Cellar/geos/3.11.0/lib/libgeos_c.dylib"
 
-GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
-GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
+#GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+#GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
-DATABASES['default'] = dj_database_url.config()
-DATABASES['default']['ENGINE'] = "django.contrib.gis.db.backends.postgis"
+#DATABASES['default'] = dj_database_url.config()
+#DATABASES['default']['ENGINE'] = "django.contrib.gis.db.backends.postgis"
 
 
 

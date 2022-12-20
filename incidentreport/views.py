@@ -1414,9 +1414,11 @@ def sa_incidentreports(request):
                 # date_field = datetime.datetime.strptime(date, '%m-%d-%Y').strftime('%Y-%m-%d')
                 # print(date_field)
                 
-                responder = request.POST.get("responder")
+                # responder = request.user
+                responder1 = request.POST.get("responder")
+                responder = User.objects.get(pk=responder1)
                 action_taken = request.POST.get("action_taken")
-                incident_location = request.POST.get("incident_location")
+                # incident_location = request.POST.get("incident_location")
                 form.user = request.user
                 # user_report=IncidentGeneral(user=request.user,date=date,time=time,address=address,city=city,pin_code=pin_code,latitude=latitude,longitude=longitude,description=description)
                 # user_report.status = 2
@@ -1446,7 +1448,7 @@ def sa_incidentreports(request):
                 # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
                 # notification_report.save()
                 
-                incident_remarks = IncidentRemark(incident_general=incident_general, responder=responder,action_taken=action_taken, incident_location=incident_location)
+                incident_remarks = IncidentRemark(incident_general=incident_general, responder=responder,action_taken=action_taken, incident_location=True)
                 incident_remarks.save()
                 
                 # remarks = "update respond status"
@@ -1637,17 +1639,18 @@ def a_incidentreports(request):
                 # date_field = datetime.datetime.strptime(date, '%m-%d-%Y').strftime('%Y-%m-%d')
                 # print(date_field)
                 
-                responder = request.POST.get("responder")
+                # responder = request.user
+                responder1 = request.POST.get("responder")
+                responder = User.objects.get(pk=responder1)
                 action_taken = request.POST.get("action_taken")
-                incident_location = request.POST.get("incident_location")
+                # incident_location = request.POST.get("incident_location")
                 form.user = request.user
                 # user_report=IncidentGeneral(user=request.user,date=date,time=time,address=address,city=city,pin_code=pin_code,latitude=latitude,longitude=longitude,description=description)
                 # user_report.status = 2
                 # user_report.save()
                 
-                user_instance =  IncidentGeneral.objects.filter(date = date, address = address)
+
                 
-               
                 
                 incident_general=IncidentGeneral(user=request.user,date=date,time=time,address=address,city=city,pin_code=pin_code,latitude=latitude,longitude=longitude,description=description,
                                                  accident_factor=accident_factor,
@@ -1657,14 +1660,20 @@ def a_incidentreports(request):
                 incident_general.status = 2
                 incident_general.save()
                 
-                
+                # user_instance =  IncidentGeneral.objects.filter(date = date, address = address)
+                # if user_instance.exists():
+                #     incident_general.duplicate = "Possible Duplicate"
+                #     incident_general.save()
+                # else:
+                #     incident_general.save()
+                    
                 # remarks = "new incident"
                 # text_preview = 'created a new incident report'
 
                 # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
                 # notification_report.save()
                 
-                incident_remarks = IncidentRemark(incident_general=incident_general,responder=responder,action_taken=action_taken, incident_location=incident_location)
+                incident_remarks = IncidentRemark(incident_general=incident_general, responder=responder,action_taken=action_taken, incident_location=True)
                 incident_remarks.save()
                 
                 # remarks = "update respond status"
@@ -1674,6 +1683,12 @@ def a_incidentreports(request):
                 # notification_report.save()
                 
                 # remarks = "update action status"
+                # text_preview = 'remarks'
+
+                # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=action_taken)
+                # notification_report.save()
+                
+                # remarks = "update incident location status"
                 # text_preview = 'remarks'
 
                 # notification_report = Notification(incident_report=incident_general, sender=incident_general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=action_taken)

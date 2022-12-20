@@ -394,7 +394,7 @@ class IncidentRemark(SoftDeleteModel):
     incident_general = models.OneToOneField(IncidentGeneral, on_delete=models.CASCADE, null=True, blank=True)
     responder =  models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     action_taken = models.TextField(max_length=250, blank=True, null=True)
-    incident_location = models.BooleanField(default = False)
+    incident_location = models.BooleanField(default = False, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
