@@ -171,7 +171,7 @@ def admin_dashboard(request):
     folium.LayerControl().add_to(map1)
     
     steps=20
-    colormap = branca.colormap.linear.Spectral_09.scale(0, 1).to_step(steps)
+    colormap = branca.colormap.linear.RdYlGn_09.scale(0, 1).to_step(steps)
     gradient_map=defaultdict(dict)
     for i in range(steps):
         gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
@@ -392,7 +392,7 @@ def superadmin_dashboard(request):
     folium.LayerControl().add_to(map1)
     
     steps=20
-    colormap = branca.colormap.linear.Spectral_09.scale(0, 1).to_step(steps)
+    colormap = branca.colormap.linear.RdYlGn_09.scale(0, 1).to_step(steps)
     gradient_map=defaultdict(dict)
     for i in range(steps):
         gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
