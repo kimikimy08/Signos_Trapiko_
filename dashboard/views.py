@@ -22,6 +22,8 @@ from incidentreport.models import IncidentGeneral, IncidentRemark, IncidentMedia
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
 from django.views.decorators.cache import cache_control
+import branca.colormap
+from collections import defaultdict
 
 
 # Create your views here.
@@ -167,8 +169,16 @@ def admin_dashboard(request):
                      attr='cartodbdark_matter').add_to(map1)
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
+    
+    steps=20
+    colormap = branca.colormap.linear.Spectral_09.scale(0, 1).to_step(steps)
+    gradient_map=defaultdict(dict)
+    for i in range(steps):
+        gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
+    colormap.add_to(map1) #add color bar at the top of the map
 
-    plugins.HeatMap(df_location).add_to(fg2)
+    
+    plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
     
     currentmonth_df = date_df[(date_df['date'] > thirty_days_ago)]
     print(currentmonth_df)
@@ -191,8 +201,8 @@ def admin_dashboard(request):
                zoom_start=12,
                control_scale=True)
 
-    HeatMapWithTime(data,
-                    index=time_index,
+    HeatMapWithTime(data, 
+                    index=time_index, gradient={0:'Navy', 0.25:'Blue',0.5:'Green', 0.75:'Yellow',1: 'Red'},
                     auto_play=True,
                     use_local_extrema=True
                 ).add_to(hmt)
@@ -380,8 +390,16 @@ def superadmin_dashboard(request):
                      attr='cartodbdark_matter').add_to(map1)
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
+    
+    steps=20
+    colormap = branca.colormap.linear.Spectral_09.scale(0, 1).to_step(steps)
+    gradient_map=defaultdict(dict)
+    for i in range(steps):
+        gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
+    colormap.add_to(map1) #add color bar at the top of the map
 
-    plugins.HeatMap(df_location).add_to(fg2)
+    
+    plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
     
     currentmonth_df = date_df[(date_df['date'] > thirty_days_ago)]
     print(currentmonth_df)
@@ -404,8 +422,8 @@ def superadmin_dashboard(request):
                zoom_start=12,
                control_scale=True)
 
-    HeatMapWithTime(data,
-                    index=time_index,
+    HeatMapWithTime(data, 
+                    index=time_index, gradient={0:'Navy', 0.25:'Blue',0.5:'Green', 0.75:'Yellow',1: 'Red'},
                     auto_play=True,
                     use_local_extrema=True
                 ).add_to(hmt)
