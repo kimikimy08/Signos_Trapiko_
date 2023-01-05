@@ -363,7 +363,7 @@ def my_report(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     # incidentReports = IncidentRemark.objects.filter(user=request.user).order_by('-created_at')
     
-    incidentReports = IncidentRemark.objects.filter(incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__is_deleted=False, incident_general__user=request.user ).order_by('-updated_at')
     incidentReports_gen = IncidentGeneral.objects.all().order_by('-updated_at')
     notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     
@@ -394,7 +394,7 @@ def my_report(request):
 def my_report_pending(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     # incidentReports = IncidentGeneral.objects.filter(status=1, user=request.user)
-    incidentReports = IncidentRemark.objects.filter(status = 1, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 1, incident_general__is_deleted=False, incident_general__user=request.user).order_by('-updated_at')
     incidentReports_gen = IncidentGeneral.objects.filter(status = 1).order_by('-updated_at')
     notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
@@ -423,7 +423,7 @@ def my_report_pending(request):
 def my_report_approved(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     # incidentReports = IncidentGeneral.objects.filter(status=2, user=request.user)
-    incidentReports = IncidentRemark.objects.filter(status = 2, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 2, incident_general__user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
     incidentReports_gen = IncidentGeneral.objects.filter(status = 2, user=request.user).order_by('-updated_at')
     notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)
@@ -452,7 +452,7 @@ def my_report_approved(request):
 def my_report_rejected(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     # incidentReports = IncidentGeneral.objects.filter(status=3, user=request.user)
-    incidentReports = IncidentRemark.objects.filter(status = 3, user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
+    incidentReports = IncidentRemark.objects.filter(incident_general__status = 3, incident_general__user=request.user, incident_general__is_deleted=False).order_by('-updated_at')
     incidentReports_gen = IncidentGeneral.objects.filter(status = 3, user=request.user).order_by('-updated_at')
     notifications = Notification.objects.filter(incident_report__in=incidentReports_gen).order_by('-date')
     paginator = Paginator(incidentReports, 10)

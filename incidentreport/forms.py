@@ -212,6 +212,7 @@ class IncidentGeneralForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(IncidentGeneralForm, self).__init__(*args, **kwargs)
+        self.fields['upload_photovideo'].required = False
         self.fields['accident_factor'].widget.attrs['class'] = 'form-control'
      
         self.fields['collision_type'].widget.attrs['class'] = 'form-control'
