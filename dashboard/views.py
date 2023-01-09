@@ -170,15 +170,17 @@ def admin_dashboard(request):
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
     
-    steps=20
-    colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
-    gradient_map=defaultdict(dict)
-    for i in range(steps):
-        gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
-    colormap.add_to(map1) #add color bar at the top of the map
+    # steps=20
+    # colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
+    # gradient_map=defaultdict(dict)
+    # for i in range(steps):
+    #     gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
+    # colormap.add_to(map1) #add color bar at the top of the map
 
     
-    plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
+    # plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
+    
+    plugins.HeatMap(df_location, gradient={0:'Navy', 0.25:'Blue',0.5:'Green', 0.75:'Yellow',1: 'Red'}).add_to(fg2)
     
     currentmonth_df = date_df[(date_df['date'] > thirty_days_ago)]
     print(currentmonth_df)
@@ -391,15 +393,17 @@ def superadmin_dashboard(request):
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
     
-    steps=20
-    colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
-    gradient_map=defaultdict(dict)
-    for i in range(steps):
-        gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
-    colormap.add_to(map1) #add color bar at the top of the map
+    # steps=20
+    # colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
+    # gradient_map=defaultdict(dict)
+    # for i in range(steps):
+    #     gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
+    # colormap.add_to(map1) #add color bar at the top of the map
 
     
-    plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
+    # plugins.HeatMap(df_location, gradient=gradient_map).add_to(fg2)
+    
+    plugins.HeatMap(df_location, gradient={0:'Navy', 0.25:'Blue',0.5:'Green', 0.75:'Yellow',1: 'Red'}).add_to(fg2)
     
     currentmonth_df = date_df[(date_df['date'] > thirty_days_ago)]
     print(currentmonth_df)
