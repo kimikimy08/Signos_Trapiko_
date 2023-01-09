@@ -170,7 +170,7 @@ def admin_dashboard(request):
     plugins.Fullscreen(position='topright').add_to(map1)
     folium.LayerControl().add_to(map1)
     
-    steps=20
+    steps=10
     colormap = branca.colormap.linear.RdYlGn_09.scale(0, 1).to_step(steps)
     gradient_map=defaultdict(dict)
     for i in range(steps):
