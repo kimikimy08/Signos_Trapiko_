@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from accounts import views as AccountViews
-# from .views import GeneratePdf
+from .views import GeneratePdf
 
 urlpatterns = [
     #path('', AccountViews.member_dashboard, name='member_dashboard'),
@@ -10,5 +10,5 @@ urlpatterns = [
     # path('dashboard', views.index,name='dashboard-index'),
     path('sdashboard/maps', views.index_map,name='dashboard-index-map'),
     path('adashboard/map', views.index_map_admin,name='dashboard-index-map-admin'),
-    # path('sadashboard/export', GeneratePdf.as_view(),name='superadmin_dashboard_export'),
+    path('sadashboard/export', GeneratePdf.as_view(),name='superadmin_dashboard_export'),
 ]

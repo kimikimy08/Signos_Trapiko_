@@ -171,7 +171,7 @@ def admin_dashboard(request):
     folium.LayerControl().add_to(map1)
     
     steps=20
-    colormap = branca.colormap.linear.RdYlGn_09.scale(0, 1).to_step(steps)
+    colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
     gradient_map=defaultdict(dict)
     for i in range(steps):
         gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
@@ -392,7 +392,7 @@ def superadmin_dashboard(request):
     folium.LayerControl().add_to(map1)
     
     steps=20
-    colormap = branca.colormap.linear.RdYlGn_09.scale(0, 1).to_step(steps)
+    colormap = branca.colormap.linear.Reds_09.scale(0, 1).to_step(steps)
     gradient_map=defaultdict(dict)
     for i in range(steps):
         gradient_map[1/steps*i] = colormap.rgb_hex_str(1/steps*i)
@@ -609,45 +609,45 @@ def index_map_admin(request):
     }
     return render(request, 'pages/a_Dashboard_map.html', context)
 
-# @login_required(login_url = 'login')
-# @user_passes_test(check_role_super)
-# def superadmin_dashboard_export(request):
-#     products = IncidentGeneral.objects.all()
+@login_required(login_url = 'login')
+@user_passes_test(check_role_super)
+def superadmin_dashboard_export(request):
+    products = IncidentGeneral.objects.all()
 
-#     template_path = 'pages/sa_Dashboard.html'
+    template_path = 'pages/sa_Dashboard.html'
 
-#     context = {'products': products}
+    context = {'products': products}
 
-#     template = get_template(template_path)
+    template = get_template(template_path)
 
-#     html = template.render(context)
-#     result = BytesIO()
-#     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    html = template.render(context)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
 
-#     response = HttpResponse(pdf, content_type='application/pdf')
+    response = HttpResponse(pdf, content_type='application/pdf')
 
-#     response['Content-Disposition'] = 'filename="products_report.pdf"'
+    response['Content-Disposition'] = 'filename="products_report.pdf"'
 
-#     # create a pdf
-#     # pisa_status = pisa.CreatePDF(
-#     #    html, dest=response)
-#     # if error then show some funy view
-#     if not pdf.err:
-#         return HttpResponse(result.getvalue(), content_type='application/pdf')
-#     return response
+    # create a pdf
+    # pisa_status = pisa.CreatePDF(
+    #    html, dest=response)
+    # if error then show some funy view
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return response
 
-# class GeneratePdf(View):
-#     def get(self, request, *args, **kwargs):
-#         data = {
-#         "name": "Mama", #you can feach the data from database
-#         "id": 18,
-#         "amount": 333,
-#         }
-#         pdf = render_to_pdf('pages/sa_Dashboard.html',data)
-#         if pdf:
-#             response=HttpResponse(pdf,content_type='application/pdf')
-#             filename = "Report_for_%s.pdf" %(data['id'])
-#             content = "inline; filename= %s" %(filename)
-#             response['Content-Disposition']=content
-#             return response
-#         return HttpResponse("Page Not Found")
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+        "name": "Mama", #you can feach the data from database
+        "id": 18,
+        "amount": 333,
+        }
+        pdf = render_to_pdf('pages/sa_Dashboard.html',data)
+        if pdf:
+            response=HttpResponse(pdf,content_type='application/pdf')
+            filename = "Report_for_%s.pdf" %(data['id'])
+            content = "inline; filename= %s" %(filename)
+            response['Content-Disposition']=content
+            return response
+        return HttpResponse("Page Not Found")
