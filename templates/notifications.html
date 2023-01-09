@@ -59,7 +59,7 @@
     
     {% endfor %}
 
-    <h3>Header Here</h3>
+    <h3>ACTIONS TAKEN IN REPORT</h3>
 
     {% for notification in notifications_member %}
 {% if notification.remarks == "new incident" %}
@@ -156,7 +156,7 @@
 <div class="columns is-mobile is-centered">
   <div class="column is-half">
 
-    <h3>ACTIONS TAKEN IN REPORT</h3>
+    <h3>GENERAL</h3>
 
     {% for notification in notifications_all %}
 
@@ -196,7 +196,7 @@
     
     {% endfor %}
 
-    <h3>Header Here</h3>
+    <h3>ACTIONS TAKEN IN REPORT</h3>
 
     {% for notification in notifications_create %}
 {% if notification.notification_type == 1 %}
@@ -410,7 +410,7 @@
 
 {% endfor %} {% endcomment %}
 
-<h3>Header Here</h3>
+<h3>GENERAL</h3>
 
 {% for notification in notifications_all %}
 
@@ -450,7 +450,7 @@
 
 {% endfor %}
 
-<h3>Header Here</h3>
+<h3>ACTIONS TAKEN IN REPORT</h3>
 
 {% for notification in notifications_create %}
 {% if notification.notification_type == 1 %}
