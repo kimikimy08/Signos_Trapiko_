@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import  IncidentPerson, AccidentCausation, CollisionType, CrashType,IncidentGeneral, IncidentVehicle,IncidentMedia,IncidentRemark, IncidentOTP
 
 class CustomIncidentGeneralAdmin(admin.ModelAdmin):
-    list_display = ('id','upload_id', 'address', 'latitude', 'longitude', 'created_at', 'accident_factor', 'severity', 'date', 'time')
+    list_display = ('id','upload_id', 'address', 'latitude', 'longitude', 'created_at', 'accident_factor', 'severity', 'date', 'time', 'created_at', 'updated_at')
     # list_display_links = ('user', 'birthdate')
     
     
