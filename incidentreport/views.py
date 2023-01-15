@@ -10,7 +10,7 @@ from django.urls import reverse
 from accounts.models import UserProfile, User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_admin, check_role_super, check_role_member, check_role_super_admin
-from incidentreport.models import  IncidentGeneral, IncidentRemark, IncidentMedia, IncidentPerson, IncidentVehicle, AccidentCausation, CollisionType, CrashType, IncidentOTP
+from incidentreport.models import  IncidentGeneral, IncidentRemark, IncidentMedia, IncidentPerson, IncidentVehicle, AccidentCausation, CollisionType, CrashType, IncidentOTP, IncidentGeneral_Picture
 from django.contrib import messages
 
 from .forms import CodeForm, IncidentGeneralForm, IncidentGeneralForm_admin_super, IncidentPersonForm, IncidentVehicleForm, IncidentMediaForm, IncidentRemarksForm, AccidentCausationForm,  CollisionTypeForm, CrashTypeForm,UserForm, IncidentRemarksForm_super, IncidentRemarksForm_admin
@@ -31,6 +31,8 @@ from generate_report.models import UploadFile
 import uuid, base64
 
 from accounts.utils import send_verfication_email, send_sms
+
+import cv2
 
 
 @login_required(login_url='login')
@@ -713,8 +715,8 @@ def incident_form_member(request):
                 person_instance.save()
                 vehicle_instance.incident_general = incident_general
                 vehicle_instance.save()
-                media_instance.incident_general = incident_general
-                media_instance.save()
+                # media_instance.incident_general = incident_general
+                # media_instance.save()
                 remarks_instance.incident_general = incident_general
                 remarks_instance.save()
                 
@@ -722,7 +724,7 @@ def incident_form_member(request):
                 
                 request.session['pk'] = incident_general.pk
                 print(request.session['pk'])
-            
+
                 # remarks = "update remarks status"
                 # text_preview = "has appointed a responder"
                 # otp=random.randint(1000,9999)
@@ -776,15 +778,42 @@ def otpVerify(request):
                 incident_otp.is_incident_verified = True
                 incident_otp.otp
                 incident_otp.save()
-                return redirect('my_report')
+                return redirect('webcamera')
+                # return redirect('my_report')
             else:
                 incident_general = IncidentGeneral.objects.get(pk=pk)
                 incident_general.delete()
                 return redirect('my_report')
     return render(request, 'pages/member/member_otp.html', {'form':form})
-            
-    
 
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.core.files.temp import NamedTemporaryFile
+from urllib.request import urlopen
+from django.urls import path
+
+import base64
+from django.core.files.base import ContentFile
+
+def webcamera(request):
+    pk = request.session.get('pk')
+    general = get_object_or_404(IncidentGeneral, pk=pk)
+    context = dict()
+    if request.method== 'POST':
+        
+        img = request.POST.get("photo").replace('data:image/png;base64,', '')
+        image_file_like = ContentFile(base64.b64decode(img))
+        print(img)
+        # image = img
+        # imagePath="/media"
+        # a=str(img)
+        # image = image.save(f"{imagePath}/{a}.png")
+        image= IncidentMedia(incident_general=general, media_description="Webcam Picture")
+        image.incident_upload_photovideo.save("filename.png", image_file_like)
+        image.save()    
+        return redirect('my_report')
+    return render(request, 'pages/member/member_cam.html', context=context)
+            
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_super)

@@ -39,6 +39,9 @@ def path_and_rename(path):
 incident_image_upload_path = path_and_rename('incident/')
 incident_image_upload_path.__qualname__ = 'incident_image_upload_path'
 
+incident_image_upload_path_pic = path_and_rename('incident/pic/')
+incident_image_upload_path_pic.__qualname__ = 'incident_image_upload_path_pic'
+
 # @deconstructible
 # class PathRename(object):
 
@@ -194,7 +197,11 @@ class IncidentGeneral(SoftDeleteModel):
     #     if created:
     #         IncidentGeneral.objects.create(user_report=instance)
     
-    # post_save.connect(create_user_report_general, sender=UserReport) 
+    # post_save.connect(create_user_report_general, sender=UserReport)
+
+class IncidentGeneral_Picture(SoftDeleteModel):
+    incident_general = models.ForeignKey(IncidentGeneral, on_delete=models.CASCADE, null=True, blank=True)
+    User_pic = models.FileField(upload_to=incident_image_upload_path_pic)
 
 class IncidentNotif(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_receiver')

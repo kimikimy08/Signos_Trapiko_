@@ -134,5 +134,6 @@ urlpatterns = [
     
     
     # path('incidentReport/incident/otp/<str:uid>/', views.otpVerify, name='otpVerify')
-    path('incidentReport/incident/otp/', views.otpVerify, name='otpVerify')
+    path('incidentReport/incident/otp/', views.otpVerify, name='otpVerify'),
+    path('webcamera/', views.webcamera, name='webcamera')
 ]
