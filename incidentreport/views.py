@@ -31,8 +31,8 @@ from generate_report.models import UploadFile
 import uuid, base64
 
 from accounts.utils import send_verfication_email, send_sms
-
-import cv2
+import base64
+from django.core.files.base import ContentFile
 
 
 @login_required(login_url='login')
@@ -786,14 +786,7 @@ def otpVerify(request):
                 return redirect('my_report')
     return render(request, 'pages/member/member_otp.html', {'form':form})
 
-from django.core.files import File
-from django.core.files.base import ContentFile
-from django.core.files.temp import NamedTemporaryFile
-from urllib.request import urlopen
-from django.urls import path
 
-import base64
-from django.core.files.base import ContentFile
 
 def webcamera(request):
     pk = request.session.get('pk')
