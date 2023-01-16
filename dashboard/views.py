@@ -68,11 +68,11 @@ def admin_dashboard(request):
 
     # print(labels)
 
-    queryset = incident_general.exclude(severity=None).values(
-        'severity').annotate(severity_count=Count('severity'))
+    # queryset = incident_general.exclude(severity=None).values(
+    #     'severity').annotate(severity_count=Count('severity'))
 
-    data = list(queryset.values_list('severity_count', flat=True))
-    labels = list(queryset.values_list('severity', flat=True))
+    # data = list(queryset.values_list('severity_count', flat=True))
+    # labels = list(queryset.values_list('severity', flat=True))
     
     # queryset1 = incident_general.exclude(accident_causation=None).values(
     #     'severity').annotate(severity_count=Count('severity'))
@@ -80,17 +80,23 @@ def admin_dashboard(request):
     # data = list(queryset.values_list('severity_count', flat=True))
     # labels = list(queryset.values_list('severity', flat=True))
 
-    queryset1 = incident_vehicle.exclude(vehicle_type=None).values(
+    queryset = incident_vehicle.exclude(vehicle_type=None).values(
         'vehicle_type').annotate(vehicle_type_count=Count('vehicle_type'))
 
-    data1 = list(queryset1.values_list('vehicle_type_count', flat=True))
-    labels1 = list(queryset1.values_list('vehicle_type', flat=True))
+    data = list(queryset.values_list('vehicle_type_count', flat=True))
+    labels = list(queryset.values_list('vehicle_type', flat=True))
+    
+    queryset1 = incident_general.exclude(severity=None).values(
+        'severity').annotate(severity_count=Count('severity'))
 
-    queryset2 = user_report.exclude(date=None).values(
-        'date').annotate(status_count=Count('status'))
+    data1 = list(queryset1.values_list('severity_count', flat=True))
+    labels1 = list(queryset1.values_list('severity', flat=True))
 
-    data2 = list(queryset2.values_list('status_count', flat=True))
-    labels2 = list(queryset2.values_list('date', flat=True))
+    queryset2 = incident_vehicle.exclude(vehicle_type=None).values(
+        'vehicle_type').annotate(vehicle_type_count=Count('vehicle_type'))
+
+    data2 = list(queryset2.values_list('vehicle_type_count', flat=True))
+    labels2 = list(queryset2.values_list('vehicle_type', flat=True))
 
     print(labels2)
     print(data2)

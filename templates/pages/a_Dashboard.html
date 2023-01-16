@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block styles %}
+<script src="https://kit.fontawesome.com/a0d321d495.js" crossorigin="anonymous"></script>
 <link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
 
 {% endblock styles %}
@@ -13,7 +14,7 @@
 
 <!-- Page Wrapper -->
 
-{% include 'includes/a_sidebar.html' %}
+{% include 'includes/sa_sidebar.html' %}
     
 
 
@@ -38,9 +39,17 @@
                             <h4>Dashboard</h4>
                         </div>
                         <div class="p-2 bd-highlight">
-                            <a href="{% url 'dashboard-index-map-admin' %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
+                            <a href="{% url 'dashboard-index-map' %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1 bd-highlight">
                                 <i class="bx bx-map-alt"></i> Incident Map</a>
                         </div>
+                        <div class="p-2 bd-highlight">
+                            <a href="{% url 'sa_generate_visual_report' %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm bd-highlight">
+                                <i class="fa-regular fa-file"></i> Generate Visualization Report</a>
+                        </div> 
+                      <div class="p-2 bd-highlight">
+                            <a href="{% url 'superadmin_dashboard_export' %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm bd-highlight">
+                                <i class="bx bxs-download"></i> Export</a>
+                        </div> 
                     </div>
                     <div class="container cards mb-3">
                         <div class="row">
@@ -180,7 +189,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Types of Vehicles Involved</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Severity</h6>
 
                                 </div>
                                 <!-- Card Body -->
@@ -189,11 +198,11 @@
                                     <script>
                                         var ctx = document.getElementById('myChart1').getContext('2d');
                                         var myChart1 = new Chart(ctx, {
-                                            type: 'pie',
+                                            type: 'bar',
                                             data: {
                                                 labels: {{ labels1|safe }},
                                                 datasets: [{
-                                                    label: 'Products',
+                                                    label: 'Severity',
                                                     data: {{ data1|safe }},
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 1)',
@@ -254,21 +263,21 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Severity</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Types of Vehicles Involved</h6>
 
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <canvas id="myChart2" width="400" height="300"></canvas>
                                     <script>
-                                        var ctx = document.getElementById('myChart2').getContext('2d');
-                                        var myChart1 = new Chart(ctx, {
-                                            type: 'bar',
+                                        var ctx2 = document.getElementById('myChart2').getContext('2d');
+                                        var myChart2 = new Chart(ctx2, {
+                                            type: 'pie',
                                             data: {
-                                                labels: {{labels | safe}},
+                                                labels: {{ labels2|safe }},
                                                 datasets: [{
-                                      
-                                                    data: {{data | safe}},
+                                                    label: 'Types of Vehicles',
+                                                    data: {{ data2|safe }},
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 1)',
                                                         'rgba(54, 162, 235, 1)',
@@ -292,7 +301,7 @@
                                                 responsive: true,
                                                 maintainAspectRatio: false,
                                                 legend: {
-                                                    display: false,
+                                                    position: 'bottom',
                                                 },
                                                 tooltip: { isHtml: false },
                                                 elements: {
@@ -320,6 +329,8 @@
                                 </div>
                             </div>
                         </div>
+
+                       
                         <!--End of Pie Chart - Private Vehicles Involved-->
                         {% comment %} <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
@@ -398,6 +409,33 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Heat Map with Time</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div>
+                                        <div class="container">
+                                            <div class="row mt-4">
+                                                <div class="col-md-10 offset-md-1">
+                                                    
+                                                    {{ hmt|safe }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Heat Map-->
+                    </div>
+
+                    <div class="row">
+                        <!-- Heat Map-->
+                        <div class="col-xl-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Heat Map</h6>
                                 </div>
                                 <!-- Card Body -->
@@ -418,6 +456,75 @@
                         <!-- End of Heat Map-->
                     </div>
 
+                    <table class="table table-bordered table-hover text-dark" id="user_report" width="100%"
+                                    style="cursor: pointer;" cellspacing="0">
+                        <thead>
+                            <tr>
+                              
+                               
+                                <th>Location</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Total Count</th>
+
+                               
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                        <div class="container" id="accordion">
+                            <div class="card">
+                                {% for incident in queryset %}
+                                {% comment %} {% if incident.incident_general.user.username %} {% endcomment %}
+                                    <tr>
+                                       
+                                           
+                                                   
+                                                  
+                                                    <td>{{incident.address}}</td>
+                                                    <td>{{incident.latitude}}</td>
+                                                    <td>{{incident.longitude}}</td>
+                                                    {% comment %} <td>{{incident__incident_general.accident_factor}}</td>
+                                                    <td>{{incident.collision_type}}</td> {% endcomment %}
+                                                    <td>{{incident.total_count}}</td>
+                                                    {% comment %} <td>{{incident.time}}</td>
+                                                    <td>
+                                                        {% if incident.status == 1 %}
+                                                        <span class="badge badge-warning">{{incident.get_status}}</span>
+                                                        {% elif incident.status == 2 %}
+                                                        <span class="badge badge-success">{{incident.get_status}}</span>
+                                                        {% elif incident.status == 3 %}
+                                                        <span class="badge badge-danger">{{incident.get_status}}</span>
+                                                        {% endif %}
+                                                    </td> {% endcomment %}
+                                                    {% comment %} <td>
+                                                        <a href="{% url 'incident_report_general_view' incident.incident_general.id %}"><i class='bx bxs-folder-open'
+                                                            title="View"></i></a>
+                               
+                                                            {% if incident.incident_general.status == 2 %} 
+                                                            {% else %}     
+                                                            <a href="#" data-toggle="modal" data-target="#deleteModal{{ incident.incident_general.id }}"><i class='bx bx-trash'
+                                                                data-toggle="tooltip" title="Delete" ></i></a>
+                                                                {% endif %}
+                                                                
+                                                                
+                                                            
+                                                    </td> {% endcomment %}
+
+                                    </tr>
+                    
+                                   
+    
+                                    <!-- BULK Delete Modal HTML -->
+
+                                    {% comment %} {% endif %} {% endcomment %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </tbody>
+                    
+                    </table>
+
 
                 </div>
                 <!-- End of Page Content -->
@@ -429,6 +536,55 @@
         </div>
         <!-- End of Main Content  -->
 
+        <!--Pagination-->
+ {% if queryset %}
+ <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+    {% if queryset.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ queryset.previous_page_number }}">Previous</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+      </li>
+    {% endif %}
+
+    {% if queryset.number|add:'-4' > 1 %}
+        <li class="page-item"><a class="page-link" href="?page={{ queryset.number|add:'-5' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% for i in queryset.paginator.page_range %}
+        {% if queryset.number == i %}
+            <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        {% elif i > queryset.number|add:'-5' and i < queryset.number|add:'5' %}
+             <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if queryset.paginator.num_pages > queryset.number|add:'4' %}
+       <li class="page-item"><a class="page-link" href="?page={{ queryset.number|add:'5' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% if queryset.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ queryset.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+<br>
+<!--end of Pagination-->
 
         <!-- Scroll to Top-->
         <a class="scroll-to-top rounded" href="#scroll-up">
@@ -436,7 +592,6 @@
         </a>
         <!-- End of Scroll to Top-->
 
-{% comment %} {% include 'includes/alerts_frame.html' %} {% endcomment %}
 
 {% endblock %}
 
