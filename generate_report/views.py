@@ -113,7 +113,7 @@ def generate_reports(request):
  
 #     wb = xlwt.Workbook(encoding='utf-8')
 #     ws = wb.add_sheet('Accident Causation')
-    
+    d
 #     alignment = xlwt.Alignment()
 
 #     alignment.horz = xlwt.Alignment.HORZ_CENTER
