@@ -189,7 +189,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Types of Vehicles Involved</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Severity</h6>
 
                                 </div>
                                 <!-- Card Body -->
@@ -198,11 +198,11 @@
                                     <script>
                                         var ctx = document.getElementById('myChart1').getContext('2d');
                                         var myChart1 = new Chart(ctx, {
-                                            type: 'pie',
+                                            type: 'bar',
                                             data: {
                                                 labels: {{ labels1|safe }},
                                                 datasets: [{
-                                                    label: 'Products',
+                                                    label: 'Severity',
                                                     data: {{ data1|safe }},
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 1)',
@@ -263,21 +263,21 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Severity</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Types of Vehicles Involved</h6>
 
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <canvas id="myChart2" width="400" height="300"></canvas>
                                     <script>
-                                        var ctx = document.getElementById('myChart2').getContext('2d');
-                                        var myChart1 = new Chart(ctx, {
-                                            type: 'bar',
+                                        var ctx2 = document.getElementById('myChart2').getContext('2d');
+                                        var myChart2 = new Chart(ctx2, {
+                                            type: 'pie',
                                             data: {
-                                                labels: {{labels | safe}},
+                                                labels: {{ labels2|safe }},
                                                 datasets: [{
-                                      
-                                                    data: {{data | safe}},
+                                                    label: 'Types of Vehicles',
+                                                    data: {{ data2|safe }},
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 1)',
                                                         'rgba(54, 162, 235, 1)',
@@ -301,7 +301,7 @@
                                                 responsive: true,
                                                 maintainAspectRatio: false,
                                                 legend: {
-                                                    display: false,
+                                                    position: 'bottom',
                                                 },
                                                 tooltip: { isHtml: false },
                                                 elements: {
@@ -329,6 +329,8 @@
                                 </div>
                             </div>
                         </div>
+
+                       
                         <!--End of Pie Chart - Private Vehicles Involved-->
                         {% comment %} <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
