@@ -340,6 +340,8 @@ class ProfileMgmtUpdateForm(forms.ModelForm):
         if instance and instance.pk:
             self.fields['birthdate'].required = False
             self.fields['profile_picture'].required = False
+            self.fields['birthdate'].widget.attrs['readonly'] = True
+            self.fields['profile_picture'].widget.attrs['readonly'] = True
 
 class ProfileMgmtUpdateFormEdit(forms.ModelForm):
     birthdate = forms.DateField(widget=DateInput(attrs={'class': 'form-control ', }))
