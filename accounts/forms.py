@@ -335,11 +335,11 @@ class ProfileMgmtUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileMgmtUpdateForm, self).__init__(*args, **kwargs)
         self.fields['birthdate'].required = False
-        self.fields['profile_picture'].required = False
+        # self.fields['profile_picture'].required = False
         instance = getattr(self, 'instance', None)
         if instance and instance.pk:
             self.fields['birthdate'].required = False
-            self.fields['profile_picture'].required = False
+            # self.fields['profile_picture'].required = False
 
 class ProfileMgmtUpdateFormEdit(forms.ModelForm):
     birthdate = forms.DateField(widget=DateInput(attrs={'class': 'form-control ', }))
