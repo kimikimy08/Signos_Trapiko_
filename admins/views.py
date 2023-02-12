@@ -234,7 +234,7 @@ def admin_user_account_edit(request, id=None):
     user =  get_object_or_404(User, pk=id)
     profile = get_object_or_404(UserProfile, pk=id)
     if request.method == 'POST':
-        profile_form = ProfileMgmtUpdateFormEdit_1(request.POST  or None, request.FILES  or None, instance=profile)
+        profile_form = ProfileMgmtUpdateForm(request.POST  or None, request.FILES  or None, instance=profile)
         user_form = UserUpdateManagementForm(request.POST  or None,  instance=user)
         if profile_form.is_valid() and user_form.is_valid():
             user_form.instance.username = request.user
@@ -277,7 +277,7 @@ def admin_user_account_edit(request, id=None):
             print(user_form.errors)
 
     else:
-        profile_form = ProfileMgmtUpdateFormEdit_1(instance=profile)
+        profile_form = ProfileMgmtUpdateForm(instance=profile)
         user_form = UserUpdateManagementForm(instance=user, initial={"email": user.email, 
                                                         "username": user.username})
     context = {
