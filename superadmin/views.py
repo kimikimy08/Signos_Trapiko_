@@ -380,7 +380,7 @@ def sa_recycle_bin_user(request):
                     b.delete()
                     # b.is_deleted = False
                     # b.deleted_at = None
-                    messages.success(request, 'User Report successfully restored') 
+                    messages.success(request, 'User Report successfully deleted') 
     context = {
         'user': user,
         'page_obj':page_obj
