@@ -371,9 +371,9 @@ def sa_recycle_bin_user(request):
                     # b.is_deleted = False
                     # b.deleted_at = None
                     messages.success(request, 'User Report successfully restored')
-        elif request.POST.get('Yes') == 'Yes':
+        elif request.POST.get('Bulk Delete') == 'Bulk Delete':
             for i in user:
-                x = User.POST.get(str(i.id))
+                x = request.POST.get(str(i.id))
                 print(x)
                 if str(x) == 'on':
                     b = User.objects.get(id=i.id)
