@@ -324,7 +324,7 @@ def a_recycle_bin_user(request):
                     # b.is_deleted = False
                     # b.deleted_at = None
                     messages.success(request, 'User Account successfully restored')
-        elif request.POST.get('Delete') == 'Delete':
+        elif request.POST.get('Bulk Delete') == 'Bulk Delete':
             for i in user:
                 x = request.POST.get(str(i.id))
                 print(x)
