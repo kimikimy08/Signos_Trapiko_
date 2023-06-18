@@ -734,7 +734,7 @@ def incident_form_member(request):
                 
                 
                 # messages.success(request,"Data Save Successfully")
-                return redirect('otpVerify')
+                return redirect('my_report')
             
             else:
                 messages.error(request,"Data Not Save Successfully")
