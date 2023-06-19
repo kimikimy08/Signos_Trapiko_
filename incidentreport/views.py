@@ -1888,7 +1888,7 @@ def incident_report_general_edit(request, id=None):
             # if incidentReports.duplicate == 'Duplicate':
             #     incidentReports.soft_delete()
             
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2199,7 +2199,7 @@ def incident_report_remarks_edit(request, id=None):
 
            
             
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2630,7 +2630,7 @@ def a_incident_report_general_edit(request, id):
             user_report.instance.username = request.user
             general_instance.save()
             user_report.save()
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2877,7 +2877,7 @@ def a_incident_report_general_edit(request, id=None):
                 notification_report = Notification(incident_report=general, sender=general.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text)
                 notification_report.save()
            
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2942,7 +2942,7 @@ def a_incident_report_remarks_edit(request, id=None):
             # notification_report = Notification(incident_report=incidentGeneral, sender=incidentGeneral.user, user=request.user, remarks=remarks, notification_type=1, text_preview=text_preview)
             # notification_report.save()
             
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2966,16 +2966,16 @@ def a_incident_report_remarks_edit(request, id=None):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_admin)
 def a_incident_report_people_edit(request, id=None, people_id=None):
-    IncidentGeneral =  get_object_or_404(IncidentGeneral, pk=id)
+    incident_general =  get_object_or_404(IncidentGeneral, pk=id)
     general = get_object_or_404(IncidentGeneral, pk=id)
     people = get_object_or_404(IncidentPerson, pk=people_id)
     if request.method == 'POST':
-        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=IncidentGeneral)
+        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=incident_general)
         person_instance = IncidentPersonForm(request.POST  or None, request.FILES  or None, instance=people)
         if person_instance.is_valid():
             user_report.instance.username = request.user
             person_instance.save()
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -2989,7 +2989,7 @@ def a_incident_report_people_edit(request, id=None, people_id=None):
         'person_instance': person_instance,
         'user_report' : user_report,
         'general': general,
-        'IncidentGeneral': IncidentGeneral,
+        'incident_general': incident_general,
         'people': people
     }
     
@@ -2999,16 +2999,16 @@ def a_incident_report_people_edit(request, id=None, people_id=None):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_admin)
 def a_incident_report_vehicle_edit(request, id=None, vehicle_id=None):
-    IncidentGeneral =  get_object_or_404(IncidentGeneral, pk=id)
+    incident_general =  get_object_or_404(IncidentGeneral, pk=id)
     general = get_object_or_404(IncidentGeneral, pk=id)
     vehicle = get_object_or_404(IncidentVehicle, pk=vehicle_id)
     if request.method == 'POST':
-        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=IncidentGeneral)
+        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=incident_general)
         vehicle_instance = IncidentVehicleForm(request.POST  or None, request.FILES  or None, instance=vehicle)
         if vehicle_instance.is_valid():
             user_report.instance.username = request.user
             vehicle_instance.save()
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -3022,7 +3022,7 @@ def a_incident_report_vehicle_edit(request, id=None, vehicle_id=None):
         'vehicle_instance': vehicle_instance,
         'user_report' : user_report,
         'general': general,
-        'IncidentGeneral': IncidentGeneral,
+        'incident_general': incident_general,
         'vehicle': vehicle
     }
     
@@ -3032,16 +3032,16 @@ def a_incident_report_vehicle_edit(request, id=None, vehicle_id=None):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(check_role_admin)
 def a_incident_report_media_edit(request, id=None, media_id=None):
-    IncidentGeneral =  get_object_or_404(IncidentGeneral, pk=id)
+    incident_general =  get_object_or_404(IncidentGeneral, pk=id)
     general = get_object_or_404(IncidentGeneral, pk=id)
     media = get_object_or_404(IncidentMedia, pk=media_id)
     if request.method == 'POST':
-        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=IncidentGeneral)
+        user_report = IncidentGeneralForm(request.POST  or None, request.FILES  or None,  instance=incident_general)
         media_instance = IncidentMediaForm(request.POST  or None, request.FILES  or None, instance=media)
         if media_instance.is_valid():
             user_report.instance.username = request.user
             media_instance.save()
-            messages.success(request, 'Profile updated')
+            messages.success(request, 'Incident Report updated')
 
             return redirect('user_reports')
         else:
@@ -3055,7 +3055,7 @@ def a_incident_report_media_edit(request, id=None, media_id=None):
         'media_instance': media_instance,
         'user_report' : user_report,
         'general': general,
-        'IncidentGeneral': IncidentGeneral,
+        'incident_general': incident_general,
         'media': media
     }
     

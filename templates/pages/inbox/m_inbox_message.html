@@ -94,7 +94,7 @@
                             {{ direct.body | safe }}
                         </div>
                         {% endfor %}
-                        <form role="form" method="POST" action="{% url 'send_direct' %}">
+                        <form role="form" method="POST" action="{% url 'm_send_direct' %}">
                             {% csrf_token %}
                           <article class="media">
                             <div class="media-content">
